@@ -7,271 +7,331 @@
 <style>
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 .shimmer-text{background:linear-gradient(90deg,#60a5fa 0%,#e2e8f0 40%,#60a5fa 60%,#93c5fd 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
-.timeline-item::before{content:'';position:absolute;left:-17px;top:6px;width:8px;height:8px;border-radius:50%;background:#3b82f6;border:2px solid #fff;box-shadow:0 0 0 2px #3b82f6}
-.timeline-line{position:absolute;left:-14px;top:0;bottom:0;width:2px;background:#e5e7eb}
+.stage-dot{width:14px;height:14px;border-radius:50%;border:2px solid #d1d5db;background:#fff;flex-shrink:0;position:relative;z-index:1}
+.stage-dot.done{background:#3b82f6;border-color:#3b82f6}
+.stage-dot.active{background:#3b82f6;border-color:#3b82f6;box-shadow:0 0 0 3px #bfdbfe}
+.stage-dot.future{background:#fff;border-color:#d1d5db}
+.stage-line{flex:1;height:2px;background:#d1d5db}
+.stage-line.done{background:#3b82f6}
+.sub-tab{padding:8px 14px;font-size:12px;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.sub-tab.active{color:#2563eb;border-bottom-color:#2563eb;font-weight:600}
+.equip-cell{border:1px solid #e5e7eb;padding:8px 12px;font-size:12px;color:#374151;cursor:pointer;transition:all .15s}
+.equip-cell:hover{border-color:#93c5fd;background:#eff6ff}
+.equip-cell.hl{border-color:#16a34a;background:#f0fdf4;color:#166534;font-weight:600}
 </style>
 </head>
 <body class="bg-gray-50 text-gray-800 text-sm flex h-screen overflow-hidden">
 
-<aside id="left-nav" class="w-44 flex-shrink-0 bg-[#0f172a] text-white flex flex-col overflow-y-auto"></aside>
+<!-- Left Nav -->
+<aside class="w-36 flex-shrink-0 bg-[#0f172a] text-white flex flex-col text-xs">
+  <div class="px-3 py-3 border-b border-slate-700">
+    <div class="font-bold text-blue-400">中项网</div>
+    <div class="text-slate-400 text-[10px] mt-0.5">· 变压器事业部</div>
+  </div>
+  <nav class="flex-1 overflow-y-auto py-2">
+    <div class="px-3 py-2 text-blue-400 bg-slate-800 font-medium cursor-pointer">找商机</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">找客户</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">找人脉</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">找渠道</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">目标商机</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">海外商机</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">CRM</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">市场服务</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">行业研究院</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">个人中心</div>
+    <div class="px-3 py-2 text-slate-300 hover:bg-slate-800 cursor-pointer">管理中心</div>
+  </nav>
+</aside>
 
 <div class="flex-1 flex flex-col overflow-hidden">
-  <!-- Top Header -->
-  <header class="bg-white border-b border-gray-200 flex-shrink-0">
-    <div class="flex items-center px-4 h-11 gap-4">
-      <button onclick="history.back()" class="text-xs text-gray-500 hover:text-blue-600 flex items-center gap-1">← 返回列表</button>
-      <span class="text-gray-300">|</span>
-      <span class="text-xs text-gray-500">上西索凯抽水蓄能电站项目</span>
-      <div class="ml-auto flex items-center gap-3 text-xs">
-        <button class="text-orange-500 font-medium flex items-center gap-1">🔥 微信商机订阅助手</button>
-        <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">李</div>
-      </div>
+  <!-- Top nav -->
+  <header class="bg-white border-b border-gray-200 flex-shrink-0 flex items-center px-4 h-10 gap-1">
+    <a href="opportunity-list.html" class="px-3 py-1.5 text-xs text-blue-600 font-medium border-b-2 border-blue-600">项目信息</a>
+    <a href="#" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">招投标</a>
+    <a href="customer-list.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找客户</a>
+    <a href="network.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找人脉</a>
+    <a href="#" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找渠道</a>
+    <div class="ml-auto flex items-center gap-3 text-xs">
+      <button class="text-blue-600 flex items-center gap-1 border border-blue-200 px-2 py-1 rounded hover:bg-blue-50">💬 微信商机订阅</button>
+      <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">李</div>
     </div>
   </header>
 
-  <div class="flex-1 overflow-y-auto">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex gap-4">
+  <div class="flex-1 overflow-hidden flex">
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto bg-white">
 
-      <!-- Main Content -->
-      <div class="flex-1 min-w-0 space-y-3">
-
-        <!-- Project Title Card -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="flex items-start gap-3">
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">VIP</span>
-                <span class="bg-green-600 text-white text-[10px] px-1.5 py-0.5 rounded font-medium">AI强推</span>
-                <span class="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded border border-blue-200">跟踪中</span>
-              </div>
-              <h1 class="text-base font-bold text-gray-900 mb-2">上西索凯抽水蓄能电站项目</h1>
-              <div class="grid grid-cols-3 gap-x-6 gap-y-1.5 text-xs text-gray-600">
-                <div><span class="text-gray-400">投资额：</span><span class="text-orange-500 font-bold">800,000万元</span></div>
-                <div><span class="text-gray-400">项目阶段：</span><span class="text-blue-600 font-medium">土建施工</span></div>
-                <div><span class="text-gray-400">所在地区：</span>印度尼西亚·西爪哇省</div>
-                <div><span class="text-gray-400">业主单位：</span>PT PLN（国家电力公司）</div>
-                <div><span class="text-gray-400">EPC承包商：</span>葛洲坝集团国际工程有限公司</div>
-                <div><span class="text-gray-400">更新时间：</span>2026-05-22</div>
-              </div>
+      <!-- Project header -->
+      <div class="px-6 pt-4 pb-3 border-b border-gray-100">
+        <div class="flex items-start justify-between">
+          <div>
+            <h1 class="text-base font-bold text-gray-900 mb-2">上西索凯抽水蓄能电站项目</h1>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <span class="bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded font-medium">VIP</span>
+              <span class="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded">土建施工</span>
+              <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded border border-green-300">资金已到位</span>
+              <span class="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded border border-orange-300">外资·8亿元</span>
+              <span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded border border-red-300">2026-12-31竣工</span>
             </div>
-            <div class="flex-shrink-0 text-center">
-              <div class="text-[10px] text-gray-400 mb-1">AI设备匹配度</div>
-              <div class="text-3xl font-black text-green-600">98%</div>
-              <div class="text-[10px] text-green-600 font-medium">主变压器 ×4台</div>
+            <div class="text-xs text-gray-500 flex items-center gap-1">
+              <span>📍</span>印度尼西亚爪哇岛西索凯河上游流域·距雅加达190km·距万隆65km
             </div>
           </div>
+          <button class="text-xs border border-blue-300 text-blue-600 px-3 py-1.5 rounded hover:bg-blue-50">跟踪 2</button>
         </div>
+      </div>
 
-        <!-- AI 智能分析 -->
-        <div class="bg-gradient-to-br from-slate-900 to-blue-950 rounded-xl p-4">
-          <div class="flex items-center gap-2 mb-3">
-            <div class="shimmer-text text-sm font-bold">AI 智能分析</div>
-            <span class="text-slate-400 text-[10px]">基于中项网全量数据实时推演</span>
+      <!-- Sub tabs -->
+      <div class="flex border-b border-gray-200 px-6 bg-white sticky top-0 z-10">
+        <div class="sub-tab active" onclick="switchTab(this,'track')">项目跟踪</div>
+        <div class="sub-tab" onclick="switchTab(this,'progress')">项目进展</div>
+        <div class="sub-tab" onclick="switchTab(this,'bid')">招投标</div>
+        <div class="sub-tab" onclick="switchTab(this,'intro')">项目介绍</div>
+        <div class="sub-tab" onclick="switchTab(this,'detail')">项目详情</div>
+        <div class="sub-tab" onclick="switchTab(this,'purchase')">采购信息</div>
+      </div>
+
+      <div class="px-6 py-4 space-y-5">
+
+        <!-- 项目跟踪 tab content -->
+        <div id="tab-track">
+
+          <!-- 进度时间轴 -->
+          <div class="mb-5">
+            <div class="flex items-center gap-0 mb-1">
+              <div class="stage-dot done"></div>
+              <div class="stage-line done"></div>
+              <div class="stage-dot done"></div>
+              <div class="stage-line done"></div>
+              <div class="stage-dot active"></div>
+              <div class="stage-line"></div>
+              <div class="stage-dot future"></div>
+              <div class="stage-line"></div>
+              <div class="stage-dot future"></div>
+              <div class="stage-line"></div>
+              <div class="stage-dot future"></div>
+            </div>
+            <div class="flex text-[10px] text-gray-500 mt-1" style="justify-content:space-between">
+              <div class="text-center" style="width:14px">
+                <div class="text-gray-400">项目溯源</div>
+                <div>2022-11-18</div>
+              </div>
+              <div class="text-center">
+                <div class="text-gray-400">施工准备</div>
+                <div>2023-02-13</div>
+              </div>
+              <div class="text-center">
+                <div class="text-blue-600 font-medium">土建施工</div>
+                <div class="text-blue-600">2026-05-22</div>
+              </div>
+              <div class="text-center">
+                <div class="text-gray-400">设备安装</div>
+                <div class="text-gray-300">—</div>
+              </div>
+              <div class="text-center">
+                <div class="text-gray-400">调试投运</div>
+                <div class="text-gray-300">—</div>
+              </div>
+              <div class="text-center" style="width:14px">
+                <div class="text-gray-400">竣工验收</div>
+                <div>2026-12</div>
+              </div>
+            </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
-            <!-- 设备关联度 -->
-            <div class="bg-slate-800 rounded-lg p-3">
-              <div class="text-[10px] font-bold text-blue-400 mb-2 flex items-center gap-1">⚡ 设备需求关联度</div>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <span class="text-[11px] text-slate-300">主变压器（260MVA×4）</span>
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-20 h-1.5 bg-slate-700 rounded-full"><div class="h-1.5 bg-green-400 rounded-full" style="width:98%"></div></div>
-                    <span class="text-[10px] text-green-400 font-bold w-7">98%</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-[11px] text-slate-300">GIS开关设备（500kV）</span>
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-20 h-1.5 bg-slate-700 rounded-full"><div class="h-1.5 bg-blue-400 rounded-full" style="width:72%"></div></div>
-                    <span class="text-[10px] text-blue-400 font-bold w-7">72%</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-[11px] text-slate-300">励磁系统</span>
-                  <div class="flex items-center gap-1.5">
-                    <div class="w-20 h-1.5 bg-slate-700 rounded-full"><div class="h-1.5 bg-yellow-400 rounded-full" style="width:45%"></div></div>
-                    <span class="text-[10px] text-yellow-400 font-bold w-7">45%</span>
-                  </div>
+          <!-- 项目进展记录 -->
+          <div>
+            <div class="text-xs font-bold text-gray-700 mb-3">项目进展记录</div>
+            <div class="space-y-3">
+              <div class="flex gap-4 text-xs">
+                <span class="text-gray-400 flex-shrink-0 w-20">2026-05-22</span>
+                <div>
+                  <span class="inline-block bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded mr-1.5">土建施工</span>
+                  主体工程正在施工，由中国葛洲坝集团三峡建设工程有限公司、中国葛洲坝集团国际工程有限公司负责。部分设备已采购。
                 </div>
               </div>
-            </div>
-
-            <!-- 采购周期预测 -->
-            <div class="bg-slate-800 rounded-lg p-3">
-              <div class="text-[10px] font-bold text-orange-400 mb-2 flex items-center gap-1">📅 采购周期预测</div>
-              <div class="space-y-1.5">
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></div>
-                  <div class="text-[11px]">
-                    <span class="text-slate-300">招标启动</span>
-                    <span class="text-green-400 font-bold ml-1">2026年Q3（预计8月）</span>
-                  </div>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 rounded-full bg-yellow-400 flex-shrink-0"></div>
-                  <div class="text-[11px] text-slate-300">投标截止 <span class="text-yellow-400 font-medium ml-1">2026年10月</span></div>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0"></div>
-                  <div class="text-[11px] text-slate-300">预计签单 <span class="text-blue-400 font-medium ml-1">2026年Q4</span></div>
-                </div>
-                <div class="mt-2 bg-orange-900/40 border border-orange-700/50 rounded px-2 py-1.5 text-[10px] text-orange-300">
-                  ⚠️ 距采购窗口约 <span class="font-bold text-orange-200">58天</span>，建议立即建立联系
+              <div class="flex gap-4 text-xs">
+                <span class="text-gray-400 flex-shrink-0 w-20">2023-02-13</span>
+                <div>
+                  <span class="inline-block bg-gray-100 text-gray-600 text-[10px] px-1.5 py-0.5 rounded mr-1.5">施工准备</span>
+                  项目完成施工准备阶段，各项前期手续已办理，设计已完成，进入施工准备阶段。
                 </div>
               </div>
-            </div>
-
-            <!-- 在建项目内容分析 -->
-            <div class="bg-slate-800 rounded-lg p-3">
-              <div class="text-[10px] font-bold text-purple-400 mb-2 flex items-center gap-1">🏗 在建内容分析</div>
-              <div class="text-[11px] text-slate-300 space-y-1.5">
-                <div class="flex gap-2"><span class="text-slate-500 flex-shrink-0">装机规模：</span><span>4×260MW可逆式水泵水轮机组</span></div>
-                <div class="flex gap-2"><span class="text-slate-500 flex-shrink-0">土建进度：</span><span class="text-green-400">地下厂房开挖完成 <b>75%</b></span></div>
-                <div class="flex gap-2"><span class="text-slate-500 flex-shrink-0">机电安装：</span><span class="text-yellow-400">计划2026年Q4开始</span></div>
-                <div class="flex gap-2"><span class="text-slate-500 flex-shrink-0">设备进场：</span><span class="text-blue-400">变压器需提前14个月交货</span></div>
-              </div>
-            </div>
-
-            <!-- AI 沟通话术 -->
-            <div class="bg-slate-800 rounded-lg p-3">
-              <div class="text-[10px] font-bold text-teal-400 mb-2 flex items-center gap-1">💬 AI沟通话术建议</div>
-              <div class="text-[11px] text-slate-300 space-y-1.5">
-                <div class="bg-teal-900/40 border-l-2 border-teal-500 pl-2 py-1 rounded-r text-[10px] leading-relaxed">
-                  "贵司上西索凯项目机组规格与我们已交付的某某抽蓄电站完全一致，我们有完整的海外运维经验，可提供中印尼双语文档支持..."
+              <div class="flex gap-4 text-xs">
+                <span class="text-gray-400 flex-shrink-0 w-20">2022-11-18</span>
+                <div>
+                  <span class="inline-block bg-green-100 text-green-700 text-[10px] px-1.5 py-0.5 rounded mr-1.5">项目溯源</span>
+                  中项网数据库首次收录该项目信息。印尼首座抽水蓄能电站，4台260MW机组，总装机1040MW，预算投资8亿元。
                 </div>
-                <div class="text-[10px] text-slate-500 mt-1">突破点：① 同类项目业绩  ② 海外服务能力  ③ 提前锁定技术规范参与</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 项目动态时间轴 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="text-xs font-bold text-gray-700 mb-3 flex items-center gap-2">
-            📋 项目动态
-            <span class="text-[10px] font-normal text-gray-400 ml-1">最近更新 2026-05-22</span>
-          </div>
-          <div class="relative pl-5 space-y-4">
-            <div class="absolute timeline-line"></div>
-            <div class="relative timeline-item text-xs">
-              <div class="font-medium text-gray-800">土建施工进入关键阶段</div>
-              <div class="text-gray-500 text-[11px] mt-0.5">地下厂房开挖完成75%，预计2026年Q3具备机电安装条件</div>
-              <div class="text-[10px] text-gray-400 mt-0.5">2026-05-22</div>
-            </div>
-            <div class="relative timeline-item text-xs">
-              <div class="font-medium text-gray-800">EPC合同变更：葛洲坝承接电气设备采购</div>
-              <div class="text-gray-500 text-[11px] mt-0.5">原设计变更，葛洲坝将统一采购主变压器及GIS设备</div>
-              <div class="text-[10px] text-gray-400 mt-0.5">2026-03-10</div>
-            </div>
-            <div class="relative timeline-item text-xs">
-              <div class="font-medium text-gray-800">项目获批核准</div>
-              <div class="text-gray-500 text-[11px] mt-0.5">印尼能源矿产部正式核准，总投资额确认800亿印尼盾折合约80亿元</div>
-              <div class="text-[10px] text-gray-400 mt-0.5">2025-11-05</div>
-            </div>
-          </div>
+        <!-- 主要设备清单 -->
+        <div>
+          <div class="text-xs font-bold text-gray-700 mb-3">主要设备清单（含变压器相关）</div>
+          <table class="w-full border-collapse">
+            <tbody>
+              <tr>
+                <td class="equip-cell hl">★ 主变压器</td>
+                <td class="equip-cell">GIS气体绝缘开关设备</td>
+                <td class="equip-cell">水轮机（混流式）</td>
+              </tr>
+              <tr>
+                <td class="equip-cell">高压开关柜</td>
+                <td class="equip-cell">调速器</td>
+                <td class="equip-cell">油压装置</td>
+              </tr>
+              <tr>
+                <td class="equip-cell">球阀/蝶阀</td>
+                <td class="equip-cell">桥式起重机</td>
+                <td class="equip-cell">拦污栅</td>
+              </tr>
+              <tr>
+                <td class="equip-cell">压力钢管</td>
+                <td class="equip-cell">尾水闸门</td>
+                <td class="equip-cell">制动器</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <!-- 参建单位 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
-          <div class="text-xs font-bold text-gray-700 mb-3">🏢 参建单位</div>
-          <div class="grid grid-cols-2 gap-2">
-            <div class="border border-gray-100 rounded-lg p-2.5">
-              <div class="text-[10px] text-gray-400 mb-0.5">业主</div>
-              <div class="text-xs font-medium text-blue-700 hover:underline cursor-pointer">PT PLN（国家电力公司）</div>
-              <div class="text-[10px] text-gray-500 mt-0.5">印度尼西亚国有电力企业</div>
+        <!-- AI智能分析补充（新增需求融合进原有结构） -->
+        <div class="border border-blue-100 rounded-xl overflow-hidden">
+          <div class="bg-blue-50 px-4 py-2 flex items-center justify-between">
+            <span class="text-xs font-bold text-blue-700">🤖 AI采购周期预测</span>
+            <span class="text-[10px] text-blue-500">基于在建进度智能推演</span>
+          </div>
+          <div class="grid grid-cols-3 divide-x divide-gray-100 text-xs">
+            <div class="px-4 py-3">
+              <div class="text-gray-400 text-[10px] mb-1">预计招标启动</div>
+              <div class="text-green-600 font-bold">2026年8月</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">距今约58天</div>
             </div>
-            <div class="border border-gray-100 rounded-lg p-2.5">
-              <div class="text-[10px] text-gray-400 mb-0.5">EPC总包</div>
-              <div class="text-xs font-medium text-blue-700 hover:underline cursor-pointer">葛洲坝集团国际工程有限公司</div>
-              <div class="text-[10px] text-gray-500 mt-0.5">负责设备采购决策 · 关键联系人</div>
+            <div class="px-4 py-3">
+              <div class="text-gray-400 text-[10px] mb-1">投标截止</div>
+              <div class="text-orange-500 font-bold">2026年10月</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">需提前14个月交货</div>
             </div>
-            <div class="border border-gray-100 rounded-lg p-2.5">
-              <div class="text-[10px] text-gray-400 mb-0.5">设计院</div>
-              <div class="text-xs font-medium text-blue-700 hover:underline cursor-pointer">中国电建集团华东勘测设计研究院</div>
-              <div class="text-[10px] text-gray-500 mt-0.5">参与技术规范制定</div>
-            </div>
-            <div class="border border-gray-100 rounded-lg p-2.5">
-              <div class="text-[10px] text-gray-400 mb-0.5">监理</div>
-              <div class="text-xs font-medium text-gray-600">待确认</div>
+            <div class="px-4 py-3">
+              <div class="text-gray-400 text-[10px] mb-1">预计签单</div>
+              <div class="text-blue-600 font-bold">2026年Q4</div>
+              <div class="text-[10px] text-gray-400 mt-0.5">主变压器×4台</div>
             </div>
           </div>
         </div>
 
       </div>
+    </main>
 
-      <!-- Right Side Panel -->
-      <div class="w-64 flex-shrink-0 space-y-3">
+    <!-- Right AI Panel -->
+    <aside class="w-72 flex-shrink-0 border-l border-gray-200 flex flex-col overflow-hidden bg-white">
+      <!-- AI header -->
+      <div class="px-4 py-3 flex-shrink-0" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)">
+        <div class="flex items-center justify-between mb-0.5">
+          <div class="shimmer-text text-sm font-bold">AI 智能诊断</div>
+          <span class="text-slate-400 text-[10px]">您的主题·主变压器</span>
+        </div>
+        <div class="text-slate-400 text-[10px]">工业建筑大数据分析引擎·变压器专项</div>
+      </div>
 
-        <!-- 操作按钮 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-3 space-y-2">
-          <button class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs py-2 rounded-lg font-medium transition-colors">📌 加入跟踪</button>
-          <button class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded-lg font-medium transition-colors">📞 查看联系人</button>
-          <button class="w-full border border-gray-200 hover:bg-gray-50 text-gray-600 text-xs py-2 rounded-lg transition-colors">📤 分享给同事</button>
+      <div class="flex-1 overflow-y-auto p-3 space-y-3">
+
+        <!-- 强推卡 -->
+        <div class="bg-green-700 rounded-xl p-3 text-white">
+          <div class="flex items-center gap-1.5 mb-1.5 text-[10px]">
+            <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+            <span class="w-2 h-2 rounded-full bg-yellow-400 inline-block"></span>
+            <span class="w-2 h-2 rounded-full bg-red-400 inline-block"></span>
+            <span class="ml-1 text-green-200">主变压器 + 交钥匙工程</span>
+          </div>
+          <div class="text-[11px] font-bold text-yellow-300 mb-1.5">🔥 强推荐·战略级机会</div>
+          <div class="text-[11px] text-green-100 leading-relaxed mb-3">
+            印尼首座抽水蓄能电站，4台260MW机组需配套主变压器，资金已到位，土建施工中，变压器采购窗口即将开启。交钥匙工程模式可显著提升中标概率。
+          </div>
+          <div class="flex gap-2">
+            <button class="flex-1 bg-white text-green-700 text-[11px] py-1.5 rounded font-medium hover:bg-green-50 flex items-center justify-center gap-1">
+              📋 一键生成拜访方案
+            </button>
+            <button class="flex-1 bg-green-600 border border-green-400 text-white text-[11px] py-1.5 rounded font-medium hover:bg-green-500 flex items-center justify-center gap-1">
+              💬 破冰话术
+            </button>
+          </div>
         </div>
 
-        <!-- 同类项目AI推荐 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-3">
-          <div class="text-[10px] font-bold text-gray-700 mb-2 flex items-center gap-1">🤖 同类主变压器项目推荐</div>
-          <div class="space-y-2">
-            <div class="border border-gray-100 rounded-lg p-2 cursor-pointer hover:border-blue-300 transition-colors" onclick="location.href='opportunity-list.html'">
-              <div class="text-[11px] font-medium text-blue-700">丰宁抽蓄二期扩建工程</div>
-              <div class="flex items-center justify-between mt-0.5">
-                <span class="text-[10px] text-gray-500">主变压器×6台</span>
-                <span class="text-[10px] text-green-600 font-bold">95%匹配</span>
-              </div>
+        <!-- 交钥匙竞争优势 -->
+        <div class="border border-gray-200 rounded-xl p-3">
+          <div class="text-[10px] font-bold text-amber-700 mb-2 flex items-center gap-1">🔑 交钥匙工程竞争优势分析</div>
+          <div class="space-y-1.5 text-[11px] text-gray-700">
+            <div class="flex gap-1.5"><span class="text-green-500 flex-shrink-0">✓</span>海外项目协调成本高，一体化服务可降低葛洲坝集团管理负担</div>
+            <div class="flex gap-1.5"><span class="text-green-500 flex-shrink-0">✓</span>印本地化服务团队可快速响应，优于国际品牌</div>
+            <div class="flex gap-1.5"><span class="text-green-500 flex-shrink-0">✓</span>设备+安装+调试打包报价，简化采购流程</div>
+          </div>
+        </div>
+
+        <!-- 项目标签 -->
+        <div class="border border-gray-200 rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-gray-700">项目标签</span>
+            <span class="text-[10px] text-gray-400 cursor-pointer">∨</span>
+          </div>
+          <div class="flex flex-wrap gap-1">
+            <span class="text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded-full">#印度尼西亚</span>
+            <span class="text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded-full">#电力行业</span>
+            <span class="text-[10px] bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded-full">#抽水蓄能</span>
+            <span class="text-[10px] bg-orange-50 text-orange-600 border border-orange-200 px-1.5 py-0.5 rounded-full">#土建施工阶段</span>
+            <span class="text-[10px] bg-green-50 text-green-600 border border-green-200 px-1.5 py-0.5 rounded-full">#资金已到位</span>
+            <span class="text-[10px] bg-purple-50 text-purple-600 border border-purple-200 px-1.5 py-0.5 rounded-full">#含主变压器需求</span>
+            <span class="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">#EPC总包模式</span>
+            <span class="text-[10px] bg-yellow-50 text-yellow-700 border border-yellow-200 px-1.5 py-0.5 rounded-full">#交钥匙工程适配</span>
+            <span class="text-[10px] bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded-full">#海外项目</span>
+            <span class="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded-full">#葛洲坝集团</span>
+          </div>
+        </div>
+
+        <!-- 核心看板 -->
+        <div class="border border-gray-200 rounded-xl p-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-gray-700">核心看板·10秒速读</span>
+            <span class="text-[10px] text-gray-400 cursor-pointer">∨</span>
+          </div>
+          <div class="space-y-2 text-[11px]">
+            <div>
+              <div class="text-gray-400 text-[10px]">建什么</div>
+              <div class="text-gray-700">印尼首座抽水蓄能电站，4台260MW可逆式机组，总装机1040MW，含上下水库、引水隧洞、地下厂房及500kV升压站。</div>
             </div>
-            <div class="border border-gray-100 rounded-lg p-2 cursor-pointer hover:border-blue-300 transition-colors">
-              <div class="text-[11px] font-medium text-blue-700">当阳坝陵园区热电联产</div>
-              <div class="flex items-center justify-between mt-0.5">
-                <span class="text-[10px] text-gray-500">主变压器×2台</span>
-                <span class="text-[10px] text-blue-600 font-bold">85%匹配</span>
-              </div>
+            <div>
+              <div class="text-gray-400 text-[10px]">谁来建</div>
+              <div class="text-gray-700">业主PT PLN，EPC总包葛洲坝集团，设计院华东勘测院。</div>
+            </div>
+            <div>
+              <div class="text-gray-400 text-[10px]">我能卖什么</div>
+              <div class="text-green-700 font-medium">主变压器×4台（260MVA级），窗口期58天内启动。</div>
             </div>
           </div>
         </div>
 
-        <!-- 采购联系人 -->
-        <div class="bg-white rounded-xl border border-gray-200 p-3">
-          <div class="text-[10px] font-bold text-gray-700 mb-2">👤 关键联系人（AI推断）</div>
-          <div class="space-y-2">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[11px] font-bold flex-shrink-0">张</div>
-              <div>
-                <div class="text-[11px] font-medium text-gray-800">张工（采购部经理）</div>
-                <div class="text-[10px] text-gray-500">葛洲坝集团国际工程</div>
-              </div>
-              <button class="ml-auto text-[10px] bg-green-50 border border-green-300 text-green-700 px-1.5 py-0.5 rounded hover:bg-green-100">联系</button>
-            </div>
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-[11px] font-bold flex-shrink-0">王</div>
-              <div>
-                <div class="text-[11px] font-medium text-gray-800">王总（项目负责人）</div>
-                <div class="text-[10px] text-gray-500">葛洲坝集团国际工程</div>
-              </div>
-              <button class="ml-auto text-[10px] bg-green-50 border border-green-300 text-green-700 px-1.5 py-0.5 rounded hover:bg-green-100">联系</button>
-            </div>
+        <!-- 场景切换 -->
+        <div>
+          <div class="text-[10px] text-gray-400 text-center mb-1.5">DEMO · 商业化场景切换</div>
+          <div class="flex gap-1">
+            <button class="flex-1 bg-blue-600 text-white text-[10px] py-1.5 rounded font-medium">场景A 用量耗尽</button>
+            <button class="flex-1 bg-white border border-gray-200 text-gray-600 text-[10px] py-1.5 rounded hover:bg-gray-50">场景B 高价值项目</button>
+            <button class="flex-1 bg-white border border-gray-200 text-gray-600 text-[10px] py-1.5 rounded hover:bg-gray-50">场景C 续费报告</button>
           </div>
-          <div class="mt-2 text-[10px] text-gray-400 text-center cursor-pointer hover:text-blue-500">查看更多联系人 →</div>
-        </div>
-
-        <!-- 采购预测提醒 -->
-        <div class="bg-orange-50 border border-orange-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-orange-700 mb-1.5">⏰ 采购节点提醒</div>
-          <div class="text-[11px] text-orange-800 space-y-1">
-            <div>· 预计 <b>2026-08</b> 发布招标文件</div>
-            <div>· 预计 <b>2026-10</b> 投标截止</div>
-          </div>
-          <button class="mt-2 w-full bg-orange-500 text-white text-[10px] py-1 rounded hover:bg-orange-600 transition-colors">🔔 设置提醒</button>
         </div>
 
       </div>
-    </div>
+    </aside>
   </div>
 </div>
 
-<script src="shared.js"></script>
-<script>renderNav('找商机');</script>
+<script>
+function switchTab(el, id) {
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+</script>
 </body>
 </html>
