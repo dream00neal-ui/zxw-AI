@@ -12,6 +12,10 @@
 .degree-1{border-left:3px solid #3b82f6}
 .degree-2{border-left:3px solid #22c55e}
 .degree-3{border-left:3px solid #9ca3af}
+.drawer{position:fixed;top:0;right:-480px;width:480px;height:100vh;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.15);transition:right .3s ease;z-index:40;display:flex;flex-direction:column}
+.drawer.open{right:0}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:39;opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer-overlay.open{opacity:1;pointer-events:auto}
 </style>
 </head>
 <body class="bg-gray-50 text-gray-800 text-sm flex h-screen overflow-hidden">
@@ -236,6 +240,49 @@
   </div>
 </div>
 
+<!-- 联系人详情抽屉 -->
+<div id="drawer-overlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="contact-drawer" class="drawer">
+  <div class="flex items-center justify-between px-4 py-3 flex-shrink-0 border-b border-gray-200" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
+    <div>
+      <div id="drawer-name" class="text-white font-bold text-sm"></div>
+      <div id="drawer-sub" class="text-slate-400 text-[10px] mt-0.5"></div>
+    </div>
+    <button onclick="closeDrawer()" class="text-slate-400 hover:text-white text-xl leading-none">×</button>
+  </div>
+  <div class="flex-1 overflow-y-auto p-4 space-y-4">
+
+    <!-- 关系路径图 -->
+    <div>
+      <div class="text-xs font-bold text-gray-700 mb-2">🔗 关系穿透路径</div>
+      <div id="drawer-path-svg" class="bg-slate-50 rounded-xl border border-gray-200 overflow-hidden" style="height:140px"></div>
+    </div>
+
+    <!-- 关系说明 -->
+    <div id="drawer-via-block" class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800"></div>
+
+    <!-- 穿透项目 -->
+    <div>
+      <div class="text-xs font-bold text-gray-700 mb-2">🏗 关联在建项目</div>
+      <div id="drawer-projects" class="space-y-2"></div>
+    </div>
+
+    <!-- AI沟通建议 -->
+    <div class="bg-gradient-to-br from-slate-800 to-blue-950 rounded-xl p-3">
+      <div class="text-[10px] font-bold text-blue-300 mb-2">💬 AI 沟通突破建议</div>
+      <div id="drawer-ai-tip" class="text-[11px] text-slate-300 leading-relaxed mb-3"></div>
+      <div id="drawer-questions" class="space-y-1.5"></div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="flex gap-2">
+      <button class="flex-1 bg-blue-600 text-white text-xs py-2 rounded-lg hover:bg-blue-700 font-medium">📞 一键破冰话术</button>
+      <button class="flex-1 border border-gray-200 text-gray-600 text-xs py-2 rounded-lg hover:bg-gray-50">📌 加入跟踪</button>
+      <button class="flex-1 border border-gray-200 text-gray-600 text-xs py-2 rounded-lg hover:bg-gray-50">📤 分享给同事</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm z-50 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
 
@@ -244,12 +291,57 @@
 renderNav('找人脉');
 
 const CONTACTS = [
-  {name:"张伟",title:"采购部经理",company:"葛洲坝集团国际工程",degree:1,avatar:"张",via:"直接联系人（私域导入）",projects:["上西索凯抽蓄","卡西姆港二期"],tip:"关键采购决策人，可直接约商务拜访"},
-  {name:"王建国",title:"项目总监",company:"葛洲坝集团国际工程",degree:1,avatar:"王",via:"直接联系人（私域导入）",projects:["上西索凯抽蓄"],tip:"主导技术方案选型，影响变压器规格制定"},
-  {name:"李明",title:"采购总监",company:"国网新源控股",degree:2,avatar:"李",via:"通过 → 张伟（葛洲坝）",projects:["丰宁抽蓄二期"],tip:"2度关系，张伟可引荐，建议尽快拜托张伟介绍"},
-  {name:"陈总",title:"副总经理",company:"中国电建华东院",degree:2,avatar:"陈",via:"通过 → 王建国（葛洲坝）",projects:["多个抽蓄设计"],tip:"设计院关键人，参与技术规范制定，提前介入价值大"},
-  {name:"刘海涛",title:"设备部长",company:"延长石油集团",degree:2,avatar:"刘",via:"通过 → 行业协会共同成员",projects:["天然气处理扩建"],tip:"空压机+泵阀联动采购负责人，行业协会是突破入口"},
-  {name:"赵工",title:"技术主任",company:"PT PLN",degree:3,avatar:"赵",via:"通过 → 陈总 → 葛洲坝合作方",projects:["上西索凯抽蓄"],tip:"3度关系，路径较长，建议通过陈总间接建立联系"},
+  {name:"张伟",title:"采购部经理",company:"葛洲坝集团国际工程",degree:1,avatar:"张",
+   via:"直接联系人（私域导入）",
+   path:["我","张伟"],
+   projects:[
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"EPC采购负责人",match:98,link:"opportunity-detail.html"},
+     {name:"卡西姆港电站二期",stage:"初步设计",role:"EPC采购参与",match:72,link:"#"}
+   ],
+   aiTip:"张伟是葛洲坝国际工程采购部经理，直接负责EPC项目设备采购决策。建议以「上西索凯主变压器技术方案」为切入点，提出免费出具技术评估报告，以专业建立信任。",
+   questions:["主变压器这块是贵司自主采购还是由业主方PT PLN指定品牌？","变压器招标大概什么时候启动，是否接受交钥匙工程打包报价？"]},
+  {name:"王建国",title:"项目总监",company:"葛洲坝集团国际工程",degree:1,avatar:"王",
+   via:"直接联系人（私域导入）",
+   path:["我","王建国"],
+   projects:[
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"项目总监·技术决策",match:95,link:"opportunity-detail.html"}
+   ],
+   aiTip:"王建国主导技术方案选型，对变压器规格参数有直接影响力。建议从技术层面切入，分享同类500kV抽蓄变压器案例，争取参与技术规范讨论。",
+   questions:["4台机组主变压器的具体电压等级和冷却方式是否已确定？","贵司是否接受设备+安装+调试一体化交钥匙模式？"]},
+  {name:"李明",title:"采购总监",company:"国网新源控股",degree:2,avatar:"李",
+   via:"通过 → 张伟（葛洲坝）引荐",
+   path:["我","张伟","李明"],
+   projects:[
+     {name:"丰宁抽水蓄能电站二期",stage:"报批立项",role:"业主采购总监",match:95,link:"#"},
+     {name:"仙游抽水蓄能电站",stage:"设备安装",role:"业主采购参与",match:60,link:"#"}
+   ],
+   aiTip:"李明是国网新源体系的采购关键人，覆盖多个抽蓄项目。建议先请张伟微信引荐，再以「丰宁二期主变压器方案」为话题发起技术交流，避免冷拜访。",
+   questions:["丰宁二期主变压器采购是否已启动选型？","国网体系是否有统一的变压器入围供应商管理？"]},
+  {name:"陈总",title:"副总经理",company:"中国电建华东院",degree:2,avatar:"陈",
+   via:"通过 → 王建国（葛洲坝）引荐",
+   path:["我","王建国","陈总"],
+   projects:[
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"设计院·技术规范制定",match:80,link:"opportunity-detail.html"},
+     {name:"多个抽蓄项目设计",stage:"设计阶段",role:"总负责",match:70,link:"#"}
+   ],
+   aiTip:"华东院是上西索凯项目设计方，陈总对变压器技术规范有制定权。提前介入设计院，可将己方技术参数写入规范，是最高价值的前期动作。",
+   questions:["贵院在变压器选型规范上是否接受供应商技术交流？","500kV抽蓄主变技术规范是否已定稿？"]},
+  {name:"刘海涛",title:"设备部长",company:"延长石油集团",degree:2,avatar:"刘",
+   via:"通过 → 电力行业协会共同成员",
+   path:["我","协会成员","刘海涛"],
+   projects:[
+     {name:"陕西天然气处理装置扩建",stage:"施工图设计",role:"设备采购负责人",match:88,link:"#"}
+   ],
+   aiTip:"刘海涛负责延长石油设备采购，覆盖空压机+泵阀联动采购。通过行业协会共同成员引荐，信任成本低。建议以捆绑报价方案切入，突出整体解决方案价值。",
+   questions:["天然气处理扩建项目空压机和泵阀是否联动采购？","贵司是否接受设备+安装一体化打包报价？"]},
+  {name:"赵工",title:"技术主任",company:"PT PLN",degree:3,avatar:"赵",
+   via:"通过 → 陈总（华东院）→ 葛洲坝合作方",
+   path:["我","王建国","陈总","赵工"],
+   projects:[
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"业主技术主任",match:75,link:"opportunity-detail.html"}
+   ],
+   aiTip:"赵工是PT PLN业主方技术主任，3度关系路径较长。建议优先打通陈总关系后再通过陈总介绍，或直接在项目现场技术会议上建立接触。",
+   questions:["业主方对主变压器品牌是否有特别要求？","印尼本地是否有配套服务商资质要求？"]},
 ];
 
 const degreeConf = {
@@ -261,14 +353,14 @@ const degreeConf = {
 let currentTab = 'all';
 
 function renderContacts(filter) {
-  const list = filter === 'd1' ? CONTACTS.filter(c=>c.degree===1)
-    : filter === 'd2' ? CONTACTS.filter(c=>c.degree>1)
-    : filter === 'ai' ? CONTACTS.filter(c=>c.degree===2)
-    : CONTACTS;
-  const el = document.getElementById('contact-list');
-  el.innerHTML = list.map(c => {
+  const list = filter==='d1'?CONTACTS.filter(c=>c.degree===1)
+    :filter==='d2'?CONTACTS.filter(c=>c.degree>1)
+    :filter==='ai'?CONTACTS.filter(c=>c.degree===2)
+    :CONTACTS;
+  document.getElementById('contact-list').innerHTML = list.map((c,i) => {
     const d = degreeConf[c.degree];
-    return `<div class="p-3 hover:bg-gray-50 transition-all ${d.lborder}">
+    const projNames = c.projects.map(p=>`<span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">🏗 ${p.name}</span>`).join('');
+    return `<div class="p-3 hover:bg-blue-50 transition-all cursor-pointer ${d.lborder}" onclick="openDrawer(${CONTACTS.indexOf(c)})">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full ${d.bg} ${d.text} flex items-center justify-center text-sm font-bold flex-shrink-0">${c.avatar}</div>
         <div class="flex-1 min-w-0">
@@ -279,19 +371,83 @@ function renderContacts(filter) {
             ${c.degree===1?'<span class="text-[9px] bg-blue-900 text-blue-200 px-1.5 py-0.5 rounded-full">🔒 私域</span>':''}
           </div>
           <div class="text-[11px] text-blue-600 mb-1">${c.company}</div>
-          <div class="text-[10px] text-gray-400 mb-1.5">🔗 ${c.via}</div>
-          <div class="bg-orange-50 border-l-2 border-orange-400 px-2 py-1 rounded-r text-[10px] text-orange-700 mb-1.5">💡 ${c.tip}</div>
-          <div class="flex gap-1 flex-wrap">${c.projects.map(p=>`<span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">🏗 ${p}</span>`).join('')}</div>
+          <div class="text-[10px] text-gray-400 mb-1">🔗 ${c.via}</div>
+          <div class="flex gap-1 flex-wrap">${projNames}</div>
         </div>
-        <div class="flex flex-col gap-1 flex-shrink-0">
-          <button class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">联系</button>
-          <button class="text-[10px] border border-gray-200 text-gray-500 px-2 py-1 rounded hover:bg-gray-50">备注</button>
+        <div class="flex items-center gap-1 flex-shrink-0">
+          <span class="text-[10px] text-blue-500 hover:text-blue-700">查看详情 →</span>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 renderContacts('all');
+
+function openDrawer(idx) {
+  const c = CONTACTS[idx];
+  const d = degreeConf[c.degree];
+  document.getElementById('drawer-name').textContent = c.name + ' · ' + c.title;
+  document.getElementById('drawer-sub').textContent = c.company + ' · ' + d.label;
+  document.getElementById('drawer-via-block').innerHTML =
+    `<span class="font-medium">关系来源：</span>${c.via}`;
+
+  // 关系路径SVG
+  const pathNodes = c.path;
+  const svgEl = document.getElementById('drawer-path-svg');
+  const W = 440, H = 120, step = W / (pathNodes.length + 1);
+  const colors = ['#f59e0b','#3b82f6','#22c55e','#6b7280'];
+  let svg = `<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  // 连线
+  pathNodes.forEach((_,i) => {
+    if (i < pathNodes.length-1) {
+      const x1=step*(i+1), x2=step*(i+2), y=H/2;
+      svg += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="${i===0?'none':'6,3'}"/>`;
+    }
+  });
+  // 节点
+  pathNodes.forEach((name,i) => {
+    const x=step*(i+1), y=H/2, isLast=i===pathNodes.length-1;
+    const fill = i===0?'#f59e0b':isLast?d.text.replace('text-','').replace('-700','').replace('-600',''):'#3b82f6';
+    const fc = i===0?'#f59e0b':isLast?(c.degree===1?'#3b82f6':c.degree===2?'#22c55e':'#6b7280'):'#3b82f6';
+    svg += `<circle cx="${x}" cy="${y}" r="22" fill="${fc}" opacity="0.9"/>`;
+    svg += `<text x="${x}" y="${y+1}" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="11" font-weight="bold">${name.length>2?name.slice(0,2):name}</text>`;
+    svg += `<text x="${x}" y="${y+32}" text-anchor="middle" fill="#64748b" font-size="10">${name}</text>`;
+    if (i < pathNodes.length-1) {
+      const mx = step*(i+1) + step/2;
+      svg += `<text x="${mx}" y="${y-12}" text-anchor="middle" fill="#94a3b8" font-size="9">${i===0?'直接联系':'引荐'}</text>`;
+    }
+  });
+  svg += '</svg>';
+  svgEl.innerHTML = svg;
+
+  // 关联项目
+  document.getElementById('drawer-projects').innerHTML = c.projects.map(p => `
+    <a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-blue-300 hover:bg-blue-50 transition-all">
+      <div>
+        <div class="text-xs font-medium text-blue-700">${p.name}</div>
+        <div class="text-[10px] text-gray-500 mt-0.5">${p.stage} · ${p.role}</div>
+      </div>
+      <div class="text-right flex-shrink-0 ml-3">
+        <div class="text-xs font-bold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-600':'text-gray-500'}">${p.match}%</div>
+        <div class="text-[9px] text-gray-400">匹配度</div>
+      </div>
+    </a>`).join('');
+
+  // AI建议
+  document.getElementById('drawer-ai-tip').textContent = c.aiTip;
+  document.getElementById('drawer-questions').innerHTML = c.questions.map((q,i) =>
+    `<div class="flex gap-2 text-[11px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
+      <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
+    </div>`).join('');
+
+  document.getElementById('contact-drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('contact-drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+}
 
 function switchTab(el, tab) {
   currentTab = tab;
