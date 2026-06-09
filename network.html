@@ -12,7 +12,8 @@
 .degree-1{border-left:3px solid #3b82f6}
 .degree-2{border-left:3px solid #22c55e}
 .degree-3{border-left:3px solid #9ca3af}
-.drawer{position:fixed;top:0;right:-480px;width:480px;height:100vh;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.15);transition:right .3s ease;z-index:40;display:flex;flex-direction:column}
+.drawer{position:fixed;top:0;right:-480px;width:480px;height:100vh;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.15);transition:right .3s ease;z-index:40;display:flex;flex-direction:column;overflow:hidden}
+.drawer-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
 .drawer.open{right:0}
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:39;opacity:0;pointer-events:none;transition:opacity .3s}
 .drawer-overlay.open{opacity:1;pointer-events:auto}
@@ -243,42 +244,80 @@
 <!-- 联系人详情抽屉 -->
 <div id="drawer-overlay" class="drawer-overlay" onclick="closeDrawer()"></div>
 <div id="contact-drawer" class="drawer">
-  <div class="flex items-center justify-between px-4 py-3 flex-shrink-0 border-b border-gray-200" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
-    <div>
-      <div id="drawer-name" class="text-white font-bold text-sm"></div>
-      <div id="drawer-sub" class="text-slate-400 text-[10px] mt-0.5"></div>
+  <!-- 抽屉头部 -->
+  <div class="flex-shrink-0" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
+    <div class="flex items-center justify-between px-4 py-3">
+      <div>
+        <div id="drawer-name" class="text-white font-bold text-sm"></div>
+        <div id="drawer-sub" class="text-slate-400 text-[10px] mt-0.5"></div>
+      </div>
+      <button onclick="closeDrawer()" class="text-slate-400 hover:text-white text-xl leading-none">×</button>
     </div>
-    <button onclick="closeDrawer()" class="text-slate-400 hover:text-white text-xl leading-none">×</button>
+    <!-- Tab导航 -->
+    <div class="flex border-t border-slate-700">
+      <button id="dtab-btn-overview" onclick="switchDrawerTab('overview')" class="flex-1 py-2 text-[11px] font-medium border-b-2 border-blue-600 text-blue-400 transition-colors">🔗 关系概览</button>
+      <button id="dtab-btn-penetrate" onclick="switchDrawerTab('penetrate')" class="flex-1 py-2 text-[11px] font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">🎯 商机穿透</button>
+      <button id="dtab-btn-script" onclick="switchDrawerTab('script')" class="flex-1 py-2 text-[11px] font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">💬 切入话术</button>
+    </div>
   </div>
-  <div class="flex-1 overflow-y-auto p-4 space-y-4">
 
-    <!-- 关系路径图 -->
+  <!-- Tab: 关系概览 -->
+  <div id="dtab-overview" class="flex-1 overflow-y-auto p-4 space-y-4">
     <div>
       <div class="text-xs font-bold text-gray-700 mb-2">🔗 关系穿透路径</div>
       <div id="drawer-path-svg" class="bg-slate-50 rounded-xl border border-gray-200 overflow-hidden" style="height:140px"></div>
     </div>
-
-    <!-- 关系说明 -->
     <div id="drawer-via-block" class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-800"></div>
-
-    <!-- 穿透项目 -->
     <div>
       <div class="text-xs font-bold text-gray-700 mb-2">🏗 关联在建项目</div>
       <div id="drawer-projects" class="space-y-2"></div>
     </div>
-
-    <!-- AI沟通建议 -->
     <div class="bg-gradient-to-br from-slate-800 to-blue-950 rounded-xl p-3">
-      <div class="text-[10px] font-bold text-blue-300 mb-2">💬 AI 沟通突破建议</div>
-      <div id="drawer-ai-tip" class="text-[11px] text-slate-300 leading-relaxed mb-3"></div>
-      <div id="drawer-questions" class="space-y-1.5"></div>
+      <div class="text-[10px] font-bold text-blue-300 mb-2">🤖 AI 综合判断</div>
+      <div id="drawer-ai-tip" class="text-[11px] text-slate-300 leading-relaxed"></div>
     </div>
-
-    <!-- 操作按钮 -->
     <div class="flex gap-2">
-      <button class="flex-1 bg-blue-600 text-white text-xs py-2 rounded-lg hover:bg-blue-700 font-medium">📞 一键破冰话术</button>
+      <button onclick="switchDrawerTab('script')" class="flex-1 bg-blue-600 text-white text-xs py-2 rounded-lg hover:bg-blue-700 font-medium">💬 生成切入话术</button>
       <button class="flex-1 border border-gray-200 text-gray-600 text-xs py-2 rounded-lg hover:bg-gray-50">📌 加入跟踪</button>
-      <button class="flex-1 border border-gray-200 text-gray-600 text-xs py-2 rounded-lg hover:bg-gray-50">📤 分享给同事</button>
+      <button class="flex-1 border border-gray-200 text-gray-600 text-xs py-2 rounded-lg hover:bg-gray-50">📤 分享</button>
+    </div>
+  </div>
+
+  <!-- Tab: 商机穿透 -->
+  <div id="dtab-penetrate" class="hidden flex-1 overflow-y-auto p-4 space-y-3">
+    <div class="text-xs font-bold text-gray-700 mb-1">🎯 可通过此人突破的商机</div>
+    <div id="drawer-projects-penetrate" class="space-y-2"></div>
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[11px] text-amber-800">
+      <div class="font-semibold mb-1">💡 穿透策略</div>
+      <div id="drawer-penetrate-tip"></div>
+    </div>
+  </div>
+
+  <!-- Tab: 切入话术 -->
+  <div id="dtab-script" class="hidden flex-1 overflow-y-auto p-4 space-y-3">
+    <!-- 关系亲疏度切换 -->
+    <div>
+      <div class="text-[10px] text-gray-500 mb-1.5">选择你们的关系亲疏度，AI 调整话术语气：</div>
+      <div class="flex gap-2">
+        <button data-v="dormant" class="intimacy-btn flex-1 py-1.5 rounded text-[10px] font-medium bg-blue-600 text-white" onclick="renderScript('dormant')">😴 久未联系</button>
+        <button data-v="close" class="intimacy-btn flex-1 py-1.5 rounded text-[10px] font-medium bg-slate-700 text-slate-300" onclick="renderScript('close')">🤝 关系挺好</button>
+      </div>
+    </div>
+    <!-- 场景说明 -->
+    <div class="bg-blue-900/40 border border-blue-800 rounded-lg px-3 py-2">
+      <div id="script-intimacy-label" class="text-[11px] text-blue-300 font-medium"></div>
+      <div id="script-intimacy-tip" class="text-[10px] text-slate-400 mt-0.5"></div>
+    </div>
+    <!-- 话术正文 -->
+    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-3 space-y-2">
+      <div class="text-[10px] font-bold text-blue-300 mb-1">📝 建议话术（可直接复制发送）</div>
+      <div id="script-body"></div>
+      <button onclick="navigator.clipboard.writeText(document.getElementById('script-body').innerText).then(()=>showToast('话术已复制'))" class="w-full mt-1 bg-blue-600 text-white text-[10px] py-1.5 rounded hover:bg-blue-700">📋 一键复制</button>
+    </div>
+    <!-- 跟进问题 -->
+    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-3">
+      <div class="text-[10px] font-bold text-blue-300 mb-2">❓ 建议跟进问题</div>
+      <div id="script-questions" class="space-y-1.5"></div>
     </div>
   </div>
 </div>
@@ -357,10 +396,22 @@ function renderContacts(filter) {
     :filter==='d2'?CONTACTS.filter(c=>c.degree>1)
     :filter==='ai'?CONTACTS.filter(c=>c.degree===2)
     :CONTACTS;
-  document.getElementById('contact-list').innerHTML = list.map((c,i) => {
+  document.getElementById('contact-list').innerHTML = list.map(c => {
     const d = degreeConf[c.degree];
-    const projNames = c.projects.map(p=>`<span class="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">🏗 ${p.name}</span>`).join('');
-    return `<div class="p-3 hover:bg-blue-50 transition-all cursor-pointer ${d.lborder}" onclick="openDrawer(${CONTACTS.indexOf(c)})">
+    const idx = CONTACTS.indexOf(c);
+    const projTags = c.projects.map(p=>`
+      <span class="group relative inline-flex items-center text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded cursor-default">
+        🏗 ${p.name}
+        <span class="text-[9px] ml-1 font-semibold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-500':'text-gray-400'}">${p.match}%</span>
+        <span class="pointer-events-none absolute bottom-full left-0 mb-1 w-48 bg-gray-900 text-white text-[9px] rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-normal leading-relaxed">
+          匹配度 ${p.match}%：基于该联系人职责（${c.title}）与项目设备品类高度吻合
+        </span>
+      </span>`).join('');
+    const d1Actions = c.degree===1 ? `
+      <button onclick="event.stopPropagation();openDrawerTab(${idx},'penetrate')" class="text-[10px] bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-600 whitespace-nowrap">🎯 商机穿透</button>
+      <button onclick="event.stopPropagation();openDrawerTab(${idx},'script')" class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 whitespace-nowrap">💬 切入话术</button>` : `
+      <span class="text-[10px] text-blue-500 hover:text-blue-700 whitespace-nowrap">查看详情 →</span>`;
+    return `<div class="p-3 hover:bg-blue-50 transition-all cursor-pointer ${d.lborder}" onclick="openDrawer(${idx})">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full ${d.bg} ${d.text} flex items-center justify-center text-sm font-bold flex-shrink-0">${c.avatar}</div>
         <div class="flex-1 min-w-0">
@@ -372,48 +423,104 @@ function renderContacts(filter) {
           </div>
           <div class="text-[11px] text-blue-600 mb-1">${c.company}</div>
           <div class="text-[10px] text-gray-400 mb-1">🔗 ${c.via}</div>
-          <div class="flex gap-1 flex-wrap">${projNames}</div>
+          <div class="flex gap-1 flex-wrap">${projTags}</div>
         </div>
-        <div class="flex items-center gap-1 flex-shrink-0">
-          <span class="text-[10px] text-blue-500 hover:text-blue-700">查看详情 →</span>
-        </div>
+        <div class="flex flex-col gap-1 items-end flex-shrink-0">${d1Actions}</div>
       </div>
     </div>`;
   }).join('');
 }
 renderContacts('all');
 
+let _drawerIdx = 0;
+
+function openDrawerTab(idx, tab) {
+  openDrawer(idx);
+  if (tab === 'penetrate') switchDrawerTab('penetrate');
+  if (tab === 'script') switchDrawerTab('script');
+}
+
+function switchDrawerTab(tab) {
+  ['overview','penetrate','script'].forEach(t => {
+    document.getElementById('dtab-'+t).classList.toggle('hidden', t!==tab);
+    document.getElementById('dtab-btn-'+t).classList.toggle('text-blue-600', t===tab);
+    document.getElementById('dtab-btn-'+t).classList.toggle('border-blue-600', t===tab);
+    document.getElementById('dtab-btn-'+t).classList.toggle('text-gray-500', t!==tab);
+    document.getElementById('dtab-btn-'+t).classList.toggle('border-transparent', t!==tab);
+  });
+}
+
+function renderScript(intimacy) {
+  const c = CONTACTS[_drawerIdx];
+  const proj = c.projects[0];
+  const scripts = c.degree === 1 ? {
+    dormant: {
+      label: '😴 久未联系（情报切入）',
+      tip: '以项目情报为由头自然开启，不消耗人情',
+      body: `${c.name.slice(0,1)}总，好久没联络了！我最近在盯${proj.name}这个项目，看到有些新动态，想到您一直负责${c.title}这块，顺手把最新的技术评估报告发您一份，您看对您有没有参考价值？`,
+      questions: c.questions,
+    },
+    close: {
+      label: '🤝 关系挺好（精准求助）',
+      tip: '直接求助，精准提问，不浪费对方时间',
+      body: `${c.name.slice(0,1)}总，最近忙吗？有个事想请教下专家。听说您对${proj.name}这个项目很了解，他们这次${proj.role.includes('采购')?'设备采购':'选型'}，是倾向于业主直管还是全包给EPC总包方？哥们儿最近在跟这个，求指条明路！`,
+      questions: c.questions,
+    }
+  } : null;
+
+  if (!scripts) {
+    document.getElementById('script-body').innerHTML = `<div class="text-[11px] text-slate-300 leading-relaxed">${c.aiTip}</div>`;
+    document.getElementById('script-questions').innerHTML = c.questions.map((q,i) =>
+      `<div class="flex gap-2 text-[11px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
+        <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
+      </div>`).join('');
+    return;
+  }
+
+  const s = scripts[intimacy];
+  document.getElementById('script-intimacy-label').textContent = s.label;
+  document.getElementById('script-intimacy-tip').textContent = s.tip;
+  document.getElementById('script-body').innerHTML =
+    `<div class="text-[11px] text-slate-100 leading-relaxed bg-slate-700/60 rounded-lg p-3 border border-slate-600">${s.body}</div>`;
+  document.getElementById('script-questions').innerHTML = s.questions.map((q,i) =>
+    `<div class="flex gap-2 text-[11px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
+      <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
+    </div>`).join('');
+
+  document.querySelectorAll('.intimacy-btn').forEach(b => {
+    const active = b.dataset.v === intimacy;
+    b.className = 'intimacy-btn flex-1 py-1.5 rounded text-[10px] font-medium transition-all ' +
+      (active ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600');
+  });
+}
+
 function openDrawer(idx) {
+  _drawerIdx = idx;
   const c = CONTACTS[idx];
   const d = degreeConf[c.degree];
   document.getElementById('drawer-name').textContent = c.name + ' · ' + c.title;
   document.getElementById('drawer-sub').textContent = c.company + ' · ' + d.label;
-  document.getElementById('drawer-via-block').innerHTML =
-    `<span class="font-medium">关系来源：</span>${c.via}`;
+  document.getElementById('drawer-via-block').innerHTML = `<span class="font-medium">关系来源：</span>${c.via}`;
 
   // 关系路径SVG
   const pathNodes = c.path;
   const svgEl = document.getElementById('drawer-path-svg');
   const W = 440, H = 120, step = W / (pathNodes.length + 1);
-  const colors = ['#f59e0b','#3b82f6','#22c55e','#6b7280'];
   let svg = `<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-  // 连线
   pathNodes.forEach((_,i) => {
     if (i < pathNodes.length-1) {
       const x1=step*(i+1), x2=step*(i+2), y=H/2;
       svg += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="${i===0?'none':'6,3'}"/>`;
     }
   });
-  // 节点
   pathNodes.forEach((name,i) => {
-    const x=step*(i+1), y=H/2, isLast=i===pathNodes.length-1;
-    const fill = i===0?'#f59e0b':isLast?d.text.replace('text-','').replace('-700','').replace('-600',''):'#3b82f6';
-    const fc = i===0?'#f59e0b':isLast?(c.degree===1?'#3b82f6':c.degree===2?'#22c55e':'#6b7280'):'#3b82f6';
+    const x=step*(i+1), y=H/2;
+    const fc = i===0?'#f59e0b':i===pathNodes.length-1?(c.degree===1?'#3b82f6':c.degree===2?'#22c55e':'#6b7280'):'#3b82f6';
     svg += `<circle cx="${x}" cy="${y}" r="22" fill="${fc}" opacity="0.9"/>`;
     svg += `<text x="${x}" y="${y+1}" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="11" font-weight="bold">${name.length>2?name.slice(0,2):name}</text>`;
     svg += `<text x="${x}" y="${y+32}" text-anchor="middle" fill="#64748b" font-size="10">${name}</text>`;
     if (i < pathNodes.length-1) {
-      const mx = step*(i+1) + step/2;
+      const mx = step*(i+1)+step/2;
       svg += `<text x="${mx}" y="${y-12}" text-anchor="middle" fill="#94a3b8" font-size="9">${i===0?'直接联系':'引荐'}</text>`;
     }
   });
@@ -427,18 +534,37 @@ function openDrawer(idx) {
         <div class="text-xs font-medium text-blue-700">${p.name}</div>
         <div class="text-[10px] text-gray-500 mt-0.5">${p.stage} · ${p.role}</div>
       </div>
-      <div class="text-right flex-shrink-0 ml-3">
+      <div class="text-right flex-shrink-0 ml-3 group relative cursor-default">
         <div class="text-xs font-bold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-600':'text-gray-500'}">${p.match}%</div>
         <div class="text-[9px] text-gray-400">匹配度</div>
+        <span class="pointer-events-none absolute bottom-full right-0 mb-1 w-44 bg-gray-900 text-white text-[9px] rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-normal leading-relaxed">
+          基于联系人职责（${c.title}）与项目设备品类吻合度
+        </span>
       </div>
     </a>`).join('');
 
-  // AI建议
+  // AI概要
   document.getElementById('drawer-ai-tip').textContent = c.aiTip;
-  document.getElementById('drawer-questions').innerHTML = c.questions.map((q,i) =>
-    `<div class="flex gap-2 text-[11px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
-      <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
-    </div>`).join('');
+
+  // 商机穿透 tab
+  document.getElementById('drawer-projects-penetrate').innerHTML = c.projects.map(p => `
+    <a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-orange-300 hover:bg-orange-50 transition-all">
+      <div>
+        <div class="text-xs font-medium text-blue-700">${p.name}</div>
+        <div class="text-[10px] text-gray-500 mt-0.5">${p.stage} · <span class="text-orange-600 font-medium">${p.role}</span></div>
+      </div>
+      <div class="text-right flex-shrink-0 ml-3">
+        <div class="text-xs font-bold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-600':'text-gray-500'}">${p.match}%</div>
+        <div class="text-[9px] text-gray-400">穿透价值</div>
+      </div>
+    </a>`).join('');
+  document.getElementById('drawer-penetrate-tip').textContent = c.degree===1
+    ? `${c.name}是您的直接联系人，可直接请其提供${c.projects.map(p=>p.name).join('、')}的内部采购信息，或协助引荐业主方关键人。`
+    : `需先通过${c.path[1]}引荐建立联系，再借助${c.name}打通${c.projects[0]?.name}的采购决策链。`;
+
+  // 话术 tab 初始化
+  renderScript('dormant');
+  switchDrawerTab('overview');
 
   document.getElementById('contact-drawer').classList.add('open');
   document.getElementById('drawer-overlay').classList.add('open');
