@@ -132,35 +132,6 @@
       <svg id="network-svg" class="w-full h-full"></svg>
     </main>
 
-    <!-- Right Panel -->
-    <aside class="w-72 flex-shrink-0 bg-white border-l border-gray-200 flex flex-col overflow-hidden">
-      <div class="px-3 py-2.5 flex-shrink-0" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
-        <div class="shimmer-text text-sm font-bold">AI 人脉突破建议</div>
-        <div class="text-slate-400 text-[10px] mt-0.5">基于您的私域人脉 × 中项网数据推演</div>
-      </div>
-      <div class="flex-1 overflow-y-auto p-3 space-y-3">
-
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-blue-700 mb-2">🎯 AI推荐突破路径</div>
-          <div class="space-y-2" id="breakthrough-paths"></div>
-        </div>
-
-        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-amber-700 mb-1.5">📊 数据补充建议</div>
-          <div class="text-[11px] text-amber-800 mb-2">以下目标企业数据不完整，建议补充：</div>
-          <div class="space-y-1.5">
-            <div class="flex items-center justify-between text-[11px]"><span class="text-amber-800">PT PLN国家电力公司</span><span class="text-[10px] text-red-500">联系人缺失</span></div>
-            <div class="flex items-center justify-between text-[11px]"><span class="text-amber-800">辛集市澳森特钢集团</span><span class="text-[10px] text-orange-500">架构不全</span></div>
-          </div>
-          <button class="mt-2 w-full text-[10px] bg-amber-500 text-white py-1 rounded hover:bg-amber-600">📩 提交补充申请</button>
-        </div>
-
-        <div class="bg-green-50 border border-green-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-green-700 mb-2">🤝 可借助的共同背景</div>
-          <div class="space-y-1.5 text-[11px] text-green-800" id="common-bg"></div>
-        </div>
-      </div>
-    </aside>
   </div>
 </div>
 
@@ -199,9 +170,12 @@
           <input type="text" placeholder="所在企业（可模糊）" id="manual-company" class="border border-gray-200 rounded px-2 py-1.5 text-xs outline-none focus:border-blue-400" oninput="showCompanyMatch(this.value)">
         </div>
         <!-- 企业模糊匹配提示 -->
-        <div id="company-match-tip" class="hidden mb-2 bg-amber-50 border border-amber-200 rounded-lg p-2 text-[11px]">
-          <div class="text-amber-700 font-medium mb-1">🔍 检测到可能匹配的企业，请确认：</div>
+        <div id="company-match-tip" class="hidden mb-2 border rounded-lg p-2 text-[11px]">
+          <div id="company-match-header" class="font-medium mb-1"></div>
           <div class="space-y-1" id="company-match-list"></div>
+          <div id="company-match-manual" class="hidden mt-1">
+            <input type="text" placeholder="手动填写企业全称" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none focus:border-blue-400">
+          </div>
         </div>
         <button class="bg-blue-600 text-white text-xs px-4 py-1.5 rounded hover:bg-blue-700">添加</button>
       </div>
@@ -233,7 +207,12 @@
       <div class="bg-gray-50 rounded-lg p-3">
         <div class="flex items-center justify-between mb-2">
           <span class="text-[10px] font-medium text-gray-500">已导入私域人脉（23人）</span>
-          <span class="text-[10px] text-red-400 cursor-pointer hover:text-red-600">🗑 清除全部数据</span>
+          <span class="text-[10px] text-red-400 cursor-pointer hover:text-red-600" onclick="confirmPurge()">🗑 清除全部数据</span>
+        </div>
+        <!-- 状态说明 -->
+        <div class="flex gap-3 mb-2 text-[10px]">
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>已关联公域数据（可参与图谱推算）</span>
+          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-orange-400 inline-block"></span>待确认（纯私域，暂不参与推算）</span>
         </div>
         <div class="space-y-1.5" id="imported-preview"></div>
       </div>
@@ -582,47 +561,95 @@ function switchTab(el, tab) {
   renderContacts(tab);
 }
 
-// 企业模糊匹配演示
+// 企业模糊匹配演示（置信度分级）
 const COMPANY_MAP = {
-  '葛洲坝':['葛洲坝集团国际工程有限公司','中国葛洲坝集团三峡建设工程有限公司'],
-  '国网':['国网新源控股有限公司','国家电网有限公司'],
-  '电建':['中国电建集团华东勘测设计研究院有限公司','中国电建集团海外投资有限公司'],
+  '葛洲坝':[{name:'葛洲坝集团国际工程有限公司',c:97},{name:'中国葛洲坝集团三峡建设工程有限公司',c:72}],
+  '国网':[{name:'国网新源控股有限公司',c:88},{name:'国家电网有限公司',c:75}],
+  '电建':[{name:'中国电建集团华东勘测设计研究院有限公司',c:85},{name:'中国电建集团海外投资有限公司',c:61}],
+  '华电':[{name:'中国华电工程（集团）有限公司',c:55},{name:'华电国际电力股份有限公司',c:48}],
 };
 function showCompanyMatch(val) {
   const tip = document.getElementById('company-match-tip');
   const list = document.getElementById('company-match-list');
+  const header = document.getElementById('company-match-header');
+  const manual = document.getElementById('company-match-manual');
   if (!val || val.length < 2) { tip.classList.add('hidden'); return; }
   const key = Object.keys(COMPANY_MAP).find(k => val.includes(k));
   if (!key) { tip.classList.add('hidden'); return; }
+  const candidates = COMPANY_MAP[key];
+  const top = candidates[0];
   tip.classList.remove('hidden');
-  list.innerHTML = COMPANY_MAP[key].map((c,i) => `
-    <label class="flex items-center gap-2 cursor-pointer hover:bg-amber-100 rounded px-1 py-0.5">
-      <input type="radio" name="company-match" value="${c}" ${i===0?'checked':''}>
-      <span class="text-[11px] text-gray-700">${c}</span>
-      ${i===0?'<span class="text-[9px] bg-green-100 text-green-600 px-1 rounded">最佳匹配</span>':''}
-    </label>`).join('');
+
+  if (top.c >= 90) {
+    // ≥90%：自动预选，绿色提示
+    tip.className = 'mb-2 bg-green-50 border border-green-200 rounded-lg p-2 text-[11px]';
+    header.className = 'text-green-700 font-medium mb-1';
+    header.textContent = `✅ 已自动匹配（置信度${top.c}%），可修改：`;
+    manual.classList.add('hidden');
+    list.innerHTML = candidates.map((c,i) => `
+      <label class="flex items-center gap-2 cursor-pointer hover:bg-green-100 rounded px-1 py-0.5">
+        <input type="radio" name="company-match" value="${c.name}" ${i===0?'checked':''}>
+        <span class="text-[11px] text-gray-700 flex-1">${c.name}</span>
+        <span class="text-[10px] font-medium ${c.c>=90?'text-green-600':'text-gray-400'}">${c.c}%</span>
+        ${i===0?'<span class="text-[9px] bg-green-100 text-green-600 px-1 rounded">自动预选</span>':''}
+      </label>`).join('');
+  } else if (top.c >= 60) {
+    // 60-90%：要求主动点选，橙色提示
+    tip.className = 'mb-2 bg-amber-50 border border-amber-200 rounded-lg p-2 text-[11px]';
+    header.className = 'text-amber-700 font-medium mb-1';
+    header.textContent = `🔍 找到相似企业，请主动确认（置信度${top.c}%）：`;
+    manual.classList.add('hidden');
+    list.innerHTML = candidates.map((c,i) => `
+      <label class="flex items-center gap-2 cursor-pointer hover:bg-amber-100 rounded px-1 py-0.5">
+        <input type="radio" name="company-match" value="${c.name}">
+        <span class="text-[11px] text-gray-700 flex-1">${c.name}</span>
+        <span class="text-[10px] font-medium ${c.c>=60?'text-orange-500':'text-gray-400'}">${c.c}%</span>
+      </label>`).join('');
+  } else {
+    // <60%：低置信度，提供手动填写兜底
+    tip.className = 'mb-2 bg-red-50 border border-red-200 rounded-lg p-2 text-[11px]';
+    header.className = 'text-red-700 font-medium mb-1';
+    header.textContent = `⚠️ 匹配置信度较低（${top.c}%），建议手动确认：`;
+    manual.classList.remove('hidden');
+    list.innerHTML = candidates.map(c => `
+      <label class="flex items-center gap-2 cursor-pointer hover:bg-red-50 rounded px-1 py-0.5">
+        <input type="radio" name="company-match" value="${c.name}">
+        <span class="text-[11px] text-gray-500 flex-1">${c.name}</span>
+        <span class="text-[10px] text-red-400">${c.c}%</span>
+      </label>`).join('');
+  }
 }
 
-// 文件上传演示
+// 文件上传演示（置信度分级展示）
 function handleFileUpload(input) {
   if (!input.files.length) return;
   const wizard = document.getElementById('mapping-wizard');
   const mapList = document.getElementById('mapping-list');
   wizard.classList.remove('hidden');
   const demoRows = [
-    {raw:'葛洲坝',matched:'葛洲坝集团国际工程有限公司',confidence:97},
-    {raw:'国网新源',matched:'国网新源控股有限公司',confidence:91},
-    {raw:'中电建华东院',matched:'中国电建集团华东勘测设计研究院',confidence:85},
-    {raw:'延长石油',matched:'延长石油集团有限责任公司',confidence:99},
+    {raw:'葛洲坝',matched:'葛洲坝集团国际工程有限公司',c:97},
+    {raw:'国网新源',matched:'国网新源控股有限公司',c:91},
+    {raw:'中电建华东院',matched:'中国电建集团华东勘测设计研究院',c:85},
+    {raw:'延长石油',matched:'延长石油集团有限责任公司',c:99},
+    {raw:'华电国际',matched:'华电国际电力股份有限公司',c:52},
   ];
-  mapList.innerHTML = demoRows.map(r => `
-    <div class="flex items-center gap-2 text-[11px] bg-white border border-gray-100 rounded p-2">
-      <span class="text-gray-400 line-through w-20 flex-shrink-0">${r.raw}</span>
+  mapList.innerHTML = demoRows.map(r => {
+    const high = r.c >= 90, mid = r.c >= 60;
+    const badge = high
+      ? `<span class="text-[9px] bg-green-100 text-green-600 px-1 rounded">自动预选</span>`
+      : !mid ? `<span class="text-[9px] bg-red-100 text-red-500 px-1 rounded">待确认</span>` : '';
+    return `<div class="flex items-center gap-2 text-[11px] bg-white border ${!mid?'border-red-200':high?'border-green-200':'border-orange-200'} rounded p-2">
+      <span class="text-gray-400 line-through w-24 flex-shrink-0">${r.raw}</span>
       <span class="text-gray-400">→</span>
       <span class="text-gray-800 font-medium flex-1">${r.matched}</span>
-      <span class="text-[10px] ${r.confidence>=90?'text-green-600':'text-orange-500'} font-medium">${r.confidence}%</span>
-      <label class="flex items-center gap-1"><input type="checkbox" checked class="w-3 h-3"><span class="text-gray-500">确认</span></label>
-    </div>`).join('');
+      <span class="text-[10px] font-medium ${high?'text-green-600':mid?'text-orange-500':'text-red-500'}">${r.c}%</span>
+      ${badge}
+      <label class="flex items-center gap-1 flex-shrink-0">
+        <input type="checkbox" ${high||mid?'checked':''} class="w-3 h-3">
+        <span class="text-gray-500">确认</span>
+      </label>
+    </div>`;
+  }).join('');
 }
 
 function confirmMapping() {
@@ -631,30 +658,19 @@ function confirmMapping() {
 }
 
 document.getElementById('imported-preview').innerHTML = [
-  {name:'张伟',company:'葛洲坝集团国际工程',matched:'已关联 2个项目'},
-  {name:'王建国',company:'葛洲坝集团国际工程',matched:'已关联 1个项目'},
-  {name:'其他21位',company:'各企业',matched:'关联完成'},
+  {name:'张伟',company:'葛洲坝集团国际工程',status:'linked',detail:'已关联 2个项目'},
+  {name:'王建国',company:'葛洲坝集团国际工程',status:'linked',detail:'已关联 1个项目'},
+  {name:'陈某',company:'延长石油',status:'pending',detail:'企业待确认'},
+  {name:'其他20位',company:'各企业',status:'linked',detail:'关联完成'},
 ].map(p=>`<div class="flex items-center gap-2 text-[11px]">
-  <span class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">${p.name[0]}</span>
+  <span class="w-6 h-6 rounded-full ${p.status==='linked'?'bg-blue-100 text-blue-600':'bg-orange-100 text-orange-500'} flex items-center justify-center text-[10px] font-bold flex-shrink-0">${p.name[0]}</span>
   <span class="font-medium text-gray-700">${p.name}</span>
   <span class="text-gray-400 flex-1">${p.company}</span>
-  <span class="text-green-600 text-[10px]">✅ ${p.matched}</span>
+  ${p.status==='linked'
+    ? `<span class="text-green-600 text-[10px]">✅ ${p.detail}</span>`
+    : `<span class="text-orange-500 text-[10px]">⚠️ ${p.detail}</span>`}
 </div>`).join('');
 
-document.getElementById('breakthrough-paths').innerHTML = [
-  {target:'李明（国网新源）',path:'我 → 张伟 → 李明',reason:'同项目合作，引荐成功率高'},
-  {target:'陈总（华东院）',path:'我 → 王建国 → 陈总',reason:'共同在建项目，技术交流切入'},
-].map(b=>`<div class="bg-white border border-blue-200 rounded-lg p-2">
-  <div class="text-[11px] font-medium text-gray-800">${b.target}</div>
-  <div class="text-[10px] text-blue-600 mt-0.5">${b.path}</div>
-  <div class="text-[10px] text-gray-500 mt-0.5">${b.reason}</div>
-</div>`).join('');
-
-document.getElementById('common-bg').innerHTML = [
-  '与张伟同为电力行业协会理事会成员',
-  '曾合作参展2024年上海电力展',
-  '张伟与李明为前同事关系',
-].map(t=>`<div class="flex gap-1.5"><span class="text-green-500">·</span><span>${t}</span></div>`).join('');
 
 function switchView(v) {
   const isList = v==='list';
@@ -690,6 +706,7 @@ function renderGraph() {
 function openModal(id){document.getElementById(id).classList.remove('hidden');document.body.style.overflow='hidden';}
 function closeModal(id){document.getElementById(id).classList.add('hidden');document.body.style.overflow='';}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';setTimeout(()=>{t.style.opacity='0';},2500);}
+function confirmPurge(){if(confirm('确定要清除全部私域数据吗？此操作不可恢复。'))showToast('🗑 全部私域数据已清除');}
 </script>
 </body>
 </html>
