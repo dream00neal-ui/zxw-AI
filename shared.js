@@ -15,22 +15,22 @@ function renderNav(activeMenu) {
   if (!nav) return;
   nav.innerHTML = `
     <div class="px-3 py-3 border-b border-slate-700">
-      <div class="text-xs font-bold text-blue-400">中项网 × SIEMENS</div>
-      <div class="text-[10px] text-slate-400 mt-0.5">智联工业·共创无限</div>
+      <div class="text-sm font-bold text-blue-400">中项网 × SIEMENS</div>
+      <div class="text-[12px] text-slate-400 mt-0.5">智联工业·共创无限</div>
     </div>
     <div class="px-2 py-1.5">
-      <div class="flex items-center gap-1.5 bg-amber-600 text-white text-[10px] px-2 py-1 rounded cursor-pointer">
+      <div class="flex items-center gap-1.5 bg-amber-600 text-white text-[12px] px-2 py-1 rounded cursor-pointer">
         <span>⚡</span><span>智能制造专版</span><span class="ml-auto">∨</span>
       </div>
     </div>
     <nav class="flex-1 overflow-y-auto py-1">
       ${NAV_ITEMS.map(item => `
-        <a href="${item.href||'#'}" class="flex items-center gap-2 px-3 py-2 text-xs transition-colors cursor-pointer ${item.label===activeMenu?'text-blue-400 bg-slate-800':'text-slate-300 hover:bg-slate-800 hover:text-blue-400'}">
+        <a href="${item.href||'#'}" class="flex items-center gap-2 px-3 py-2 text-sm transition-colors cursor-pointer ${item.label===activeMenu?'text-blue-400 bg-slate-800':'text-slate-300 hover:bg-slate-800 hover:text-blue-400'}">
           <span>${item.icon}</span><span>${item.label}</span>
           ${item.sub.length?'<span class="ml-auto text-slate-500">∨</span>':''}
         </a>
         ${item.label===activeMenu && item.sub.length ? item.sub.map(s=>`
-          <div class="pl-9 py-1.5 text-[11px] text-slate-400 hover:text-blue-400 cursor-pointer">${s}</div>
+          <div class="pl-9 py-1.5 text-[13px] text-slate-400 hover:text-blue-400 cursor-pointer">${s}</div>
         `).join(''):''}
       `).join('')}
     </nav>

@@ -20,13 +20,13 @@
   <header class="bg-white border-b border-gray-200 flex-shrink-0">
     <div class="flex items-center px-4 h-11 gap-4">
       <nav class="flex gap-1 flex-1">
-        <a href="opportunity-list.html" class="px-3 py-1.5 text-xs text-blue-600 font-medium border-b-2 border-blue-600">项目信息</a>
-        <a href="#" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">招投标</a>
-        <a href="customer-list.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找客户</a>
-        <a href="network.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找人脉</a>
-        <a href="#" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找渠道</a>
+        <a href="opportunity-list.html" class="px-3 py-1.5 text-sm text-blue-600 font-medium border-b-2 border-blue-600">项目信息</a>
+        <a href="#" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">招投标</a>
+        <a href="customer-list.html" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">找客户</a>
+        <a href="network.html" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">找人脉</a>
+        <a href="#" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">找渠道</a>
       </nav>
-      <div class="flex items-center gap-3 text-xs">
+      <div class="flex items-center gap-3 text-sm">
         <button class="text-orange-500 font-medium flex items-center gap-1">🔥 微信商机订阅助手</button>
         <span class="text-gray-400">帮助中心</span>
         <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">李</div>
@@ -35,44 +35,44 @@
     <!-- Search bar -->
     <div class="bg-blue-700 px-4 py-3">
       <div class="flex gap-2 mb-2">
-        <div class="flex items-center gap-1 bg-blue-600 text-blue-200 text-xs px-2 py-1 rounded cursor-pointer">按产品品词 <span class="text-yellow-300 text-[10px]">new</span> ▾</div>
+        <div class="flex items-center gap-1 bg-blue-600 text-blue-200 text-sm px-2 py-1 rounded cursor-pointer">按产品品词 <span class="text-yellow-300 text-[12px]">new</span> ▾</div>
         <div class="flex-1 bg-white rounded flex items-center px-3 gap-2">
           <input id="search-input" type="text" placeholder="输入采购设备词、工艺流程关键词..." class="flex-1 text-sm outline-none py-1.5" value="主变压器">
           <span class="text-gray-300">|</span>
-          <span class="text-xs text-gray-400">或者 ▾</span>
+          <span class="text-sm text-gray-400">或者 ▾</span>
           <input type="text" placeholder="支持多个关键词，以','隔开" class="flex-1 text-sm outline-none py-1 text-gray-500">
         </div>
         <button onclick="doSearch()" class="bg-orange-500 text-white text-sm px-5 py-1.5 rounded font-medium hover:bg-orange-600">🔍 搜 索</button>
-        <button class="bg-blue-600 text-blue-100 text-xs px-3 py-1.5 rounded border border-blue-400 hover:bg-blue-500">📋 高级搜索</button>
+        <button class="bg-blue-600 text-blue-100 text-sm px-3 py-1.5 rounded border border-blue-400 hover:bg-blue-500">📋 高级搜索</button>
       </div>
       <!-- 搜索词类型提示标签 -->
       <div class="flex flex-wrap gap-1.5 items-center">
-        <span class="text-blue-200 text-[10px] bg-blue-600 px-1.5 py-0.5 rounded">定制搜索</span>
-        <span onclick="setSearch('主变压器')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">主变压器</span>
-        <span onclick="setSearch('抽水蓄能')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">抽水蓄能</span>
-        <span onclick="setSearch('GIS开关设备')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">GIS开关设备</span>
-        <span onclick="setSearch('空压机')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">空压机</span>
-        <span onclick="setSearch('泵阀')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">泵阀</span>
-        <span onclick="setSearch('脱硫脱硝工艺')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">脱硫脱硝工艺</span>
-        <span onclick="setSearch('200亿元以上')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">200亿元以上</span>
-        <span class="text-blue-300 text-[10px] ml-1 border-l border-blue-500 pl-2">🔵 蓝底=采购设备词  🟡 黄底=工艺流程词</span>
+        <span class="text-blue-200 text-[12px] bg-blue-600 px-1.5 py-0.5 rounded">定制搜索</span>
+        <span onclick="setSearch('主变压器')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">主变压器</span>
+        <span onclick="setSearch('抽水蓄能')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">抽水蓄能</span>
+        <span onclick="setSearch('GIS开关设备')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">GIS开关设备</span>
+        <span onclick="setSearch('空压机')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">空压机</span>
+        <span onclick="setSearch('泵阀')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">泵阀</span>
+        <span onclick="setSearch('脱硫脱硝工艺')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">脱硫脱硝工艺</span>
+        <span onclick="setSearch('200亿元以上')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">200亿元以上</span>
+        <span class="text-blue-300 text-[12px] ml-1 border-l border-blue-500 pl-2">🔵 蓝底=采购设备词  🟡 黄底=工艺流程词</span>
       </div>
     </div>
     <!-- Filter bar -->
     <div class="px-4 py-2 flex items-center gap-3 border-b border-gray-100">
-      <span class="text-xs text-gray-500">筛选条件：</span>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">行业 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">地区 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">项目阶段 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">投资额 ▾</select>
-      <select id="filter-category" onchange="renderList()" class="text-xs border border-blue-300 rounded px-2 py-1 text-blue-600 bg-blue-50">
+      <span class="text-sm text-gray-500">筛选条件：</span>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">行业 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">地区 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">项目阶段 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">投资额 ▾</select>
+      <select id="filter-category" onchange="renderList()" class="text-sm border border-blue-300 rounded px-2 py-1 text-blue-600 bg-blue-50">
         <option value="">全部品类</option>
         <option value="泵阀">泵阀类</option>
         <option value="空压机">空压机类</option>
         <option value="变压器">变压器类</option>
         <option value="GIS">GIS/开关类</option>
       </select>
-      <div class="ml-auto flex gap-2 text-xs text-blue-600 cursor-pointer">
+      <div class="ml-auto flex gap-2 text-sm text-blue-600 cursor-pointer">
         <span>💾 保存为搜索模板</span>
         <span class="text-red-400">🗑 清空</span>
       </div>
@@ -86,34 +86,34 @@
       <!-- AI千人千面推荐横幅 -->
       <div class="bg-gradient-to-r from-blue-900 to-blue-700 rounded-xl p-3 mb-3 flex items-center gap-4">
         <div class="shimmer-text text-sm font-bold whitespace-nowrap">AI 千人千面推荐</div>
-        <div class="text-blue-100 text-xs flex-1">
+        <div class="text-blue-100 text-sm flex-1">
           根据您的主营产品「<span class="text-yellow-300 font-bold">主变压器 / 交钥匙工程</span>」，为您智能筛选高匹配度项目
         </div>
         <div class="flex gap-2 flex-wrap">
-          <span class="bg-blue-600 text-blue-100 text-[10px] px-2 py-1 rounded-full border border-blue-400 cursor-pointer hover:bg-blue-500">⚡ 主变压器</span>
-          <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">💨 空压机</span>
-          <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">🔧 泵阀</span>
-          <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">GIS设备</span>
-          <span class="bg-amber-600 text-white text-[10px] px-2 py-1 rounded-full cursor-pointer hover:bg-amber-500">+ 修改品类</span>
+          <span class="bg-blue-600 text-blue-100 text-[12px] px-2 py-1 rounded-full border border-blue-400 cursor-pointer hover:bg-blue-500">⚡ 主变压器</span>
+          <span class="bg-slate-700 text-slate-300 text-[12px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">💨 空压机</span>
+          <span class="bg-slate-700 text-slate-300 text-[12px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">🔧 泵阀</span>
+          <span class="bg-slate-700 text-slate-300 text-[12px] px-2 py-1 rounded-full cursor-pointer hover:bg-slate-600">GIS设备</span>
+          <span class="bg-amber-600 text-white text-[12px] px-2 py-1 rounded-full cursor-pointer hover:bg-amber-500">+ 修改品类</span>
         </div>
       </div>
 
       <!-- Result stats -->
-      <div class="text-xs text-gray-600 mb-2 flex items-center gap-2">
+      <div class="text-sm text-gray-600 mb-2 flex items-center gap-2">
         已为您找到 <span class="text-orange-500 font-bold">89条</span> 项目信息（拟在建 <span class="text-orange-500 font-bold">89条</span>，原始 <span class="text-orange-500">0条</span>）；审批资讯 <span class="text-blue-600 font-bold">23条</span>
-        <span id="search-match-tip" class="text-[10px] bg-yellow-100 border border-yellow-300 text-yellow-700 px-2 py-0.5 rounded-full hidden"></span>
+        <span id="search-match-tip" class="text-[12px] bg-yellow-100 border border-yellow-300 text-yellow-700 px-2 py-0.5 rounded-full hidden"></span>
       </div>
 
       <!-- Sub tabs -->
       <div class="flex gap-1 mb-3 border-b border-gray-200 bg-white rounded-t-lg px-3 pt-2">
-        <button class="px-3 py-2 text-xs text-blue-600 font-medium border-b-2 border-blue-600">全部</button>
-        <button class="px-3 py-2 text-xs text-gray-500 hover:text-gray-700">VIP项目</button>
-        <button class="px-3 py-2 text-xs text-gray-500 hover:text-gray-700">跟踪项目</button>
-        <button class="px-3 py-2 text-xs text-orange-500 font-medium">🔥 AI推荐</button>
-        <div class="ml-auto flex items-center gap-3 text-xs text-gray-500 pb-1">
+        <button class="px-3 py-2 text-sm text-blue-600 font-medium border-b-2 border-blue-600">全部</button>
+        <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">VIP项目</button>
+        <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">跟踪项目</button>
+        <button class="px-3 py-2 text-sm text-orange-500 font-medium">🔥 AI推荐</button>
+        <div class="ml-auto flex items-center gap-3 text-sm text-gray-500 pb-1">
           <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="w-3 h-3"> 仅查看首发</label>
           <label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="w-3 h-3"> 仅看预计采购</label>
-          <select class="border border-gray-200 rounded px-1.5 py-0.5 text-xs">默认排序 ▾</select>
+          <select class="border border-gray-200 rounded px-1.5 py-0.5 text-sm">默认排序 ▾</select>
         </div>
       </div>
 
@@ -124,48 +124,48 @@
     <aside class="w-72 flex-shrink-0 bg-white border-l border-gray-200 flex flex-col overflow-hidden">
       <div class="px-3 py-2.5 flex-shrink-0" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
         <div class="shimmer-text text-sm font-bold">AI 采购预测</div>
-        <div class="text-slate-400 text-[10px] mt-0.5">基于您的主营产品智能分析</div>
+        <div class="text-slate-400 text-[12px] mt-0.5">基于您的主营产品智能分析</div>
       </div>
       <div class="flex-1 overflow-y-auto p-3 space-y-3">
         <!-- 热度机会 -->
         <div class="bg-green-50 border border-green-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-green-700 mb-2">🔥 近期高热度采购机会</div>
+          <div class="text-[12px] font-bold text-green-700 mb-2">🔥 近期高热度采购机会</div>
           <div class="space-y-2" id="hot-projects"></div>
         </div>
         <!-- 品类推测数据 -->
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-blue-700 mb-2">📊 本周新增项目品类分布</div>
+          <div class="text-[12px] font-bold text-blue-700 mb-2">📊 本周新增项目品类分布</div>
           <div class="space-y-1.5" id="category-dist"></div>
         </div>
         <!-- AI推断采购节奏 -->
         <div class="bg-purple-50 border border-purple-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-purple-700 mb-2">🗓 未来3个月采购节奏预测</div>
-          <div class="space-y-1.5 text-[11px]">
+          <div class="text-[12px] font-bold text-purple-700 mb-2">🗓 未来3个月采购节奏预测</div>
+          <div class="space-y-1.5 text-[13px]">
             <div class="flex justify-between items-center">
               <span class="text-purple-800">2026年7月</span>
               <div class="flex gap-1">
-                <span class="bg-red-100 text-red-600 text-[10px] px-1.5 py-0.5 rounded">主变压器×3</span>
+                <span class="bg-red-100 text-red-600 text-[12px] px-1.5 py-0.5 rounded">主变压器×3</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-purple-800">2026年8月</span>
               <div class="flex gap-1 flex-wrap">
-                <span class="bg-blue-100 text-blue-600 text-[10px] px-1.5 py-0.5 rounded">空压机×5</span>
-                <span class="bg-red-100 text-red-600 text-[10px] px-1.5 py-0.5 rounded">主变压器×2</span>
+                <span class="bg-blue-100 text-blue-600 text-[12px] px-1.5 py-0.5 rounded">空压机×5</span>
+                <span class="bg-red-100 text-red-600 text-[12px] px-1.5 py-0.5 rounded">主变压器×2</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-purple-800">2026年9月</span>
               <div class="flex gap-1 flex-wrap">
-                <span class="bg-green-100 text-green-600 text-[10px] px-1.5 py-0.5 rounded">泵阀×8</span>
-                <span class="bg-blue-100 text-blue-600 text-[10px] px-1.5 py-0.5 rounded">空压机×3</span>
+                <span class="bg-green-100 text-green-600 text-[12px] px-1.5 py-0.5 rounded">泵阀×8</span>
+                <span class="bg-blue-100 text-blue-600 text-[12px] px-1.5 py-0.5 rounded">空压机×3</span>
               </div>
             </div>
           </div>
         </div>
         <!-- 搜索词提示 -->
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-amber-700 mb-2">💡 AI推荐搜索词</div>
+          <div class="text-[12px] font-bold text-amber-700 mb-2">💡 AI推荐搜索词</div>
           <div class="flex flex-wrap gap-1" id="suggest-tags"></div>
         </div>
       </div>
@@ -222,9 +222,9 @@ function renderList() {
     const hitFlow = p.flowWords.some(w => q.includes(w) || w.includes(q));
     if (hitEquip || hitFlow) hitCount++;
     const hitBadge = hitEquip
-      ? `<span class="text-[10px] bg-yellow-100 border border-yellow-400 text-yellow-700 px-1.5 py-0.5 rounded-full">采购设备词命中</span>`
+      ? `<span class="text-[12px] bg-yellow-100 border border-yellow-400 text-yellow-700 px-1.5 py-0.5 rounded-full">采购设备词命中</span>`
       : hitFlow
-      ? `<span class="text-[10px] bg-blue-100 border border-blue-400 text-blue-700 px-1.5 py-0.5 rounded-full">工艺流程词命中</span>`
+      ? `<span class="text-[12px] bg-blue-100 border border-blue-400 text-blue-700 px-1.5 py-0.5 rounded-full">工艺流程词命中</span>`
       : '';
 
     return `<div class="bg-white rounded-lg border border-gray-200 p-3 hover:border-blue-300 hover:shadow-sm transition-all cursor-pointer" onclick="location.href='${p.link||'#'}'">
@@ -237,18 +237,18 @@ function renderList() {
           <div class="flex flex-wrap gap-1">
             ${p.tags.map(t=>{
               const tc = t==='VIP'?'bg-amber-500 text-white':t.includes('AI强推')?'bg-green-600 text-white':t.includes('正文包含')?'bg-blue-100 text-blue-700 border border-blue-300':'bg-gray-100 text-gray-600';
-              return `<span class="text-[10px] px-1.5 py-0.5 rounded font-medium ${tc}">${t}</span>`;
+              return `<span class="text-[12px] px-1.5 py-0.5 rounded font-medium ${tc}">${t}</span>`;
             }).join('')}
           </div>
         </div>
         <div class="flex-shrink-0 text-right">
-          <div class="text-[10px] text-gray-400 mb-0.5">AI匹配度</div>
+          <div class="text-[12px] text-gray-400 mb-0.5">AI匹配度</div>
           <div class="text-${matchColor}-600 font-bold text-base">${p.match}%</div>
-          <div class="text-[10px] text-${matchColor}-600">${p.matchLabel}</div>
+          <div class="text-[12px] text-${matchColor}-600">${p.matchLabel}</div>
         </div>
       </div>
-      <div class="bg-orange-50 border-l-2 border-orange-400 px-2 py-1 rounded-r mb-2 text-[10px] text-orange-700">💡 ${p.tip}</div>
-      <div class="flex items-center gap-4 text-[11px] text-gray-500 flex-wrap">
+      <div class="bg-orange-50 border-l-2 border-orange-400 px-2 py-1 rounded-r mb-2 text-[12px] text-orange-700">💡 ${p.tip}</div>
+      <div class="flex items-center gap-4 text-[13px] text-gray-500 flex-wrap">
         <span>💰 <b class="text-orange-500">${parseInt(p.invest).toLocaleString()}万元</b></span>
         <span>📍 ${p.area}</span>
         <span>🏗 ${p.stage}</span>
@@ -273,7 +273,7 @@ document.getElementById('hot-projects').innerHTML = [
   {name:"丰宁抽蓄二期", tag:"主变压器×6", urgency:"Q3采购", color:"red"},
   {name:"镇江空分装置", tag:"空压机×6", urgency:"本月启动", color:"orange"},
   {name:"当阳热电联产", tag:"主变压器×2", urgency:"Q4采购", color:"yellow"},
-].map(h=>`<div class="flex items-center justify-between text-[10px]">
+].map(h=>`<div class="flex items-center justify-between text-[12px]">
   <div><span class="text-gray-800 font-medium">${h.name}</span> <span class="text-gray-500">${h.tag}</span></div>
   <span class="bg-${h.color}-100 text-${h.color}-600 px-1.5 py-0.5 rounded font-medium">${h.urgency}</span>
 </div>`).join('');
@@ -282,13 +282,13 @@ document.getElementById('category-dist').innerHTML = [
   {label:"主变压器",count:89,pct:78},{label:"空压机",count:52,pct:46},
   {label:"泵阀类",count:47,pct:41},{label:"GIS开关设备",count:45,pct:39},{label:"升压变压器",count:28,pct:24}
 ].map(c=>`<div>
-  <div class="flex justify-between text-[10px] mb-0.5"><span class="text-gray-700">${c.label}</span><span class="text-blue-600 font-medium">${c.count}条</span></div>
+  <div class="flex justify-between text-[12px] mb-0.5"><span class="text-gray-700">${c.label}</span><span class="text-blue-600 font-medium">${c.count}条</span></div>
   <div class="h-1.5 bg-gray-200 rounded-full"><div class="h-1.5 bg-blue-500 rounded-full" style="width:${c.pct}%"></div></div>
 </div>`).join('');
 
 document.getElementById('suggest-tags').innerHTML = [
   "抽水蓄能主变","500kV变压器","空分空压机","天然气压缩机","电解制氢泵","脱硫工艺泵阀","换流变压器","循环水泵"
-].map(s=>`<span onclick="setSearch('${s}')" class="text-[10px] bg-white border border-amber-300 text-amber-700 px-2 py-0.5 rounded-full cursor-pointer hover:bg-amber-50">${s}</span>`).join('');
+].map(s=>`<span onclick="setSearch('${s}')" class="text-[12px] bg-white border border-amber-300 text-amber-700 px-2 py-0.5 rounded-full cursor-pointer hover:bg-amber-50">${s}</span>`).join('');
 </script>
 </body>
 </html>

@@ -18,12 +18,12 @@
   <header class="bg-white border-b border-gray-200 flex-shrink-0">
     <div class="flex items-center px-4 h-11 gap-4">
       <nav class="flex gap-1 flex-1">
-        <a href="opportunity-list.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">项目信息</a>
-        <a href="customer-list.html" class="px-3 py-1.5 text-xs text-blue-600 font-medium border-b-2 border-blue-600">找客户</a>
-        <a href="network.html" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找人脉</a>
-        <a href="#" class="px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700">找渠道</a>
+        <a href="opportunity-list.html" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">项目信息</a>
+        <a href="customer-list.html" class="px-3 py-1.5 text-sm text-blue-600 font-medium border-b-2 border-blue-600">找客户</a>
+        <a href="network.html" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">找人脉</a>
+        <a href="#" class="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">找渠道</a>
       </nav>
-      <div class="flex items-center gap-3 text-xs">
+      <div class="flex items-center gap-3 text-sm">
         <button class="text-orange-500 font-medium">🔥 微信商机订阅助手</button>
         <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">李</div>
       </div>
@@ -37,26 +37,26 @@
           <input type="text" placeholder="输入采购设备词、工艺关键词" class="flex-1 text-sm outline-none py-1 text-gray-500">
         </div>
         <button onclick="doSearch()" class="bg-orange-500 text-white text-sm px-5 py-1.5 rounded font-medium hover:bg-orange-600">🔍 搜 索</button>
-        <button class="bg-blue-600 text-blue-100 text-xs px-3 py-1.5 rounded border border-blue-400">📋 高级搜索</button>
+        <button class="bg-blue-600 text-blue-100 text-sm px-3 py-1.5 rounded border border-blue-400">📋 高级搜索</button>
       </div>
       <div class="flex gap-1.5">
-        <span class="text-blue-200 text-[10px] bg-blue-600 px-1.5 py-0.5 rounded">快捷搜索</span>
-        <span onclick="setSearch('央企EPC总包')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">央企EPC总包</span>
-        <span onclick="setSearch('化工设计院')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">化工设计院</span>
-        <span onclick="setSearch('电力工程')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">电力工程</span>
-        <span onclick="setSearch('国家电网')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">国家电网</span>
-        <span onclick="setSearch('抽水蓄能业主')" class="text-blue-100 text-[11px] cursor-pointer hover:text-white">抽水蓄能业主</span>
+        <span class="text-blue-200 text-[12px] bg-blue-600 px-1.5 py-0.5 rounded">快捷搜索</span>
+        <span onclick="setSearch('央企EPC总包')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">央企EPC总包</span>
+        <span onclick="setSearch('化工设计院')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">化工设计院</span>
+        <span onclick="setSearch('电力工程')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">电力工程</span>
+        <span onclick="setSearch('国家电网')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">国家电网</span>
+        <span onclick="setSearch('抽水蓄能业主')" class="text-blue-100 text-[13px] cursor-pointer hover:text-white">抽水蓄能业主</span>
       </div>
     </div>
     <!-- Filter -->
     <div class="px-4 py-2 flex items-center gap-3 border-b border-gray-100">
-      <span class="text-xs text-gray-500">筛选：</span>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">企业类型 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">地区 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">行业 ▾</select>
-      <select class="text-xs border border-gray-200 rounded px-2 py-1 text-gray-600">采购潜力 ▾</select>
-      <span class="ml-2 text-[10px] bg-amber-50 border border-amber-300 text-amber-700 px-2 py-1 rounded-full">🤖 AI采购预测筛选已开启</span>
-      <div class="ml-auto text-xs text-red-400 cursor-pointer">🗑 清空</div>
+      <span class="text-sm text-gray-500">筛选：</span>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">企业类型 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">地区 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">行业 ▾</select>
+      <select class="text-sm border border-gray-200 rounded px-2 py-1 text-gray-600">采购潜力 ▾</select>
+      <span class="ml-2 text-[12px] bg-amber-50 border border-amber-300 text-amber-700 px-2 py-1 rounded-full">🤖 AI采购预测筛选已开启</span>
+      <div class="ml-auto text-sm text-red-400 cursor-pointer">🗑 清空</div>
     </div>
   </header>
 
@@ -66,27 +66,27 @@
       <!-- AI推荐横幅 -->
       <div class="bg-gradient-to-r from-blue-900 to-blue-700 rounded-xl p-3 mb-3 flex items-center gap-4">
         <div class="shimmer-text text-sm font-bold whitespace-nowrap">AI 采购预测客户推荐</div>
-        <div class="text-blue-100 text-xs flex-1">结合在建项目库，为您推断近期有<span class="text-yellow-300 font-bold">主变压器/空压机/泵阀</span>采购需求的企业</div>
+        <div class="text-blue-100 text-sm flex-1">结合在建项目库，为您推断近期有<span class="text-yellow-300 font-bold">主变压器/空压机/泵阀</span>采购需求的企业</div>
         <div class="flex gap-2">
-          <span class="bg-blue-600 text-blue-100 text-[10px] px-2 py-1 rounded-full border border-blue-400">⚡ 主变压器</span>
-          <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded-full cursor-pointer">💨 空压机</span>
-          <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded-full cursor-pointer">🔧 泵阀</span>
-          <span class="bg-amber-600 text-white text-[10px] px-2 py-1 rounded-full cursor-pointer">+ 修改品类</span>
+          <span class="bg-blue-600 text-blue-100 text-[12px] px-2 py-1 rounded-full border border-blue-400">⚡ 主变压器</span>
+          <span class="bg-slate-700 text-slate-300 text-[12px] px-2 py-1 rounded-full cursor-pointer">💨 空压机</span>
+          <span class="bg-slate-700 text-slate-300 text-[12px] px-2 py-1 rounded-full cursor-pointer">🔧 泵阀</span>
+          <span class="bg-amber-600 text-white text-[12px] px-2 py-1 rounded-full cursor-pointer">+ 修改品类</span>
         </div>
       </div>
 
-      <div class="text-xs text-gray-600 mb-2">
+      <div class="text-sm text-gray-600 mb-2">
         找到企业 <span class="text-orange-500 font-bold">1,248家</span>，其中 <span class="text-green-600 font-bold">AI预测近期有采购需求 <span class="text-green-700">89家</span></span>
       </div>
 
       <!-- 次级Tab -->
       <div class="flex gap-1 mb-3 border-b border-gray-200 bg-white rounded-t-lg px-3 pt-2">
-        <button class="px-3 py-2 text-xs text-blue-600 font-medium border-b-2 border-blue-600">参建单位库</button>
-        <button class="px-3 py-2 text-xs text-gray-500 hover:text-gray-700">企业拓客</button>
-        <button class="px-3 py-2 text-xs text-gray-500 hover:text-gray-700">地图拓客</button>
-        <button class="px-3 py-2 text-xs text-orange-500 font-medium">🔥 AI采购预测推荐</button>
-        <div class="ml-auto flex items-center gap-2 text-xs text-gray-500 pb-1">
-          <select class="border border-gray-200 rounded px-1.5 py-0.5 text-xs">采购热度排序 ▾</select>
+        <button class="px-3 py-2 text-sm text-blue-600 font-medium border-b-2 border-blue-600">参建单位库</button>
+        <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">企业拓客</button>
+        <button class="px-3 py-2 text-sm text-gray-500 hover:text-gray-700">地图拓客</button>
+        <button class="px-3 py-2 text-sm text-orange-500 font-medium">🔥 AI采购预测推荐</button>
+        <div class="ml-auto flex items-center gap-2 text-sm text-gray-500 pb-1">
+          <select class="border border-gray-200 rounded px-1.5 py-0.5 text-sm">采购热度排序 ▾</select>
         </div>
       </div>
 
@@ -97,24 +97,24 @@
     <aside class="w-72 flex-shrink-0 bg-white border-l border-gray-200 flex flex-col overflow-hidden">
       <div class="px-3 py-2.5 flex-shrink-0" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
         <div class="shimmer-text text-sm font-bold">AI 客户采购情报</div>
-        <div class="text-slate-400 text-[10px] mt-0.5">结合项目库实时推演</div>
+        <div class="text-slate-400 text-[12px] mt-0.5">结合项目库实时推演</div>
       </div>
       <div class="flex-1 overflow-y-auto p-3 space-y-3">
         <!-- 关注企业动态 -->
         <div class="bg-orange-50 border border-orange-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-orange-700 mb-2">📡 您关注企业近期动态</div>
-          <div class="space-y-2 text-[11px]" id="watch-companies"></div>
+          <div class="text-[12px] font-bold text-orange-700 mb-2">📡 您关注企业近期动态</div>
+          <div class="space-y-2 text-[13px]" id="watch-companies"></div>
         </div>
         <!-- 数据补充提示 -->
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-amber-700 mb-1.5">⚠️ 数据待补充企业</div>
-          <div class="text-[11px] text-amber-800 mb-2">以下您关注的企业在中项网数据尚不完整，建议补充：</div>
+          <div class="text-[12px] font-bold text-amber-700 mb-1.5">⚠️ 数据待补充企业</div>
+          <div class="text-[13px] text-amber-800 mb-2">以下您关注的企业在中项网数据尚不完整，建议补充：</div>
           <div class="space-y-1.5" id="data-missing"></div>
-          <button class="mt-2 w-full text-[10px] bg-amber-500 text-white py-1 rounded hover:bg-amber-600">📝 申请数据补充</button>
+          <button class="mt-2 w-full text-[12px] bg-amber-500 text-white py-1 rounded hover:bg-amber-600">📝 申请数据补充</button>
         </div>
         <!-- 行业采购热度 -->
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-          <div class="text-[10px] font-bold text-blue-700 mb-2">📊 行业采购热度（本月）</div>
+          <div class="text-[12px] font-bold text-blue-700 mb-2">📊 行业采购热度（本月）</div>
           <div class="space-y-1.5" id="industry-heat"></div>
         </div>
       </div>
@@ -128,57 +128,57 @@
     <div class="flex items-center justify-between p-4 border-b border-gray-200">
       <div>
         <h2 class="text-sm font-bold text-gray-900">葛洲坝集团国际工程有限公司</h2>
-        <div class="text-[10px] text-gray-500 mt-0.5">中央企业 · 电力工程EPC · 北京</div>
+        <div class="text-[12px] text-gray-500 mt-0.5">中央企业 · 电力工程EPC · 北京</div>
       </div>
       <button onclick="closeModal('modal-company')" class="text-gray-400 hover:text-gray-600 text-lg">×</button>
     </div>
     <div class="p-4 space-y-4">
       <!-- AI采购预测 -->
       <div class="bg-gradient-to-br from-slate-900 to-blue-950 rounded-xl p-3">
-        <div class="shimmer-text text-xs font-bold mb-2">AI 采购需求预测</div>
+        <div class="shimmer-text text-sm font-bold mb-2">AI 采购需求预测</div>
         <div class="grid grid-cols-3 gap-2">
           <div class="bg-slate-800 rounded-lg p-2 text-center">
             <div class="text-lg font-black text-green-400">4台</div>
-            <div class="text-[10px] text-slate-300">主变压器</div>
-            <div class="text-[10px] text-green-400 mt-0.5">Q3·58天</div>
+            <div class="text-[12px] text-slate-300">主变压器</div>
+            <div class="text-[12px] text-green-400 mt-0.5">Q3·58天</div>
           </div>
           <div class="bg-slate-800 rounded-lg p-2 text-center">
             <div class="text-lg font-black text-blue-400">6套</div>
-            <div class="text-[10px] text-slate-300">GIS设备</div>
-            <div class="text-[10px] text-blue-400 mt-0.5">Q3·70天</div>
+            <div class="text-[12px] text-slate-300">GIS设备</div>
+            <div class="text-[12px] text-blue-400 mt-0.5">Q3·70天</div>
           </div>
           <div class="bg-slate-800 rounded-lg p-2 text-center">
             <div class="text-lg font-black text-yellow-400">--</div>
-            <div class="text-[10px] text-slate-300">其他设备</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">待确认</div>
+            <div class="text-[12px] text-slate-300">其他设备</div>
+            <div class="text-[12px] text-slate-500 mt-0.5">待确认</div>
           </div>
         </div>
       </div>
       <!-- 关联项目 -->
       <div>
-        <div class="text-xs font-bold text-gray-700 mb-2">🏗 关联在建项目（3个）</div>
+        <div class="text-sm font-bold text-gray-700 mb-2">🏗 关联在建项目（3个）</div>
         <div class="space-y-1.5">
           <div class="border border-gray-100 rounded-lg p-2 flex items-center justify-between cursor-pointer hover:border-blue-300" onclick="closeModal('modal-company');location.href='opportunity-detail.html'">
             <div>
-              <div class="text-[11px] font-medium text-blue-700">上西索凯抽水蓄能电站项目</div>
-              <div class="text-[10px] text-gray-500">土建施工 · 印度尼西亚 · 80,000万元</div>
+              <div class="text-[13px] font-medium text-blue-700">上西索凯抽水蓄能电站项目</div>
+              <div class="text-[12px] text-gray-500">土建施工 · 印度尼西亚 · 80,000万元</div>
             </div>
-            <span class="text-[10px] bg-green-100 text-green-600 px-1.5 py-0.5 rounded font-medium">98%匹配</span>
+            <span class="text-[12px] bg-green-100 text-green-600 px-1.5 py-0.5 rounded font-medium">98%匹配</span>
           </div>
           <div class="border border-gray-100 rounded-lg p-2 flex items-center justify-between">
             <div>
-              <div class="text-[11px] font-medium text-blue-700">巴基斯坦卡西姆港电站二期</div>
-              <div class="text-[10px] text-gray-500">初步设计 · 巴基斯坦 · 320,000万元</div>
+              <div class="text-[13px] font-medium text-blue-700">巴基斯坦卡西姆港电站二期</div>
+              <div class="text-[12px] text-gray-500">初步设计 · 巴基斯坦 · 320,000万元</div>
             </div>
-            <span class="text-[10px] bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded font-medium">72%匹配</span>
+            <span class="text-[12px] bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded font-medium">72%匹配</span>
           </div>
         </div>
       </div>
       <!-- 沟通话术 -->
       <div class="bg-teal-50 border border-teal-200 rounded-xl p-3">
-        <div class="text-[10px] font-bold text-teal-700 mb-1.5">💬 AI沟通突破建议</div>
-        <div class="text-[11px] text-teal-800 leading-relaxed">从葛洲坝国际项目部切入，强调「海外工程就地化服务+中英文双语文档」，可借助上西索凯和卡西姆港两个项目搭建长期供应商关系。</div>
-        <div class="text-[10px] text-teal-600 mt-1.5">关键突破人：采购部张经理（通过人脉网已建立2度关系）</div>
+        <div class="text-[12px] font-bold text-teal-700 mb-1.5">💬 AI沟通突破建议</div>
+        <div class="text-[13px] text-teal-800 leading-relaxed">从葛洲坝国际项目部切入，强调「海外工程就地化服务+中英文双语文档」，可借助上西索凯和卡西姆港两个项目搭建长期供应商关系。</div>
+        <div class="text-[12px] text-teal-600 mt-1.5">关键突破人：采购部张经理（通过人脉网已建立2度关系）</div>
       </div>
     </div>
   </div>
@@ -208,21 +208,21 @@ document.getElementById('customer-list').innerHTML = CUSTOMERS.map(c => {
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
           <span class="text-sm font-semibold text-blue-700 hover:text-blue-900">${c.name}</span>
-          <span class="text-[10px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">${c.type}</span>
-          <span class="text-[10px] text-gray-500">${c.industry}</span>
+          <span class="text-[12px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">${c.type}</span>
+          <span class="text-[12px] text-gray-500">${c.industry}</span>
         </div>
-        <div class="bg-orange-50 border-l-2 border-orange-400 px-2 py-1 rounded-r mb-2 text-[10px] text-orange-700">💡 ${c.tip}</div>
-        <div class="flex items-center gap-4 text-[11px] text-gray-500">
+        <div class="bg-orange-50 border-l-2 border-orange-400 px-2 py-1 rounded-r mb-2 text-[12px] text-orange-700">💡 ${c.tip}</div>
+        <div class="flex items-center gap-4 text-[13px] text-gray-500">
           <span>📍 ${c.area}</span>
           <span>🏗 关联项目 <b class="text-blue-600">${c.projects}个</b></span>
           <span class="text-${c.demandColor}-600 font-medium">📦 ${c.demand}</span>
-          <button class="ml-auto text-[10px] bg-blue-50 border border-blue-300 text-blue-700 px-2 py-0.5 rounded hover:bg-blue-100" onclick="event.stopPropagation()">查看人脉 →</button>
+          <button class="ml-auto text-[12px] bg-blue-50 border border-blue-300 text-blue-700 px-2 py-0.5 rounded hover:bg-blue-100" onclick="event.stopPropagation()">查看人脉 →</button>
         </div>
       </div>
       <div class="flex-shrink-0 text-center">
-        <div class="text-[10px] text-gray-400 mb-0.5">采购热度</div>
+        <div class="text-[12px] text-gray-400 mb-0.5">采购热度</div>
         <div class="text-${sc}-600 font-black text-lg">${c.hotScore}</div>
-        <div class="text-[10px] text-${sc}-500">分</div>
+        <div class="text-[12px] text-${sc}-500">分</div>
       </div>
     </div>
   </div>`;
@@ -234,20 +234,20 @@ document.getElementById('watch-companies').innerHTML = [
   {name:"延长石油集团", event:"发布招标预告", time:"3天前", dot:"orange"},
 ].map(w=>`<div class="flex items-start gap-2">
   <div class="w-1.5 h-1.5 rounded-full bg-${w.dot}-500 mt-1 flex-shrink-0"></div>
-  <div><span class="text-gray-800 font-medium">${w.name}</span> <span class="text-gray-500">${w.event}</span> <span class="text-gray-400 text-[10px]">${w.time}</span></div>
+  <div><span class="text-gray-800 font-medium">${w.name}</span> <span class="text-gray-500">${w.event}</span> <span class="text-gray-400 text-[12px]">${w.time}</span></div>
 </div>`).join('');
 
 document.getElementById('data-missing').innerHTML = [
   "辛集市澳森特钢集团", "安达市天樾能源"
-].map(n=>`<div class="flex items-center justify-between text-[11px]">
+].map(n=>`<div class="flex items-center justify-between text-[13px]">
   <span class="text-amber-800">${n}</span>
-  <span class="text-[10px] bg-white border border-amber-300 text-amber-600 px-1.5 py-0.5 rounded cursor-pointer hover:bg-amber-50">补充</span>
+  <span class="text-[12px] bg-white border border-amber-300 text-amber-600 px-1.5 py-0.5 rounded cursor-pointer hover:bg-amber-50">补充</span>
 </div>`).join('');
 
 document.getElementById('industry-heat').innerHTML = [
   {label:"电力/抽蓄",pct:85},{label:"石油化工",pct:72},{label:"新能源制氢",pct:64},{label:"钢铁冶金",pct:41}
 ].map(i=>`<div>
-  <div class="flex justify-between text-[10px] mb-0.5"><span class="text-gray-700">${i.label}</span><span class="text-blue-600 font-medium">${i.pct}分</span></div>
+  <div class="flex justify-between text-[12px] mb-0.5"><span class="text-gray-700">${i.label}</span><span class="text-blue-600 font-medium">${i.pct}分</span></div>
   <div class="h-1.5 bg-gray-200 rounded-full"><div class="h-1.5 bg-blue-500 rounded-full" style="width:${i.pct}%"></div></div>
 </div>`).join('');
 </script>
