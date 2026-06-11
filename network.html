@@ -171,16 +171,34 @@
         <div class="text-[13px] text-gray-400 mt-2">文件仅用于本次匹配，不留存原始文件</div>
       </div>
 
-      <!-- 智能映射校验向导（上传后显示） -->
+      <!-- 批量校验确认表格（上传后显示） -->
       <div id="mapping-wizard" class="hidden border border-blue-200 rounded-lg overflow-hidden">
         <div class="bg-blue-50 px-3 py-2 flex items-center justify-between">
-          <span class="text-sm font-bold text-blue-700">🗺️ 智能映射校验向导</span>
-          <span class="text-[12px] text-blue-500">请确认以下模糊匹配结果</span>
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-blue-700">📋 批量导入校验确认</span>
+            <span id="mapping-stats" class="text-[12px] text-blue-500"></span>
+          </div>
+          <label class="flex items-center gap-1.5 text-[13px] text-blue-600 cursor-pointer">
+            <input type="checkbox" id="check-all" onchange="toggleAll(this.checked)" class="w-3.5 h-3.5">
+            全选
+          </label>
         </div>
-        <div class="p-3 space-y-2" id="mapping-list"></div>
-        <div class="px-3 pb-3 flex gap-2">
-          <button onclick="confirmMapping()" class="flex-1 bg-blue-600 text-white text-sm py-1.5 rounded hover:bg-blue-700 font-medium">✅ 确认映射并导入</button>
-          <button onclick="document.getElementById('mapping-wizard').classList.add('hidden')" class="px-3 border border-gray-200 text-gray-500 text-sm py-1.5 rounded hover:bg-gray-50">重新选择</button>
+        <!-- 表头 -->
+        <div class="grid grid-cols-[28px_1fr_1fr_1.4fr_1.4fr_72px] gap-x-2 px-3 py-1.5 bg-gray-100 text-[11px] font-semibold text-gray-500 border-b border-gray-200">
+          <span></span>
+          <span>姓名</span>
+          <span>联系方式</span>
+          <span>导入企业名称</span>
+          <span>已有企业名称</span>
+          <span class="text-center">匹配度</span>
+        </div>
+        <div id="mapping-list" class="divide-y divide-gray-100 max-h-64 overflow-y-auto"></div>
+        <div class="px-3 py-2.5 flex items-center justify-between bg-gray-50 border-t border-gray-200">
+          <span id="mapping-confirm-count" class="text-[12px] text-gray-500"></span>
+          <div class="flex gap-2">
+            <button onclick="document.getElementById('mapping-wizard').classList.add('hidden')" class="px-3 border border-gray-200 text-gray-500 text-sm py-1.5 rounded hover:bg-gray-100">重新选择</button>
+            <button onclick="confirmMapping()" class="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700 font-medium">✅ 确认导入所选</button>
+          </div>
         </div>
       </div>
 
@@ -224,8 +242,14 @@
   <!-- Tab: 关系概览 -->
   <div id="dtab-overview" class="flex-1 overflow-y-auto p-4 space-y-4">
     <div>
-      <div class="text-sm font-bold text-gray-700 mb-2">🔗 关系穿透路径</div>
-      <div id="drawer-path-svg" class="bg-slate-50 rounded-xl border border-gray-200 overflow-hidden" style="height:140px"></div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="text-sm font-bold text-gray-700">🔗 关系穿透路径</div>
+        <button onclick="openPathFullscreen()" class="text-[12px] text-blue-500 hover:text-blue-700 flex items-center gap-1 border border-blue-200 rounded px-2 py-0.5 hover:bg-blue-50">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+          全屏查看
+        </button>
+      </div>
+      <div id="drawer-path-svg" class="bg-slate-50 rounded-xl border border-gray-200 overflow-hidden cursor-pointer" style="height:140px" onclick="openPathFullscreen()"></div>
     </div>
     <div id="drawer-via-block" class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-800"></div>
     <div>
@@ -279,6 +303,32 @@
       <div class="text-[12px] font-bold text-blue-300 mb-2">❓ 建议跟进问题</div>
       <div id="script-questions" class="space-y-1.5"></div>
     </div>
+  </div>
+</div>
+
+<!-- 关系路径全屏弹窗 -->
+<div id="modal-path-fullscreen" class="hidden fixed inset-0 bg-black/80 z-50 flex flex-col">
+  <div class="flex items-center justify-between px-5 py-3 bg-slate-900 flex-shrink-0">
+    <div class="text-white font-bold text-sm" id="path-fullscreen-title">关系穿透路径</div>
+    <div class="flex items-center gap-3">
+      <span class="text-slate-400 text-[12px]">点击节点查看详情</span>
+      <button onclick="closePathFullscreen()" class="text-slate-400 hover:text-white text-xl leading-none">×</button>
+    </div>
+  </div>
+  <div class="flex-1 relative overflow-hidden bg-slate-950">
+    <svg id="path-fullscreen-svg" class="w-full h-full"></svg>
+    <!-- 度数图例 -->
+    <div class="absolute bottom-4 left-4 flex gap-3 text-[12px]">
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>我</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>1度·直接联系</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>2度·引荐</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-gray-500 inline-block"></span>3度·间接</span>
+    </div>
+    <!-- 缩小按钮 -->
+    <button onclick="closePathFullscreen()" class="absolute top-4 right-4 bg-slate-800 hover:bg-slate-700 text-white text-[12px] px-3 py-1.5 rounded flex items-center gap-1.5 border border-slate-600">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9L4 4m0 0v4m0-4h4m6 0l5-5m0 0v4m0-4h-4M9 15l-5 5m0 0v-4m0 4h4m6 0l5 5m0 0v-4m0 4h-4"/></svg>
+      缩小
+    </button>
   </div>
 </div>
 
@@ -601,41 +651,62 @@ function showCompanyMatch(val) {
   }
 }
 
-// 文件上传演示（置信度分级展示）
+// 批量导入演示数据
+const DEMO_IMPORT_ROWS = [
+  {name:'张建平',phone:'138****5201',rawCompany:'葛洲坝',matchedCompany:'葛洲坝集团国际工程有限公司',c:97},
+  {name:'刘晓燕',phone:'微信: lxy_2023',rawCompany:'国网新源',matchedCompany:'国网新源控股有限公司',c:91},
+  {name:'陈明远',phone:'010-59525001',rawCompany:'中电建华东院',matchedCompany:'中国电建集团华东勘测设计研究院有限公司',c:85},
+  {name:'王芳',phone:'139****8820',rawCompany:'延长石油',matchedCompany:'延长石油集团有限责任公司',c:99},
+  {name:'李国强',phone:'微信: liguoqiang88',rawCompany:'华电国际',matchedCompany:'华电国际电力股份有限公司',c:52},
+  {name:'赵磊',phone:'021-33445566',rawCompany:'三峡集团',matchedCompany:'中国三峡建工（集团）有限公司',c:78},
+];
+
+function updateConfirmCount() {
+  const checked = document.querySelectorAll('.row-check:checked').length;
+  const total = DEMO_IMPORT_ROWS.length;
+  document.getElementById('mapping-confirm-count').textContent = `已选 ${checked} / ${total} 条`;
+  document.getElementById('check-all').checked = checked === total;
+  document.getElementById('check-all').indeterminate = checked > 0 && checked < total;
+}
+
+function toggleAll(val) {
+  document.querySelectorAll('.row-check').forEach(cb => cb.checked = val);
+  updateConfirmCount();
+}
+
 function handleFileUpload(input) {
   if (!input.files.length) return;
   const wizard = document.getElementById('mapping-wizard');
-  const mapList = document.getElementById('mapping-list');
   wizard.classList.remove('hidden');
-  const demoRows = [
-    {raw:'葛洲坝',matched:'葛洲坝集团国际工程有限公司',c:97},
-    {raw:'国网新源',matched:'国网新源控股有限公司',c:91},
-    {raw:'中电建华东院',matched:'中国电建集团华东勘测设计研究院',c:85},
-    {raw:'延长石油',matched:'延长石油集团有限责任公司',c:99},
-    {raw:'华电国际',matched:'华电国际电力股份有限公司',c:52},
-  ];
-  mapList.innerHTML = demoRows.map(r => {
+  document.getElementById('mapping-stats').textContent = `共 ${DEMO_IMPORT_ROWS.length} 条，请逐行确认`;
+
+  document.getElementById('mapping-list').innerHTML = DEMO_IMPORT_ROWS.map((r, i) => {
     const high = r.c >= 90, mid = r.c >= 60;
-    const badge = high
-      ? `<span class="text-[13px] bg-green-100 text-green-600 px-1 rounded">自动预选</span>`
-      : !mid ? `<span class="text-[13px] bg-red-100 text-red-500 px-1 rounded">待确认</span>` : '';
-    return `<div class="flex items-center gap-2 text-[13px] bg-white border ${!mid?'border-red-200':high?'border-green-200':'border-orange-200'} rounded p-2">
-      <span class="text-gray-400 line-through w-24 flex-shrink-0">${r.raw}</span>
-      <span class="text-gray-400">→</span>
-      <span class="text-gray-800 font-medium flex-1">${r.matched}</span>
-      <span class="text-[12px] font-medium ${high?'text-green-600':mid?'text-orange-500':'text-red-500'}">${r.c}%</span>
-      ${badge}
-      <label class="flex items-center gap-1 flex-shrink-0">
-        <input type="checkbox" ${high||mid?'checked':''} class="w-3 h-3">
-        <span class="text-gray-500">确认</span>
+    const rowBg = !mid ? 'bg-red-50' : high ? 'bg-green-50' : 'bg-amber-50';
+    const confidenceColor = high ? 'text-green-600' : mid ? 'text-orange-500' : 'text-red-500';
+    const confidenceBadge = high
+      ? '<span class="text-[11px] bg-green-100 text-green-600 px-1 rounded ml-1">自动预选</span>'
+      : !mid ? '<span class="text-[11px] bg-red-100 text-red-500 px-1 rounded ml-1">需确认</span>' : '';
+    return `<div class="grid grid-cols-[28px_1fr_1fr_1.4fr_1.4fr_72px] gap-x-2 px-3 py-2 items-center text-[13px] ${rowBg} hover:brightness-95 transition-all">
+      <label class="flex items-center justify-center">
+        <input type="checkbox" class="row-check w-3.5 h-3.5 cursor-pointer" ${high || mid ? 'checked' : ''} onchange="updateConfirmCount()">
       </label>
+      <span class="font-medium text-gray-800 truncate">${r.name}</span>
+      <span class="text-gray-500 truncate">${r.phone}</span>
+      <span class="text-gray-400 truncate" title="${r.rawCompany}">${r.rawCompany}</span>
+      <span class="text-gray-700 truncate font-medium" title="${r.matchedCompany}">${r.matchedCompany}${confidenceBadge}</span>
+      <span class="text-center font-semibold ${confidenceColor}">${r.c}%</span>
     </div>`;
   }).join('');
+
+  updateConfirmCount();
 }
 
 function confirmMapping() {
+  const checked = document.querySelectorAll('.row-check:checked').length;
+  if (checked === 0) { showToast('请至少勾选一条数据'); return; }
   document.getElementById('mapping-wizard').classList.add('hidden');
-  showToast('✅ 映射确认完成，正在导入...');
+  showToast(`✅ 已导入 ${checked} 条联系人，正在关联企业数据...`);
 }
 
 document.getElementById('imported-preview').innerHTML = [
@@ -684,10 +755,114 @@ function renderGraph() {
     </g>`).join('');
 }
 
+function buildPathSVG(pathNodes, degree, W, H, dark=false) {
+  const step = W / (pathNodes.length + 1);
+  const y = H / 2;
+  const nodeColors = ['#f59e0b','#3b82f6','#22c55e','#6b7280'];
+  const linkLabels = ['直接联系','引荐','间接引荐'];
+  let svg = `<svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  // lines
+  pathNodes.forEach((_,i) => {
+    if (i < pathNodes.length-1) {
+      const x1=step*(i+1), x2=step*(i+2);
+      svg += `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${dark?'#475569':'#cbd5e1'}" stroke-width="2" stroke-dasharray="${i===0?'none':'6,3'}"/>`;
+      const mx = step*(i+1)+step/2;
+      svg += `<text x="${mx}" y="${y-14}" text-anchor="middle" fill="${dark?'#94a3b8':'#94a3b8'}" font-size="9">${linkLabels[i]||'引荐'}</text>`;
+    }
+  });
+  // nodes
+  pathNodes.forEach((name,i) => {
+    const x = step*(i+1);
+    const r = i===0 ? 24 : i===pathNodes.length-1 ? 22 : 20;
+    const fill = i===0 ? nodeColors[0] : i===pathNodes.length-1 ? nodeColors[Math.min(degree,3)] : nodeColors[1];
+    svg += `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" opacity="0.92"/>`;
+    svg += `<text x="${x}" y="${y+1}" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="${r>20?12:11}" font-weight="bold">${name.length>2?name.slice(0,2):name}</text>`;
+    svg += `<text x="${x}" y="${y+r+12}" text-anchor="middle" fill="${dark?'#94a3b8':'#64748b'}" font-size="10">${name}</text>`;
+    // degree badge on target node
+    if (i===pathNodes.length-1 && i>0) {
+      const badge = ['','1度','2度','3度'][degree]||'';
+      svg += `<rect x="${x-14}" y="${y-r-16}" width="28" height="14" rx="7" fill="${fill}" opacity="0.8"/>`;
+      svg += `<text x="${x}" y="${y-r-7}" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="9">${badge}</text>`;
+    }
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+function openPathFullscreen() {
+  const c = CONTACTS[_drawerIdx];
+  document.getElementById('path-fullscreen-title').textContent =
+    `${c.name} 的关系穿透路径（${c.degree}度）`;
+  const el = document.getElementById('path-fullscreen-svg');
+  const W = window.innerWidth, H = window.innerHeight - 60;
+  el.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  el.innerHTML = buildPathSVG(c.path, c.degree, W, H, true).replace('<svg width="100%"','<svg').replace(`height="${H}"`,`height="100%"`);
+  // re-render as full-size inline
+  el.innerHTML = '';
+  const step = W / (c.path.length + 1);
+  const cy = H / 2;
+  const nodeColors = ['#f59e0b','#3b82f6','#22c55e','#6b7280'];
+  const linkLabels = ['直接联系','引荐','间接引荐'];
+  // lines
+  c.path.forEach((_,i) => {
+    if (i < c.path.length-1) {
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', step*(i+1)); line.setAttribute('y1', cy);
+      line.setAttribute('x2', step*(i+2)); line.setAttribute('y2', cy);
+      line.setAttribute('stroke','#475569'); line.setAttribute('stroke-width','2.5');
+      if (i>0) line.setAttribute('stroke-dasharray','8,4');
+      el.appendChild(line);
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', step*(i+1)+step/2); t.setAttribute('y', cy-20);
+      t.setAttribute('text-anchor','middle'); t.setAttribute('fill','#64748b'); t.setAttribute('font-size','12');
+      t.textContent = linkLabels[i]||'引荐';
+      el.appendChild(t);
+    }
+  });
+  // nodes
+  c.path.forEach((name,i) => {
+    const x = step*(i+1), r = i===0?32:28;
+    const fill = i===0?nodeColors[0]:i===c.path.length-1?nodeColors[Math.min(c.degree,3)]:nodeColors[1];
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.style.cursor='pointer';
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',x); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
+    circle.setAttribute('fill',fill); circle.setAttribute('opacity','0.92');
+    g.appendChild(circle);
+    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('x',x); label.setAttribute('y',cy+1);
+    label.setAttribute('text-anchor','middle'); label.setAttribute('dominant-baseline','middle');
+    label.setAttribute('fill','white'); label.setAttribute('font-size','15'); label.setAttribute('font-weight','bold');
+    label.textContent = name.length>2?name.slice(0,2):name;
+    g.appendChild(label);
+    const sub = document.createElementNS('http://www.w3.org/2000/svg','text');
+    sub.setAttribute('x',x); sub.setAttribute('y',cy+r+18);
+    sub.setAttribute('text-anchor','middle'); sub.setAttribute('fill','#94a3b8'); sub.setAttribute('font-size','13');
+    sub.textContent = name;
+    g.appendChild(sub);
+    if (i===c.path.length-1 && i>0) {
+      const badge = ['','1度','2度','3度'][c.degree]||'';
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',x-20); rect.setAttribute('y',cy-r-22); rect.setAttribute('width',40); rect.setAttribute('height',18); rect.setAttribute('rx',9); rect.setAttribute('fill',fill); rect.setAttribute('opacity','0.85');
+      g.appendChild(rect);
+      const bt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      bt.setAttribute('x',x); bt.setAttribute('y',cy-r-12); bt.setAttribute('text-anchor','middle'); bt.setAttribute('dominant-baseline','middle'); bt.setAttribute('fill','white'); bt.setAttribute('font-size','11');
+      bt.textContent = badge;
+      g.appendChild(bt);
+    }
+    el.appendChild(g);
+  });
+  document.getElementById('modal-path-fullscreen').classList.remove('hidden');
+}
+
+function closePathFullscreen() {
+  document.getElementById('modal-path-fullscreen').classList.add('hidden');
+}
 function openModal(id){document.getElementById(id).classList.remove('hidden');document.body.style.overflow='hidden';}
 function closeModal(id){document.getElementById(id).classList.add('hidden');document.body.style.overflow='';}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.opacity='1';setTimeout(()=>{t.style.opacity='0';},2500);}
 function confirmPurge(){if(confirm('确定要清除全部私域数据吗？此操作不可恢复。'))showToast('🗑 全部私域数据已清除');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePathFullscreen();});
 </script>
 </body>
 </html>
