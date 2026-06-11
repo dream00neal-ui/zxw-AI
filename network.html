@@ -339,8 +339,8 @@ const CONTACTS = [
    via:"直接联系人（私域导入）",
    path:["我","张伟"],
    projects:[
-     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"EPC采购负责人",match:98,link:"opportunity-detail.html"},
-     {name:"卡西姆港电站二期",stage:"初步设计",role:"EPC采购参与",match:72,link:"#"}
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"EPC采购负责人",match:90,link:"opportunity-detail.html"},
+     {name:"卡西姆港电站二期",stage:"初步设计",role:"EPC采购参与",match:70,link:"#"}
    ],
    aiTip:"张伟是葛洲坝国际工程采购部经理，直接负责EPC项目设备采购决策。建议以「上西索凯主变压器技术方案」为切入点，提出免费出具技术评估报告，以专业建立信任。",
    questions:["主变压器这块是贵司自主采购还是由业主方PT PLN指定品牌？","变压器招标大概什么时候启动，是否接受交钥匙工程打包报价？"]},
@@ -348,7 +348,7 @@ const CONTACTS = [
    via:"直接联系人（私域导入）",
    path:["我","王建国"],
    projects:[
-     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"项目总监·技术决策",match:95,link:"opportunity-detail.html"}
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"项目总监·技术决策",match:85,link:"opportunity-detail.html"}
    ],
    aiTip:"王建国主导技术方案选型，对变压器规格参数有直接影响力。建议从技术层面切入，分享同类500kV抽蓄变压器案例，争取参与技术规范讨论。",
    questions:["4台机组主变压器的具体电压等级和冷却方式是否已确定？","贵司是否接受设备+安装+调试一体化交钥匙模式？"]},
@@ -356,8 +356,8 @@ const CONTACTS = [
    via:"通过 → 张伟（葛洲坝）引荐",
    path:["我","张伟","李明"],
    projects:[
-     {name:"丰宁抽水蓄能电站二期",stage:"报批立项",role:"业主采购总监",match:95,link:"#"},
-     {name:"仙游抽水蓄能电站",stage:"设备安装",role:"业主采购参与",match:60,link:"#"}
+     {name:"丰宁抽水蓄能电站二期",stage:"报批立项",role:"业主采购总监",match:75,link:"#"},
+     {name:"仙游抽水蓄能电站",stage:"设备安装",role:"业主采购参与",match:90,link:"#"}
    ],
    aiTip:"李明是国网新源体系的采购关键人，覆盖多个抽蓄项目。建议先请张伟微信引荐，再以「丰宁二期主变压器方案」为话题发起技术交流，避免冷拜访。",
    questions:["丰宁二期主变压器采购是否已启动选型？","国网体系是否有统一的变压器入围供应商管理？"]},
@@ -365,8 +365,8 @@ const CONTACTS = [
    via:"通过 → 王建国（葛洲坝）引荐",
    path:["我","王建国","陈总"],
    projects:[
-     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"设计院·技术规范制定",match:80,link:"opportunity-detail.html"},
-     {name:"多个抽蓄项目设计",stage:"设计阶段",role:"总负责",match:70,link:"#"}
+     {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"设计院·技术规范制定",match:85,link:"opportunity-detail.html"},
+     {name:"多个抽蓄项目设计",stage:"设计阶段",role:"总负责",match:85,link:"#"}
    ],
    aiTip:"华东院是上西索凯项目设计方，陈总对变压器技术规范有制定权。提前介入设计院，可将己方技术参数写入规范，是最高价值的前期动作。",
    questions:["贵院在变压器选型规范上是否接受供应商技术交流？","500kV抽蓄主变技术规范是否已定稿？"]},
@@ -374,7 +374,7 @@ const CONTACTS = [
    via:"通过 → 电力行业协会共同成员",
    path:["我","协会成员","刘海涛"],
    projects:[
-     {name:"陕西天然气处理装置扩建",stage:"施工图设计",role:"设备采购负责人",match:88,link:"#"}
+     {name:"陕西天然气处理装置扩建",stage:"施工图设计",role:"设备采购负责人",match:92,link:"#"}
    ],
    aiTip:"刘海涛负责延长石油设备采购，覆盖空压机+泵阀联动采购。通过行业协会共同成员引荐，信任成本低。建议以捆绑报价方案切入，突出整体解决方案价值。",
    questions:["天然气处理扩建项目空压机和泵阀是否联动采购？","贵司是否接受设备+安装一体化打包报价？"]},
@@ -383,6 +383,7 @@ const CONTACTS = [
    path:["我","王建国","陈总","赵工"],
    projects:[
      {name:"上西索凯抽水蓄能电站",stage:"土建施工",role:"业主技术主任",match:75,link:"opportunity-detail.html"}
+
    ],
    aiTip:"赵工是PT PLN业主方技术主任，3度关系路径较长。建议优先打通陈总关系后再通过陈总介绍，或直接在项目现场技术会议上建立接触。",
    questions:["业主方对主变压器品牌是否有特别要求？","印尼本地是否有配套服务商资质要求？"]},
@@ -544,17 +545,20 @@ function openDrawer(idx) {
   document.getElementById('drawer-ai-tip').textContent = c.aiTip;
 
   // 商机穿透 tab
-  document.getElementById('drawer-projects-penetrate').innerHTML = c.projects.map(p => `
-    <a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-orange-300 hover:bg-orange-50 transition-all">
+  const decay = [1, 1, 0.75, 0.5][c.degree] || 0.5;
+  document.getElementById('drawer-projects-penetrate').innerHTML = c.projects.map(p => {
+    const pv = Math.round(p.match * decay);
+    return `<a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-orange-300 hover:bg-orange-50 transition-all">
       <div>
         <div class="text-sm font-medium text-blue-700">${p.name}</div>
         <div class="text-[12px] text-gray-500 mt-0.5">${p.stage} · <span class="text-orange-600 font-medium">${p.role}</span></div>
       </div>
       <div class="text-right flex-shrink-0 ml-3">
-        <div class="text-sm font-bold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-600':'text-gray-500'}">${p.match}%</div>
-        <div class="text-[13px] text-gray-400">穿透价值</div>
+        <div class="text-sm font-bold ${pv>=90?'text-green-600':pv>=70?'text-blue-600':'text-gray-500'}">${pv}%</div>
+        <div class="text-[13px] text-gray-400">穿透价值${c.degree>1?`<span class="text-[11px] text-gray-400 ml-1">(×${decay})</span>`:''}</div>
       </div>
-    </a>`).join('');
+    </a>`;
+  }).join('');
   document.getElementById('drawer-penetrate-tip').textContent = c.degree===1
     ? `${c.name}是您的直接联系人，可直接请其提供${c.projects.map(p=>p.name).join('、')}的内部采购信息，或协助引荐业主方关键人。`
     : `需先通过${c.path[1]}引荐建立联系，再借助${c.name}打通${c.projects[0]?.name}的采购决策链。`;
