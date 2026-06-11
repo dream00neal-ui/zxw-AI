@@ -260,11 +260,6 @@
       <div class="text-[12px] font-bold text-blue-300 mb-2">🤖 AI 综合判断</div>
       <div id="drawer-ai-tip" class="text-[13px] text-slate-300 leading-relaxed"></div>
     </div>
-    <div class="flex gap-2">
-      <button onclick="switchDrawerTab('script')" class="flex-1 bg-blue-600 text-white text-sm py-2 rounded-lg hover:bg-blue-700 font-medium">💬 生成切入话术</button>
-      <button class="flex-1 border border-gray-200 text-gray-600 text-sm py-2 rounded-lg hover:bg-gray-50">📌 加入跟踪</button>
-      <button class="flex-1 border border-gray-200 text-gray-600 text-sm py-2 rounded-lg hover:bg-gray-50">📤 分享</button>
-    </div>
   </div>
 
   <!-- Tab: 商机穿透 -->
@@ -297,11 +292,6 @@
       <div class="text-[12px] font-bold text-blue-300 mb-1">📝 建议话术（可直接复制发送）</div>
       <div id="script-body"></div>
       <button onclick="navigator.clipboard.writeText(document.getElementById('script-body').innerText).then(()=>showToast('话术已复制'))" class="w-full mt-1 bg-blue-600 text-white text-[12px] py-1.5 rounded hover:bg-blue-700">📋 一键复制</button>
-    </div>
-    <!-- 跟进问题 -->
-    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-3">
-      <div class="text-[12px] font-bold text-blue-300 mb-2">❓ 建议跟进问题</div>
-      <div id="script-questions" class="space-y-1.5"></div>
     </div>
   </div>
 </div>
@@ -480,10 +470,6 @@ function renderScript(intimacy) {
 
   if (!scripts) {
     document.getElementById('script-body').innerHTML = `<div class="text-[13px] text-slate-300 leading-relaxed">${c.aiTip}</div>`;
-    document.getElementById('script-questions').innerHTML = c.questions.map((q,i) =>
-      `<div class="flex gap-2 text-[13px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
-        <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
-      </div>`).join('');
     return;
   }
 
@@ -492,10 +478,6 @@ function renderScript(intimacy) {
   document.getElementById('script-intimacy-tip').textContent = s.tip;
   document.getElementById('script-body').innerHTML =
     `<div class="text-[13px] text-slate-100 leading-relaxed bg-slate-700/60 rounded-lg p-3 border border-slate-600">${s.body}</div>`;
-  document.getElementById('script-questions').innerHTML = s.questions.map((q,i) =>
-    `<div class="flex gap-2 text-[13px] text-slate-300 bg-slate-700/50 rounded px-2 py-1.5">
-      <span class="text-blue-400 font-bold flex-shrink-0">Q${i+1}</span><span>${q}</span>
-    </div>`).join('');
 
   document.querySelectorAll('.intimacy-btn').forEach(b => {
     const active = b.dataset.v === intimacy;
