@@ -142,70 +142,29 @@
     </div>
 
     <div class="p-4 space-y-3">
-      <!-- 手动添加 -->
-      <div class="border border-gray-200 rounded-lg p-3">
-        <div class="text-sm font-medium text-gray-700 mb-2">✏️ 手动添加单人</div>
-        <!-- 步骤1：基本信息输入 -->
-        <div id="manual-form" class="space-y-2">
-          <div class="grid grid-cols-2 gap-2">
-            <input id="m-name" type="text" placeholder="姓名 *" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
-            <input id="m-title" type="text" placeholder="职位（如：采购经理）" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
-          </div>
-          <input id="m-phone" type="text" placeholder="手机 / 微信" class="w-full border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
-          <!-- 步骤2：企业模糊匹配 -->
-          <div class="relative">
-            <input id="m-company" type="text" placeholder="所在企业（输入2个字符自动匹配）" autocomplete="off"
-              class="w-full border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400"
-              oninput="onManualCompanyInput(this.value)">
-          </div>
-          <!-- 步骤3：匹配结果 -->
-          <div id="m-match-panel" class="hidden rounded-lg border text-[13px] p-2 space-y-1"></div>
-          <button onclick="submitManual()" class="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700">添加</button>
-        </div>
-        <!-- 步骤4/5：提交后结果卡片 -->
-        <div id="manual-result" class="hidden mt-2 rounded-lg border p-3 text-[13px]"></div>
+      <!-- 必填说明 -->
+      <div class="text-[12px] text-gray-500 bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+        <span class="text-red-500 font-medium">* 必填</span>：姓名、所在企业、手机号与微信号至少填写一项
       </div>
-
-      <!-- 批量导入 -->
-      <div id="upload-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors" onclick="document.getElementById('file-input').click()">
-        <input id="file-input" type="file" accept=".xlsx,.csv" class="hidden" onchange="handleFileUpload(this)">
-        <div class="text-2xl mb-1">📋</div>
-        <div class="text-sm font-medium text-gray-700">批量导入 Excel / CSV</div>
-        <div class="text-[12px] text-gray-400 mt-0.5 mb-2">支持字段：姓名、手机、微信、企业、职位</div>
-        <span class="bg-green-600 text-white text-[13px] px-3 py-1 rounded">选择文件</span>
-        <div class="text-[13px] text-gray-400 mt-2">文件仅用于本次匹配，不留存原始文件</div>
+      <!-- 单人导入表单 -->
+      <div id="manual-form" class="space-y-2">
+        <div class="grid grid-cols-2 gap-2">
+          <input id="m-name" type="text" placeholder="姓名 *" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
+          <input id="m-title" type="text" placeholder="职位（如：采购经理）" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <input id="m-phone" type="text" placeholder="手机号 *" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
+          <input id="m-wechat" type="text" placeholder="微信号" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
+        </div>
+        <input id="m-company" type="text" placeholder="所在企业 *（输入2个字符自动匹配）" autocomplete="off"
+          class="w-full border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400"
+          oninput="onManualCompanyInput(this.value)">
+        <!-- 企业匹配结果+分页 -->
+        <div id="m-match-panel" class="hidden rounded-lg border text-[13px] p-2"></div>
+        <button onclick="submitManual()" class="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700">添加联系人</button>
       </div>
-
-      <!-- 批量校验确认表格（上传后显示） -->
-      <div id="mapping-wizard" class="hidden border border-blue-200 rounded-lg overflow-hidden">
-        <div class="bg-blue-50 px-3 py-2 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-bold text-blue-700">📋 批量导入校验确认</span>
-            <span id="mapping-stats" class="text-[12px] text-blue-500"></span>
-          </div>
-          <label class="flex items-center gap-1.5 text-[13px] text-blue-600 cursor-pointer">
-            <input type="checkbox" id="check-all" onchange="toggleAll(this.checked)" class="w-3.5 h-3.5">
-            全选
-          </label>
-        </div>
-        <!-- 表头 -->
-        <div class="grid grid-cols-[28px_1fr_1fr_1.4fr_1.4fr_72px] gap-x-2 px-3 py-1.5 bg-gray-100 text-[11px] font-semibold text-gray-500 border-b border-gray-200">
-          <span></span>
-          <span>姓名</span>
-          <span>联系方式</span>
-          <span>导入企业名称</span>
-          <span>已有企业名称</span>
-          <span class="text-center">匹配度</span>
-        </div>
-        <div id="mapping-list" class="divide-y divide-gray-100 max-h-64 overflow-y-auto"></div>
-        <div class="px-3 py-2.5 flex items-center justify-between bg-gray-50 border-t border-gray-200">
-          <span id="mapping-confirm-count" class="text-[12px] text-gray-500"></span>
-          <div class="flex gap-2">
-            <button onclick="document.getElementById('mapping-wizard').classList.add('hidden')" class="px-3 border border-gray-200 text-gray-500 text-sm py-1.5 rounded hover:bg-gray-100">重新选择</button>
-            <button onclick="confirmMapping()" class="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700 font-medium">✅ 确认导入所选</button>
-          </div>
-        </div>
-      </div>
+      <!-- 提交后结果卡片 -->
+      <div id="manual-result" class="hidden rounded-lg border p-3 text-[13px]"></div>
 
       <!-- 已导入预览 -->
       <div class="bg-gray-50 rounded-lg p-3">
@@ -236,16 +195,11 @@
       </div>
       <button onclick="closeDrawer()" class="text-slate-400 hover:text-white text-xl leading-none">×</button>
     </div>
-    <!-- Tab导航 -->
-    <div class="flex border-t border-slate-700">
-      <button id="dtab-btn-overview" onclick="switchDrawerTab('overview')" class="flex-1 py-2 text-[13px] font-medium border-b-2 border-blue-600 text-blue-400 transition-colors">🔗 关系概览</button>
-      <button id="dtab-btn-penetrate" onclick="switchDrawerTab('penetrate')" class="flex-1 py-2 text-[13px] font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">🎯 商机穿透</button>
-      <button id="dtab-btn-script" onclick="switchDrawerTab('script')" class="flex-1 py-2 text-[13px] font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">💬 切入话术</button>
-    </div>
+    <div class="px-4 pb-2 pt-2 border-t border-slate-700 text-[13px] font-medium text-blue-400">🎯 商机穿透</div>
   </div>
 
-  <!-- Tab: 关系概览 -->
-  <div id="dtab-overview" class="flex-1 overflow-y-auto p-4 space-y-4">
+  <!-- 商机穿透：关系穿透路径 + 关联项目 -->
+  <div id="dtab-penetrate" class="flex-1 overflow-y-auto p-4 space-y-3">
     <div>
       <div class="flex items-center justify-between mb-2">
         <div class="text-sm font-bold text-gray-700">🔗 关系穿透路径</div>
@@ -257,46 +211,11 @@
       <div id="drawer-path-svg" class="bg-slate-50 rounded-xl border border-gray-200 overflow-hidden cursor-pointer" style="height:140px" onclick="openPathFullscreen()"></div>
     </div>
     <div id="drawer-via-block" class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-sm text-blue-800"></div>
-    <div>
-      <div class="text-sm font-bold text-gray-700 mb-2">🏗 关联在建项目</div>
-      <div id="drawer-projects" class="space-y-2"></div>
-    </div>
-    <div class="bg-gradient-to-br from-slate-800 to-blue-950 rounded-xl p-3">
-      <div class="text-[12px] font-bold text-blue-300 mb-2">🤖 AI 综合判断</div>
-      <div id="drawer-ai-tip" class="text-[13px] text-slate-300 leading-relaxed"></div>
-    </div>
-  </div>
-
-  <!-- Tab: 商机穿透 -->
-  <div id="dtab-penetrate" class="hidden flex-1 overflow-y-auto p-4 space-y-3">
-    <div class="text-sm font-bold text-gray-700 mb-1">🎯 可通过此人突破的商机</div>
+    <div class="text-sm font-bold text-gray-700">🎯 关联项目与穿透价值</div>
     <div id="drawer-projects-penetrate" class="space-y-2"></div>
     <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[13px] text-amber-800">
       <div class="font-semibold mb-1">💡 穿透策略</div>
       <div id="drawer-penetrate-tip"></div>
-    </div>
-  </div>
-
-  <!-- Tab: 切入话术 -->
-  <div id="dtab-script" class="hidden flex-1 overflow-y-auto p-4 space-y-3">
-    <!-- 关系亲疏度切换 -->
-    <div>
-      <div class="text-[12px] text-gray-500 mb-1.5">选择你们的关系亲疏度，AI 调整话术语气：</div>
-      <div class="flex gap-2">
-        <button data-v="dormant" class="intimacy-btn flex-1 py-1.5 rounded text-[12px] font-medium bg-blue-600 text-white" onclick="renderScript('dormant')">😴 久未联系</button>
-        <button data-v="close" class="intimacy-btn flex-1 py-1.5 rounded text-[12px] font-medium bg-slate-700 text-slate-300" onclick="renderScript('close')">🤝 关系挺好</button>
-      </div>
-    </div>
-    <!-- 场景说明 -->
-    <div class="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
-      <div id="script-intimacy-label" class="text-[13px] text-blue-700 font-medium"></div>
-      <div id="script-intimacy-tip" class="text-[12px] text-blue-500 mt-0.5"></div>
-    </div>
-    <!-- 话术正文 -->
-    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-3 space-y-2">
-      <div class="text-[12px] font-bold text-blue-300 mb-1">📝 建议话术（可直接复制发送）</div>
-      <div id="script-body"></div>
-      <button onclick="navigator.clipboard.writeText(document.getElementById('script-body').innerText).then(()=>showToast('话术已复制'))" class="w-full mt-1 bg-blue-600 text-white text-[12px] py-1.5 rounded hover:bg-blue-700">📋 一键复制</button>
     </div>
   </div>
 </div>
@@ -413,10 +332,7 @@ function renderContacts(filter) {
           匹配度 ${p.match}%：基于该联系人职责（${c.title}）与项目设备品类高度吻合
         </span>
       </span>`).join('');
-    const d1Actions = c.degree===1 ? `
-      <button onclick="event.stopPropagation();openDrawerTab(${idx},'penetrate')" class="text-[12px] bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-600 whitespace-nowrap">🎯 商机穿透</button>
-      <button onclick="event.stopPropagation();openDrawerTab(${idx},'script')" class="text-[12px] bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 whitespace-nowrap">💬 切入话术</button>` : `
-      <span class="text-[12px] text-blue-500 hover:text-blue-700 whitespace-nowrap">查看详情 →</span>`;
+    const actions = `<button onclick="event.stopPropagation();openDrawer(${idx})" class="text-[12px] bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-600 whitespace-nowrap">🎯 商机穿透</button>`;
     return `<div class="p-3 hover:bg-blue-50 transition-all cursor-pointer ${d.lborder}" onclick="openDrawer(${idx})">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-full ${d.bg} ${d.text} flex items-center justify-center text-sm font-bold flex-shrink-0">${c.avatar}</div>
@@ -431,7 +347,7 @@ function renderContacts(filter) {
           <div class="text-[12px] text-gray-400 mb-1">🔗 ${c.via}</div>
           <div class="flex gap-1 flex-wrap">${projTags}</div>
         </div>
-        <div class="flex flex-col gap-1 items-end flex-shrink-0">${d1Actions}</div>
+        <div class="flex flex-col gap-1 items-end flex-shrink-0">${actions}</div>
       </div>
     </div>`;
   }).join('');
@@ -439,58 +355,6 @@ function renderContacts(filter) {
 renderContacts('all');
 
 let _drawerIdx = 0;
-
-function openDrawerTab(idx, tab) {
-  openDrawer(idx);
-  if (tab === 'penetrate') switchDrawerTab('penetrate');
-  if (tab === 'script') switchDrawerTab('script');
-}
-
-function switchDrawerTab(tab) {
-  ['overview','penetrate','script'].forEach(t => {
-    document.getElementById('dtab-'+t).classList.toggle('hidden', t!==tab);
-    document.getElementById('dtab-btn-'+t).classList.toggle('text-blue-600', t===tab);
-    document.getElementById('dtab-btn-'+t).classList.toggle('border-blue-600', t===tab);
-    document.getElementById('dtab-btn-'+t).classList.toggle('text-gray-500', t!==tab);
-    document.getElementById('dtab-btn-'+t).classList.toggle('border-transparent', t!==tab);
-  });
-}
-
-function renderScript(intimacy) {
-  const c = CONTACTS[_drawerIdx];
-  const proj = c.projects[0];
-  const scripts = c.degree === 1 ? {
-    dormant: {
-      label: '😴 久未联系（情报切入）',
-      tip: '以项目情报为由头自然开启，不消耗人情',
-      body: `${c.name.slice(0,1)}总，好久没联络了！我最近在盯${proj.name}这个项目，看到有些新动态，想到您一直负责${c.title}这块，顺手把最新的技术评估报告发您一份，您看对您有没有参考价值？`,
-      questions: c.questions,
-    },
-    close: {
-      label: '🤝 关系挺好（精准求助）',
-      tip: '直接求助，精准提问，不浪费对方时间',
-      body: `${c.name.slice(0,1)}总，最近忙吗？有个事想请教下专家。听说您对${proj.name}这个项目很了解，他们这次${proj.role.includes('采购')?'设备采购':'选型'}，是倾向于业主直管还是全包给EPC总包方？哥们儿最近在跟这个，求指条明路！`,
-      questions: c.questions,
-    }
-  } : null;
-
-  if (!scripts) {
-    document.getElementById('script-body').innerHTML = `<div class="text-[13px] text-slate-300 leading-relaxed">${c.aiTip}</div>`;
-    return;
-  }
-
-  const s = scripts[intimacy];
-  document.getElementById('script-intimacy-label').textContent = s.label;
-  document.getElementById('script-intimacy-tip').textContent = s.tip;
-  document.getElementById('script-body').innerHTML =
-    `<div class="text-[13px] text-slate-100 leading-relaxed bg-slate-700/60 rounded-lg p-3 border border-slate-600">${s.body}</div>`;
-
-  document.querySelectorAll('.intimacy-btn').forEach(b => {
-    const active = b.dataset.v === intimacy;
-    b.className = 'intimacy-btn flex-1 py-1.5 rounded text-[12px] font-medium transition-all ' +
-      (active ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600');
-  });
-}
 
 function openDrawer(idx) {
   _drawerIdx = idx;
@@ -525,26 +389,7 @@ function openDrawer(idx) {
   svg += '</svg>';
   svgEl.innerHTML = svg;
 
-  // 关联项目
-  document.getElementById('drawer-projects').innerHTML = c.projects.map(p => `
-    <a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-blue-300 hover:bg-blue-50 transition-all">
-      <div>
-        <div class="text-sm font-medium text-blue-700">${p.name}</div>
-        <div class="text-[12px] text-gray-500 mt-0.5">${p.stage} · ${p.role}</div>
-      </div>
-      <div class="text-right flex-shrink-0 ml-3 group relative cursor-default">
-        <div class="text-sm font-bold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-600':'text-gray-500'}">${p.match}%</div>
-        <div class="text-[13px] text-gray-400">匹配度</div>
-        <span class="pointer-events-none absolute bottom-full right-0 mb-1 w-44 bg-gray-900 text-white text-[13px] rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-normal leading-relaxed">
-          基于联系人职责（${c.title}）与项目设备品类吻合度
-        </span>
-      </div>
-    </a>`).join('');
-
-  // AI概要
-  document.getElementById('drawer-ai-tip').textContent = c.aiTip;
-
-  // 商机穿透 tab
+  // 关联项目+穿透价值
   const decay = [1, 1, 0.75, 0.5][c.degree] || 0.5;
   document.getElementById('drawer-projects-penetrate').innerHTML = c.projects.map(p => {
     const pv = Math.round(p.match * decay);
@@ -555,17 +400,13 @@ function openDrawer(idx) {
       </div>
       <div class="text-right flex-shrink-0 ml-3">
         <div class="text-sm font-bold ${pv>=90?'text-green-600':pv>=70?'text-blue-600':'text-gray-500'}">${pv}%</div>
-        <div class="text-[13px] text-gray-400">穿透价值${c.degree>1?`<span class="text-[11px] text-gray-400 ml-1">(×${decay})</span>`:''}</div>
+        <div class="text-[13px] text-gray-400">穿透价值${c.degree>1?` ×${decay}`:''}</div>
       </div>
     </a>`;
   }).join('');
   document.getElementById('drawer-penetrate-tip').textContent = c.degree===1
     ? `${c.name}是您的直接联系人，可直接请其提供${c.projects.map(p=>p.name).join('、')}的内部采购信息，或协助引荐业主方关键人。`
     : `需先通过${c.path[1]}引荐建立联系，再借助${c.name}打通${c.projects[0]?.name}的采购决策链。`;
-
-  // 话术 tab 初始化
-  renderScript('dormant');
-  switchDrawerTab('overview');
 
   document.getElementById('contact-drawer').classList.add('open');
   document.getElementById('drawer-overlay').classList.add('open');
@@ -585,42 +426,74 @@ function switchTab(el, tab) {
 
 // 手动添加：企业候选数据
 const COMPANY_MAP = {
-  '葛洲坝':[{name:'葛洲坝集团国际工程有限公司',type:'央企',c:97},{name:'中国葛洲坝集团三峡建设工程有限公司',type:'央企',c:72}],
-  '国网':[{name:'国网新源控股有限公司',type:'央企',c:88},{name:'国家电网有限公司',type:'央企',c:75}],
+  '葛洲坝':[
+    {name:'葛洲坝集团国际工程有限公司',type:'央企',c:97},
+    {name:'中国葛洲坝集团三峡建设工程有限公司',type:'央企',c:72},
+    {name:'葛洲坝集团机械船舶有限公司',type:'央企',c:65},
+    {name:'葛洲坝集团第一工程有限公司',type:'央企',c:58},
+    {name:'葛洲坝集团第二工程有限公司',type:'央企',c:55},
+    {name:'葛洲坝水泥有限公司',type:'央企',c:30},
+  ],
+  '国网':[{name:'国网新源控股有限公司',type:'央企',c:88},{name:'国家电网有限公司',type:'央企',c:75},{name:'国网英大国际控股集团有限公司',type:'央企',c:62}],
   '电建':[{name:'中国电建集团华东勘测设计研究院有限公司',type:'央企',c:85},{name:'中国电建集团海外投资有限公司',type:'央企',c:61}],
   '华电':[{name:'中国华电工程（集团）有限公司',type:'央企',c:55},{name:'华电国际电力股份有限公司',type:'上市',c:48}],
   '延长':[{name:'延长石油集团有限责任公司',type:'地方国企',c:99}],
 };
 
-let _selectedCompany = null;  // {name, type, c} or null
+let _selectedCompany = null;
+let _matchCandidates = [];
+let _matchPage = 0;
+const MATCH_PAGE_SIZE = 5;
 
 function onManualCompanyInput(val) {
   _selectedCompany = null;
+  _matchPage = 0;
   const panel = document.getElementById('m-match-panel');
   if (!val || val.length < 2) { panel.classList.add('hidden'); return; }
   const key = Object.keys(COMPANY_MAP).find(k => val.includes(k));
   if (!key) { panel.classList.add('hidden'); return; }
+  _matchCandidates = COMPANY_MAP[key];
+  renderMatchPanel();
+}
 
-  const candidates = COMPANY_MAP[key];
-  const top = candidates[0];
+function renderMatchPanel() {
+  const panel = document.getElementById('m-match-panel');
+  const top = _matchCandidates[0];
+  const start = _matchPage * MATCH_PAGE_SIZE;
+  const pageItems = _matchCandidates.slice(start, start + MATCH_PAGE_SIZE);
+  const totalPages = Math.ceil(_matchCandidates.length / MATCH_PAGE_SIZE);
+
+  if (_matchPage === 0 && top.c >= 90) _selectedCompany = top;
+
+  const color = top.c >= 90 ? 'green' : top.c >= 60 ? 'amber' : 'red';
+  const borderCls = {green:'border-green-200 bg-green-50',amber:'border-amber-200 bg-amber-50',red:'border-red-200 bg-red-50'}[color];
+  const header = top.c >= 90
+    ? `<div class="text-green-700 font-medium mb-1.5">✅ 已自动匹配（置信度 ${top.c}%），可修改：</div>`
+    : top.c >= 60
+    ? `<div class="text-amber-700 font-medium mb-1.5">🔍 找到相似企业，请主动确认（置信度 ${top.c}%）：</div>`
+    : `<div class="text-red-700 font-medium mb-1.5">⚠️ 置信度较低（${top.c}%），建议手动确认或填写全称：</div>`;
+
+  const rows = pageItems.map((c, i) => radioRow(c, _matchPage===0 && i===0 && top.c>=90, color)).join('');
+
+  const pager = totalPages > 1 ? `
+    <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-gray-200 text-[12px] text-gray-500">
+      <span>第 ${_matchPage+1} / ${totalPages} 页，共 ${_matchCandidates.length} 条</span>
+      <div class="flex gap-1">
+        <button onclick="changeMatchPage(${_matchPage-1})" ${_matchPage===0?'disabled class="px-2 py-0.5 rounded border border-gray-200 text-gray-300 cursor-not-allowed"':'class="px-2 py-0.5 rounded border border-gray-300 hover:bg-gray-100"'}>‹ 上页</button>
+        <button onclick="changeMatchPage(${_matchPage+1})" ${_matchPage>=totalPages-1?'disabled class="px-2 py-0.5 rounded border border-gray-200 text-gray-300 cursor-not-allowed"':'class="px-2 py-0.5 rounded border border-gray-300 hover:bg-gray-100"'}>下页 ›</button>
+      </div>
+    </div>` : '';
+
+  panel.className = `rounded-lg border ${borderCls} text-[13px] p-2`;
   panel.classList.remove('hidden');
+  panel.innerHTML = header + `<div class="space-y-0.5">` + rows + `</div>` + pager;
+}
 
-  if (top.c >= 90) {
-    _selectedCompany = top;
-    panel.className = 'rounded-lg border border-green-200 bg-green-50 text-[13px] p-2 space-y-1';
-    panel.innerHTML = `<div class="text-green-700 font-medium mb-1">✅ 已自动匹配（置信度 ${top.c}%），可修改：</div>`
-      + candidates.map((c,i) => radioRow(c, i===0, 'green')).join('');
-  } else if (top.c >= 60) {
-    panel.className = 'rounded-lg border border-amber-200 bg-amber-50 text-[13px] p-2 space-y-1';
-    panel.innerHTML = `<div class="text-amber-700 font-medium mb-1">🔍 找到相似企业，请主动确认（置信度 ${top.c}%）：</div>`
-      + candidates.map(c => radioRow(c, false, 'amber')).join('');
-  } else {
-    panel.className = 'rounded-lg border border-red-200 bg-red-50 text-[13px] p-2 space-y-1';
-    panel.innerHTML = `<div class="text-red-700 font-medium mb-1">⚠️ 置信度较低（${top.c}%），建议手动确认或填写全称：</div>`
-      + candidates.map(c => radioRow(c, false, 'red')).join('')
-      + `<input id="m-company-manual" type="text" placeholder="手动填写企业全称" oninput="_selectedCompany={name:this.value,type:'',c:0}"
-           class="mt-1 w-full border border-gray-200 rounded px-2 py-1 text-sm outline-none focus:border-blue-400">`;
-  }
+function changeMatchPage(page) {
+  const totalPages = Math.ceil(_matchCandidates.length / MATCH_PAGE_SIZE);
+  if (page < 0 || page >= totalPages) return;
+  _matchPage = page;
+  renderMatchPanel();
 }
 
 function radioRow(c, checked, color) {
@@ -640,117 +513,57 @@ function submitManual() {
   const name = document.getElementById('m-name').value.trim();
   if (!name) { showToast('请填写姓名'); return; }
   const phone = document.getElementById('m-phone').value.trim();
-  const title = document.getElementById('m-title').value.trim();
+  const wechat = document.getElementById('m-wechat').value.trim();
+  if (!phone && !wechat) { showToast('手机号和微信号至少填写一项'); return; }
   const companyInput = document.getElementById('m-company').value.trim();
+  if (!companyInput) { showToast('请填写所在企业'); return; }
+  const title = document.getElementById('m-title').value.trim();
 
-  // 步骤4/5：判断匹配状态渲染结果卡片
   const result = document.getElementById('manual-result');
   result.classList.remove('hidden');
 
+  const contactInfo = [phone ? `📞 ${phone}` : '', wechat ? `💬 ${wechat}` : ''].filter(Boolean).join('  ');
+
   if (_selectedCompany && _selectedCompany.c >= 60) {
-    // 步骤4：匹配到公域库
-    result.className = 'mt-2 rounded-lg border border-green-200 bg-green-50 p-3 text-[13px]';
+    result.className = 'rounded-lg border border-green-200 bg-green-50 p-3 text-[13px]';
     result.innerHTML = `
       <div class="flex items-center gap-2 mb-2">
         <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm flex-shrink-0">${name[0]}</span>
-        <div>
-          <span class="font-semibold text-gray-800">${name}</span>
-          ${title ? `<span class="text-gray-500 ml-1">${title}</span>` : ''}
-        </div>
+        <div><span class="font-semibold text-gray-800">${name}</span>${title?`<span class="text-gray-500 ml-1">${title}</span>`:''}</div>
         <span class="ml-auto text-green-600 font-medium">✅ 已关联公域数据</span>
       </div>
       <div class="text-gray-600 mb-1">🏢 ${_selectedCompany.name} <span class="text-gray-400">${_selectedCompany.type}</span></div>
-      ${phone ? `<div class="text-gray-500">📞 ${phone}</div>` : ''}
+      ${contactInfo ? `<div class="text-gray-500 text-[12px]">${contactInfo}</div>` : ''}
       <div class="mt-2 text-green-700 bg-green-100 rounded px-2 py-1">可参与关系图谱推算，系统将自动挖掘2度人脉</div>
       <button onclick="resetManualForm()" class="mt-2 text-blue-600 text-[12px] hover:underline">+ 继续添加</button>`;
   } else {
-    // 步骤5：未匹配到公域库，纯私域写入
-    const displayCompany = (_selectedCompany && _selectedCompany.name) || companyInput || '未填写';
-    result.className = 'mt-2 rounded-lg border border-orange-200 bg-orange-50 p-3 text-[13px]';
+    const displayCompany = (_selectedCompany && _selectedCompany.name) || companyInput;
+    result.className = 'rounded-lg border border-orange-200 bg-orange-50 p-3 text-[13px]';
     result.innerHTML = `
       <div class="flex items-center gap-2 mb-2">
         <span class="w-7 h-7 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center font-bold text-sm flex-shrink-0">${name[0]}</span>
-        <div>
-          <span class="font-semibold text-gray-800">${name}</span>
-          ${title ? `<span class="text-gray-500 ml-1">${title}</span>` : ''}
-        </div>
+        <div><span class="font-semibold text-gray-800">${name}</span>${title?`<span class="text-gray-500 ml-1">${title}</span>`:''}</div>
         <span class="ml-auto text-orange-500 font-medium">⚠️ 暂未关联平台数据</span>
       </div>
       <div class="text-gray-600 mb-1">🏢 ${displayCompany}</div>
-      ${phone ? `<div class="text-gray-500">📞 ${phone}</div>` : ''}
-      <div class="mt-2 text-orange-700 bg-orange-100 rounded px-2 py-1">以纯私域状态写入，暂不参与图谱推算。如后续补全企业信息可升级为关联状态。</div>
+      ${contactInfo ? `<div class="text-gray-500 text-[12px]">${contactInfo}</div>` : ''}
+      <div class="mt-2 text-orange-700 bg-orange-100 rounded px-2 py-1">以纯私域状态写入，暂不参与图谱推算。补全企业信息后可升级为关联状态。</div>
       <button onclick="resetManualForm()" class="mt-2 text-blue-600 text-[12px] hover:underline">+ 继续添加</button>`;
   }
-
-  // 隐藏表单
   document.getElementById('manual-form').classList.add('hidden');
 }
 
 function resetManualForm() {
-  ['m-name','m-phone','m-title','m-company'].forEach(id => document.getElementById(id).value = '');
+  ['m-name','m-phone','m-wechat','m-title','m-company'].forEach(id => document.getElementById(id).value = '');
   _selectedCompany = null;
+  _matchCandidates = [];
+  _matchPage = 0;
   document.getElementById('m-match-panel').classList.add('hidden');
   document.getElementById('manual-result').classList.add('hidden');
   document.getElementById('manual-form').classList.remove('hidden');
 }
 
-// 批量导入演示数据
-const DEMO_IMPORT_ROWS = [
-  {name:'张建平',phone:'138****5201',rawCompany:'葛洲坝',matchedCompany:'葛洲坝集团国际工程有限公司',c:97},
-  {name:'刘晓燕',phone:'微信: lxy_2023',rawCompany:'国网新源',matchedCompany:'国网新源控股有限公司',c:91},
-  {name:'陈明远',phone:'010-59525001',rawCompany:'中电建华东院',matchedCompany:'中国电建集团华东勘测设计研究院有限公司',c:85},
-  {name:'王芳',phone:'139****8820',rawCompany:'延长石油',matchedCompany:'延长石油集团有限责任公司',c:99},
-  {name:'李国强',phone:'微信: liguoqiang88',rawCompany:'华电国际',matchedCompany:'华电国际电力股份有限公司',c:52},
-  {name:'赵磊',phone:'021-33445566',rawCompany:'三峡集团',matchedCompany:'中国三峡建工（集团）有限公司',c:78},
-];
 
-function updateConfirmCount() {
-  const checked = document.querySelectorAll('.row-check:checked').length;
-  const total = DEMO_IMPORT_ROWS.length;
-  document.getElementById('mapping-confirm-count').textContent = `已选 ${checked} / ${total} 条`;
-  document.getElementById('check-all').checked = checked === total;
-  document.getElementById('check-all').indeterminate = checked > 0 && checked < total;
-}
-
-function toggleAll(val) {
-  document.querySelectorAll('.row-check').forEach(cb => cb.checked = val);
-  updateConfirmCount();
-}
-
-function handleFileUpload(input) {
-  if (!input.files.length) return;
-  const wizard = document.getElementById('mapping-wizard');
-  wizard.classList.remove('hidden');
-  document.getElementById('mapping-stats').textContent = `共 ${DEMO_IMPORT_ROWS.length} 条，请逐行确认`;
-
-  document.getElementById('mapping-list').innerHTML = DEMO_IMPORT_ROWS.map((r, i) => {
-    const high = r.c >= 90, mid = r.c >= 60;
-    const rowBg = !mid ? 'bg-red-50' : high ? 'bg-green-50' : 'bg-amber-50';
-    const confidenceColor = high ? 'text-green-600' : mid ? 'text-orange-500' : 'text-red-500';
-    const confidenceBadge = high
-      ? '<span class="text-[11px] bg-green-100 text-green-600 px-1 rounded ml-1">自动预选</span>'
-      : !mid ? '<span class="text-[11px] bg-red-100 text-red-500 px-1 rounded ml-1">需确认</span>' : '';
-    return `<div class="grid grid-cols-[28px_1fr_1fr_1.4fr_1.4fr_72px] gap-x-2 px-3 py-2 items-center text-[13px] ${rowBg} hover:brightness-95 transition-all">
-      <label class="flex items-center justify-center">
-        <input type="checkbox" class="row-check w-3.5 h-3.5 cursor-pointer" ${high || mid ? 'checked' : ''} onchange="updateConfirmCount()">
-      </label>
-      <span class="font-medium text-gray-800 truncate">${r.name}</span>
-      <span class="text-gray-500 truncate">${r.phone}</span>
-      <span class="text-gray-400 truncate" title="${r.rawCompany}">${r.rawCompany}</span>
-      <span class="text-gray-700 truncate font-medium" title="${r.matchedCompany}">${r.matchedCompany}${confidenceBadge}</span>
-      <span class="text-center font-semibold ${confidenceColor}">${r.c}%</span>
-    </div>`;
-  }).join('');
-
-  updateConfirmCount();
-}
-
-function confirmMapping() {
-  const checked = document.querySelectorAll('.row-check:checked').length;
-  if (checked === 0) { showToast('请至少勾选一条数据'); return; }
-  document.getElementById('mapping-wizard').classList.add('hidden');
-  showToast(`✅ 已导入 ${checked} 条联系人，正在关联企业数据...`);
-}
 
 document.getElementById('imported-preview').innerHTML = [
   {name:'张伟',company:'葛洲坝集团国际工程',status:'linked',detail:'已关联 2个项目'},
