@@ -43,7 +43,7 @@
           <input id="search-input" type="text" placeholder="搜索人名、企业、职位..." class="flex-1 text-sm outline-none py-1.5">
         </div>
         <button class="bg-orange-500 text-white text-sm px-5 py-1.5 rounded font-medium hover:bg-orange-600">🔍 搜索</button>
-        <button onclick="openModal('modal-import')" class="bg-green-500 text-white text-sm px-3 py-1.5 rounded border border-green-300 hover:bg-green-400 font-medium">🔒 安全导入我的人脉</button>
+        <button onclick="openModal('modal-import')" class="bg-green-500 text-white text-sm px-3 py-1.5 rounded border border-green-300 hover:bg-green-400 font-medium">我的人脉导入</button>
       </div>
     </div>
   </header>
@@ -83,7 +83,7 @@
         <div class="w-px bg-gray-300"></div>
         <!-- 操作区 -->
         <div class="bg-white p-3 flex flex-col justify-center items-center gap-2 w-36">
-          <button onclick="openModal('modal-import')" class="w-full bg-blue-600 text-white text-[12px] py-1.5 rounded font-medium hover:bg-blue-700">+ 继续导入私域</button>
+          <button onclick="openModal('modal-import')" class="w-full bg-blue-600 text-white text-[12px] py-1.5 rounded font-medium hover:bg-blue-700">我的人脉导入</button>
           <div class="text-[13px] text-gray-400 text-center">导入更多人脉可解锁<br>更多2度突破路径</div>
         </div>
       </div>
@@ -121,7 +121,7 @@
   <div class="bg-white rounded-xl w-[560px] max-h-[90vh] overflow-y-auto">
     <div class="flex items-center justify-between p-4 border-b border-gray-200" style="background:linear-gradient(135deg,#0f172a,#1e3a5f)">
       <div>
-        <div class="text-white font-bold text-sm">🔒 安全导入我的人脉</div>
+        <div class="text-white font-bold text-sm">我的人脉导入</div>
         <div class="text-slate-400 text-[12px] mt-0.5">私域数据安全隔离，仅您可见，绝不被竞对检索</div>
       </div>
       <button onclick="closeModal('modal-import')" class="text-slate-400 hover:text-white text-xl">×</button>
@@ -156,9 +156,11 @@
           <input id="m-phone" type="text" placeholder="手机号 *" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
           <input id="m-wechat" type="text" placeholder="微信号" class="border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
         </div>
-        <input id="m-company" type="text" placeholder="所在企业 *（输入2个字符自动匹配）" autocomplete="off"
-          class="w-full border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400"
-          oninput="onManualCompanyInput(this.value)">
+        <div class="flex gap-2">
+          <input id="m-company" type="text" placeholder="所在企业 *" autocomplete="off"
+            class="flex-1 border border-gray-200 rounded px-2 py-1.5 text-sm outline-none focus:border-blue-400">
+          <button onclick="onManualCompanyInput(document.getElementById('m-company').value)" class="bg-blue-500 text-white text-sm px-3 py-1.5 rounded hover:bg-blue-600 whitespace-nowrap">匹配</button>
+        </div>
         <!-- 企业匹配结果+分页 -->
         <div id="m-match-panel" class="hidden rounded-lg border text-[13px] p-2"></div>
         <button onclick="submitManual()" class="bg-blue-600 text-white text-sm px-4 py-1.5 rounded hover:bg-blue-700">添加联系人</button>
@@ -449,9 +451,14 @@ function onManualCompanyInput(val) {
   _selectedCompany = null;
   _matchPage = 0;
   const panel = document.getElementById('m-match-panel');
-  if (!val || val.length < 2) { panel.classList.add('hidden'); return; }
+  if (!val || val.length < 2) { showToast('请输入至少2个字符后再匹配'); return; }
   const key = Object.keys(COMPANY_MAP).find(k => val.includes(k));
-  if (!key) { panel.classList.add('hidden'); return; }
+  if (!key) {
+    panel.className = 'rounded-lg border border-gray-200 bg-gray-50 text-[13px] p-2.5';
+    panel.classList.remove('hidden');
+    panel.innerHTML = `<div class="text-gray-500">未在平台企业库中找到匹配结果，您的人脉仍可以<span class="text-orange-500 font-medium">纯私域</span>状态导入，保存后可继续补全企业信息。</div>`;
+    return;
+  }
   _matchCandidates = COMPANY_MAP[key];
   renderMatchPanel();
 }
