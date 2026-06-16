@@ -6,6 +6,7 @@
 <title>中项网 - 上西索凯抽水蓄能电站项目</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -303,54 +304,26 @@
         </div>
 
         <!-- AI Content -->
-        <div id="ai-content" class="flex-1 overflow-y-auto p-3 space-y-3">
+        <div id="ai-content" class="flex-1 overflow-y-auto p-3 space-y-3" style="display:none">
 
-          <!-- 强推荐卡片 -->
-          <div class="rounded-xl p-3 border border-green-600 pulse-green" style="background:linear-gradient(135deg,#065f46 0%,#047857 100%)">
+          <!-- 1. 流式匹配推荐 -->
+          <div class="rounded-xl p-3 border border-slate-600" style="background:linear-gradient(135deg,#0f2027,#203a43)">
             <div class="flex items-center gap-2 mb-2">
-              <div class="flex gap-1">
-                <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-              </div>
-              <span class="text-[12px] bg-green-900 text-green-300 px-2 py-0.5 rounded-full border border-green-700">主变压器 + 交钥匙工程</span>
+              <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" style="animation:pulse-green 1.5s infinite"></span>
+              <span class="text-[12px] text-slate-300 font-medium">AI 匹配分析</span>
+              <span class="ml-auto text-[11px] text-slate-400 bg-slate-700 px-2 py-0.5 rounded-full">您的主营：主变压器</span>
             </div>
-            <div class="text-white font-bold text-sm mb-1">🔥 强推荐 · 战略级机会</div>
-            <div class="text-green-100 text-sm leading-relaxed mb-3">
-              印尼首座抽水蓄能电站，4台260MW机组需配套主变压器，资金已到位，土建施工中，变压器采购窗口即将开启。交钥匙工程模式可显著提升中标概率。
+            <div class="text-[13px] text-green-100 leading-relaxed min-h-[3em]">
+              <span id="ai-stream-text"></span><span id="ai-cursor" style="display:inline-block;width:2px;height:13px;background:#86efac;margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite"></span>
             </div>
-            <div class="flex gap-2">
-              <button onclick="openModal('modal-visit')" class="flex-1 bg-white text-green-800 text-sm font-medium py-1.5 rounded-lg hover:bg-green-50">
-                📋 一键生成拜访方案
-              </button>
-              <button onclick="openModal('modal-script')" class="flex-1 bg-green-700 text-white text-sm font-medium py-1.5 rounded-lg hover:bg-green-600 border border-green-500">
-                💬 破冰话术
-              </button>
+            <div id="ai-match-badge" class="hidden mt-2 gap-1.5 flex-wrap">
+              <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">🔥 战略级机会</span>
+              <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">★★★★★ 强烈推荐</span>
+              <button onclick="openModal('modal-script')" class="bg-green-700 text-green-100 text-[12px] px-2 py-0.5 rounded-full border border-green-600 hover:bg-green-600">💬 破冰话术</button>
             </div>
           </div>
 
-          <!-- 交钥匙工程优势提示 -->
-          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <div class="text-[12px] font-bold text-blue-700 mb-2">🔑 交钥匙工程竞争优势分析</div>
-            <div class="space-y-1.5 text-sm text-blue-800">
-              <div class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">✓</span><span>海外项目协调成本高，一体化服务可降低葛洲坝集团管理负担</span></div>
-              <div class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">✓</span><span>印尼本地化服务团队可快速响应，优于国际品牌</span></div>
-              <div class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">✓</span><span>设备+安装+调试打包报价，简化采购流程</span></div>
-            </div>
-          </div>
-
-          <!-- 项目标签 -->
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <button onclick="toggleSection('tags')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
-              <span>项目标签</span>
-              <svg id="arrow-tags" class="arrow-icon w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <div id="tags" class="accordion-content" style="max-height:200px">
-              <div class="px-3 pb-3 flex flex-wrap gap-1.5" id="tag-list"></div>
-            </div>
-          </div>
-
-          <!-- 核心看板 -->
+          <!-- 2. 核心看板·10秒速读 -->
           <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <button onclick="toggleSection('dashboard')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
               <span>核心看板 · 10秒速读</span>
@@ -363,23 +336,23 @@
                   <div class="text-sm text-blue-800 leading-relaxed">印尼首座抽水蓄能电站，4台260MW可逆式机组，总装机1040MW，含上下水库、引水隧洞、地下厂房及500kV升压站。</div>
                 </div>
                 <div class="bg-orange-50 border border-orange-200 rounded-lg p-2.5">
-                  <div class="text-[12px] font-bold text-orange-700 mb-1">变压器采购痛点</div>
+                  <div class="text-[12px] font-bold text-orange-700 mb-1">采购痛点</div>
                   <div class="text-sm text-orange-800 leading-relaxed">土建施工阶段，主变压器采购窗口预计2026年Q3开启。海外项目运维难度大，交钥匙工程模式受EPC总包青睐。</div>
                 </div>
                 <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
                   <div class="text-[12px] font-bold text-green-700 mb-1">采购规模估算</div>
-                  <div class="text-sm text-green-800 leading-relaxed">4台主变压器（500kV/260MVA级），单台市场价约3000-5000万元，合计约1.2-2亿元。交钥匙工程附加值约20-30%。</div>
+                  <div class="text-sm text-green-800 leading-relaxed">4台主变压器（500kV/260MVA级），单台约3000-5000万元，合计约1.2-2亿元。交钥匙附加值约20-30%。</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 关键KP推荐 -->
+          <!-- 3. 关键KP · 一键破冰话术 -->
           <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <button onclick="toggleSection('kp')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
               <div class="flex items-center gap-1.5">
-                <span>关键KP推荐</span>
-                <span class="bg-amber-500 text-white text-[13px] px-1 py-0.5 rounded">VIP</span>
+                <span>关键KP · 一键破冰话术</span>
+                <span class="bg-amber-500 text-white text-[11px] px-1.5 py-0.5 rounded">VIP</span>
               </div>
               <svg id="arrow-kp" class="arrow-icon w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </button>
@@ -388,7 +361,18 @@
             </div>
           </div>
 
-          <div class="text-center" style="font-size:11px;color:rgba(107,114,128,0.6)">AI生成内容仅供参考，请结合实际情况判断</div>
+          <!-- 4. 项目标签 -->
+          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <button onclick="toggleSection('tags')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+              <span>项目标签</span>
+              <svg id="arrow-tags" class="arrow-icon w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="tags" class="accordion-content" style="max-height:200px">
+              <div class="px-3 pb-3 flex flex-wrap gap-1.5" id="tag-list"></div>
+            </div>
+          </div>
+
+          <div class="text-center" style="font-size:11px;color:rgba(107,114,128,0.5)">AI生成内容仅供参考，请结合实际情况判断</div>
         </div>
 
       </aside>
@@ -506,13 +490,32 @@ kps.forEach(k => {
   kpEl.appendChild(div);
 });
 
-// Skeleton -> content
+// Skeleton -> content with streaming
 setTimeout(() => {
   document.getElementById('skeleton').style.display='none';
   const ai = document.getElementById('ai-content');
   ai.style.display='block';
   ai.classList.add('fade-in');
+  startAIStream();
 }, 1500);
+
+function startAIStream() {
+  const text = '检测到您主营产品：【主变压器】。\n\n本项目为印尼首座抽水蓄能电站，需配套 4 台 500kV/260MVA 主变压器，总装机 1040MW。当前处于「土建施工」阶段，资金已到位，采购窗口预计 2026 年 Q3 开启。\n\n综合判断：产品高度吻合，时机占优，建议优先跟进。交钥匙工程模式可进一步提升竞争力。';
+  const el = document.getElementById('ai-stream-text');
+  const cursor = document.getElementById('ai-cursor');
+  const badge = document.getElementById('ai-match-badge');
+  let i = 0;
+  const id = setInterval(() => {
+    i = Math.min(i + 3, text.length);
+    el.innerHTML = text.slice(0, i).replace(/\n\n/g, '<br><br>');
+    if (i >= text.length) {
+      clearInterval(id);
+      cursor.style.display = 'none';
+      badge.classList.remove('hidden');
+      badge.classList.add('flex');
+    }
+  }, 20);
+}
 
 function toggleSection(id) {
   const el = document.getElementById(id);

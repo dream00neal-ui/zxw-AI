@@ -316,9 +316,9 @@ const degreeConf = {
   3:{label:'⚪ 系统推荐·3度',bg:'bg-gray-50',border:'border-gray-200',text:'text-gray-500',lborder:'degree-3'},
 };
 
-const STAGE_SCORE = {'报批立项':40,'初步设计':60,'施工图设计':70,'土建施工':75,'设备安装':85,'竣工验收':20};
+const STAGE_SCORE = {'报批立项':55,'初步设计':70,'施工图设计':80,'土建施工':85,'设备安装':95,'竣工验收':25};
 const TITLE_WEIGHT = [['采购总监',1.0],['项目总监',0.95],['副总经理',0.9],['采购部经理',0.85],['采购经理',0.85],['设备部长',0.8],['技术主任',0.65]];
-const DEGREE_DECAY = {1:1.0,2:0.75,3:0.5};
+const DEGREE_DECAY = {1:1.0,2:0.85,3:0.65};
 
 function calcMatch(title, stage, degree) {
   const s = STAGE_SCORE[stage] ?? 65;
