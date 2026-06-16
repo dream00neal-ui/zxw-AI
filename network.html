@@ -316,6 +316,16 @@ const degreeConf = {
   3:{label:'⚪ 系统推荐·3度',bg:'bg-gray-50',border:'border-gray-200',text:'text-gray-500',lborder:'degree-3'},
 };
 
+const STAGE_SCORE = {'报批立项':40,'初步设计':60,'施工图设计':70,'土建施工':75,'设备安装':85,'竣工验收':20};
+const TITLE_WEIGHT = [['采购总监',1.0],['项目总监',0.95],['副总经理',0.9],['采购部经理',0.85],['采购经理',0.85],['设备部长',0.8],['技术主任',0.65]];
+const DEGREE_DECAY = {1:1.0,2:0.75,3:0.5};
+
+function calcMatch(title, stage, degree) {
+  const s = STAGE_SCORE[stage] ?? 65;
+  const t = (TITLE_WEIGHT.find(([k]) => title.includes(k)) ?? ['',0.7])[1];
+  return Math.round(s * t * (DEGREE_DECAY[degree] ?? 0.5));
+}
+
 let currentTab = 'all';
 
 function renderContacts(filter) {
@@ -326,14 +336,14 @@ function renderContacts(filter) {
   document.getElementById('contact-list').innerHTML = list.map(c => {
     const d = degreeConf[c.degree];
     const idx = CONTACTS.indexOf(c);
-    const projTags = c.projects.map(p=>`
+    const projTags = c.projects.map(p=>{const m=calcMatch(c.title,p.stage,c.degree);return`
       <span class="group relative inline-flex items-center text-[12px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded cursor-default">
         🏗 ${p.name}
-        <span class="text-[13px] ml-1 font-semibold ${p.match>=90?'text-green-600':p.match>=70?'text-blue-500':'text-gray-400'}">${p.match}%</span>
+        <span class="text-[13px] ml-1 font-semibold ${m>=70?'text-green-600':m>=50?'text-blue-500':'text-gray-400'}">${m}%</span>
         <span class="pointer-events-none absolute bottom-full left-0 mb-1 w-48 bg-gray-900 text-white text-[13px] rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 whitespace-normal leading-relaxed">
-          匹配度 ${p.match}%：基于该联系人职责（${c.title}）与项目设备品类高度吻合
+          匹配度 ${m}%：基于职位权重（${c.title}）× 项目阶段（${p.stage}）× ${c.degree}度关系衰减
         </span>
-      </span>`).join('');
+      </span>`}).join('');
     const actions = `<button onclick="event.stopPropagation();openDrawer(${idx})" class="text-[12px] bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-600 whitespace-nowrap">🎯 商机穿透</button>`;
     return `<div class="p-3 hover:bg-blue-50 transition-all cursor-pointer ${d.lborder}" onclick="openDrawer(${idx})">
       <div class="flex items-start gap-3">
@@ -391,18 +401,17 @@ function openDrawer(idx) {
   svg += '</svg>';
   svgEl.innerHTML = svg;
 
-  // 关联项目+穿透价值
-  const decay = [1, 1, 0.75, 0.5][c.degree] || 0.5;
+  // 关联项目+匹配度
   document.getElementById('drawer-projects-penetrate').innerHTML = c.projects.map(p => {
-    const pv = Math.round(p.match * decay);
+    const m = calcMatch(c.title, p.stage, c.degree);
     return `<a href="${p.link}" class="flex items-center justify-between border border-gray-200 rounded-lg p-2.5 hover:border-orange-300 hover:bg-orange-50 transition-all">
       <div>
         <div class="text-sm font-medium text-blue-700">${p.name}</div>
         <div class="text-[12px] text-gray-500 mt-0.5">${p.stage} · <span class="text-orange-600 font-medium">${p.role}</span></div>
       </div>
       <div class="text-right flex-shrink-0 ml-3">
-        <div class="text-sm font-bold ${pv>=90?'text-green-600':pv>=70?'text-blue-600':'text-gray-500'}">${pv}%</div>
-        <div class="text-[13px] text-gray-400">穿透价值${c.degree>1?` ×${decay}`:''}</div>
+        <div class="text-sm font-bold ${m>=70?'text-green-600':m>=50?'text-blue-600':'text-gray-500'}">${m}%</div>
+        <div class="text-[13px] text-gray-400">匹配度</div>
       </div>
     </a>`;
   }).join('');
