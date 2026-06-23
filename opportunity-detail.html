@@ -307,19 +307,28 @@
         <div id="ai-content" class="flex-1 overflow-y-auto p-3 space-y-3" style="display:none">
 
           <!-- 1. 流式匹配推荐 -->
-          <div class="rounded-xl p-3 border border-slate-600" style="background:linear-gradient(135deg,#0f2027,#203a43)">
+          <div class="rounded-xl p-3 border border-slate-600 relative" style="background:linear-gradient(135deg,#0f2027,#203a43)">
             <div class="flex items-center gap-2 mb-2">
               <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" style="animation:pulse-green 1.5s infinite"></span>
               <span class="text-[12px] text-slate-300 font-medium">AI 匹配分析</span>
               <span class="ml-auto text-[11px] text-slate-400 bg-slate-700 px-2 py-0.5 rounded-full">您的主营：主变压器</span>
             </div>
             <div class="text-[13px] text-green-100 leading-relaxed min-h-[3em]">
-              <span id="ai-stream-text"></span><span id="ai-cursor" style="display:inline-block;width:2px;height:13px;background:#86efac;margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite"></span>
+              <span id="ai-stream-text"></span><span id="ai-cursor" style="display:none;width:2px;height:13px;background:#86efac;margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite"></span>
             </div>
             <div id="ai-match-badge" class="hidden mt-2 gap-1.5 flex-wrap">
               <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">🔥 战略级机会</span>
               <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">★★★★★ 强烈推荐</span>
               <button onclick="openModal('modal-script')" class="bg-green-700 text-green-100 text-[12px] px-2 py-0.5 rounded-full border border-green-600 hover:bg-green-600">💬 破冰话术</button>
+            </div>
+            <div id="ai-match-mask" class="absolute inset-0 rounded-xl z-10 flex flex-col items-center justify-center gap-2.5" style="background:rgba(10,22,30,0.9);backdrop-filter:blur(1px)">
+              <div class="text-center">
+                <div class="text-slate-200 text-[13px] font-medium mb-0.5">AI 专属匹配分析</div>
+                <div class="text-slate-500 text-[12px]">基于您主营产品的个性化诊断</div>
+              </div>
+              <button onclick="startAIMatch()" class="bg-blue-600 hover:bg-blue-500 text-white text-[13px] font-medium px-4 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors">
+                <span>✨</span>点击分析
+              </button>
             </div>
           </div>
 
@@ -496,14 +505,19 @@ setTimeout(() => {
   const ai = document.getElementById('ai-content');
   ai.style.display='block';
   ai.classList.add('fade-in');
+}, 600);
+
+function startAIMatch() {
+  document.getElementById('ai-match-mask').style.display = 'none';
   startAIStream();
-}, 1500);
+}
 
 function startAIStream() {
   const text = '检测到您主营产品：【主变压器】。\n\n本项目为印尼首座抽水蓄能电站，需配套 4 台 500kV/260MVA 主变压器，总装机 1040MW。当前处于「土建施工」阶段，资金已到位，采购窗口预计 2026 年 Q3 开启。\n\n综合判断：产品高度吻合，时机占优，建议优先跟进。交钥匙工程模式可进一步提升竞争力。';
   const el = document.getElementById('ai-stream-text');
   const cursor = document.getElementById('ai-cursor');
   const badge = document.getElementById('ai-match-badge');
+  cursor.style.display = 'inline-block';
   let i = 0;
   const id = setInterval(() => {
     i = Math.min(i + 3, text.length);
