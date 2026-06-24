@@ -452,15 +452,6 @@ const tags = [
   {text:"#EPC总包模式",color:"blue"},{text:"#交钥匙工程适配",color:"purple"},
   {text:"#海外项目",color:"red"},{text:"#葛洲坝集团",color:"gray"},
 ];
-const colorMap = {blue:"bg-blue-100 text-blue-700 border-blue-200",purple:"bg-purple-100 text-purple-700 border-purple-200",orange:"bg-orange-100 text-orange-700 border-orange-200",teal:"bg-teal-100 text-teal-700 border-teal-200",green:"bg-green-100 text-green-700 border-green-200",red:"bg-red-100 text-red-700 border-red-200",gray:"bg-gray-100 text-gray-700 border-gray-200"};
-const tl2 = document.getElementById('tag-list');
-tags.forEach(t => {
-  const span = document.createElement('span');
-  span.className=`text-[12px] px-2 py-0.5 rounded-full border ${colorMap[t.color]}`;
-  span.textContent=t.text;
-  tl2.appendChild(span);
-});
-
 // KP list
 const kps = [
   {name:"雷华文",role:"采购负责人",company:"葛洲坝集团国际工程",badge:"核心决策",badgeColor:"blue",reason:"负责EPC采购决策，变压器采购的直接接口人",phone:"010-59525444"},
@@ -497,7 +488,6 @@ function startAIStream() {
   const text = '检测到您主营产品：【主变压器】。\n\n本项目为印尼首座抽水蓄能电站，需配套 4 台 500kV/260MVA 主变压器，总装机 1040MW。当前处于「土建施工」阶段，资金已到位，采购窗口预计 2026 年 Q3 开启。\n\n综合判断：产品高度吻合，时机占优，建议优先跟进。交钥匙工程模式可进一步提升竞争力。';
   const el = document.getElementById('ai-stream-text');
   const cursor = document.getElementById('ai-cursor');
-  const badge = document.getElementById('ai-match-badge');
   cursor.style.display = 'inline-block';
   let i = 0;
   const id = setInterval(() => {
@@ -506,8 +496,6 @@ function startAIStream() {
     if (i >= text.length) {
       clearInterval(id);
       cursor.style.display = 'none';
-      badge.classList.remove('hidden');
-      badge.classList.add('flex');
     }
   }, 20);
 }
