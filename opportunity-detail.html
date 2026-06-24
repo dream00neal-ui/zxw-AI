@@ -285,12 +285,10 @@
       <aside class="w-96 flex-shrink-0 bg-white border-l border-gray-200 flex flex-col overflow-hidden">
         <!-- AI Panel Header -->
         <div class="flex-shrink-0" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%)">
-          <div class="px-4 py-3 flex items-center justify-between">
-            <div>
-              <div class="text-lg font-bold shimmer-text">AI 智能诊断</div>
-              <div class="text-[12px] text-slate-400 mt-0.5">工业建筑大数据分析引擎 · 变压器专项</div>
-            </div>
-            <div class="text-[12px] text-slate-400 bg-slate-800 px-2 py-1 rounded">您的主营：主变压器</div>
+          <div class="px-4 py-3">
+            <div class="text-lg font-bold shimmer-text">AI 智能诊断</div>
+            <div class="text-[12px] text-slate-300 mt-0.5">您的主营产品：主变压器</div>
+            <div class="mt-1.5 text-[11px] text-amber-400 bg-amber-900/40 border border-amber-700/50 rounded px-2 py-0.5 inline-block">新功能试运营阶段，可免费使用</div>
           </div>
         </div>
 
@@ -311,15 +309,9 @@
             <div class="flex items-center gap-2 mb-2">
               <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0" style="animation:pulse-green 1.5s infinite"></span>
               <span class="text-[12px] text-slate-300 font-medium">AI 匹配分析</span>
-              <span class="ml-auto text-[11px] text-slate-400 bg-slate-700 px-2 py-0.5 rounded-full">您的主营：主变压器</span>
             </div>
             <div class="text-[13px] text-green-100 leading-relaxed min-h-[3em]">
               <span id="ai-stream-text"></span><span id="ai-cursor" style="display:none;width:2px;height:13px;background:#86efac;margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite"></span>
-            </div>
-            <div id="ai-match-badge" class="hidden mt-2 gap-1.5 flex-wrap">
-              <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">🔥 战略级机会</span>
-              <span class="bg-green-900 text-green-300 text-[12px] px-2 py-0.5 rounded-full border border-green-700">★★★★★ 强烈推荐</span>
-              <button onclick="openModal('modal-script')" class="bg-green-700 text-green-100 text-[12px] px-2 py-0.5 rounded-full border border-green-600 hover:bg-green-600">💬 破冰话术</button>
             </div>
             <div id="ai-match-mask" class="absolute inset-0 rounded-xl z-10 flex flex-col items-center justify-center gap-2.5" style="background:rgba(10,22,30,0.9);backdrop-filter:blur(1px)">
               <div class="text-center">
@@ -367,17 +359,6 @@
             </button>
             <div id="kp" class="accordion-content" style="max-height:600px">
               <div class="px-3 pb-3 space-y-2" id="kp-list"></div>
-            </div>
-          </div>
-
-          <!-- 4. 项目标签 -->
-          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <button onclick="toggleSection('tags')" class="w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
-              <span>项目标签</span>
-              <svg id="arrow-tags" class="arrow-icon w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <div id="tags" class="accordion-content" style="max-height:200px">
-              <div class="px-3 pb-3 flex flex-wrap gap-1.5" id="tag-list"></div>
             </div>
           </div>
 
