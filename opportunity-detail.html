@@ -206,6 +206,53 @@
     </div>
   </div>
 </div>
+<!-- Modal: 统一商务话术（不匹配） -->
+<div id="modal-nomatch" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black bg-opacity-50" onclick="closeModal('modal-nomatch')"></div>
+  <div class="relative bg-white rounded-2xl shadow-2xl w-[560px] max-h-[85vh] overflow-hidden flex flex-col">
+    <div class="px-5 py-4 border-b flex items-center justify-between" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+      <div>
+        <div class="text-white font-bold text-sm">💼 统一商务跟进建议</div>
+        <div class="text-slate-400 text-[12px] mt-0.5">上西索凯抽水蓄能电站 · 设备暂不匹配</div>
+      </div>
+      <button onclick="closeModal('modal-nomatch')" class="text-slate-400 hover:text-white text-xl">&times;</button>
+    </div>
+    <div class="overflow-y-auto p-5 space-y-4 text-sm">
+      <div class="bg-amber-50 border border-amber-300 rounded-xl p-3.5 flex gap-2.5">
+        <span class="text-amber-500 text-base flex-shrink-0 mt-0.5">⚠️</span>
+        <div class="text-amber-800 text-[13px] leading-relaxed">经系统评估，本项目当前公开需求清单中暂未包含【变压器、发电机组】设备。建议采取<span class="font-semibold">「储备公关」</span>与<span class="font-semibold">「战略入库」</span>策略跟进。</div>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+        <div class="text-[12px] text-gray-400 font-medium">电话开场 · 寒暄破冰与需求探针</div>
+        <div class="text-sm text-gray-800 leading-6 space-y-2">
+          <div class="bg-blue-50 rounded-lg p-3 border-l-4 border-blue-400">
+            您好，请问是葛洲坝集团国际工程的雷总吗？我是<span class="bg-yellow-100 px-1 rounded">【销售姓名】</span>，来自<span class="bg-yellow-100 px-1 rounded">【公司名称】</span>，长期深耕【变压器、发电机组】领域。
+          </div>
+          <div class="bg-green-50 rounded-lg p-3 border-l-4 border-green-400">
+            了解到贵司承建的上西索凯抽水蓄能电站正在火热推进中，虽然当前公开阶段主要在推进其他设备采购，我们想提前跟您建立联系，了解一下<span class="font-medium text-green-700">后续是否有隐性需求、二期规划，或是否存在战略集采的合作可能</span>。
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+        <div class="text-[12px] text-gray-400 font-medium mb-3">销售行动指南</div>
+        <div class="space-y-2.5 text-sm">
+          <div class="flex gap-3 bg-white rounded-lg p-2.5 border border-gray-100">
+            <span class="w-5 h-5 rounded-full bg-blue-600 text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0 mt-0.5">1</span>
+            <div><span class="font-semibold text-gray-800">打听机电总包</span><br><span class="text-gray-500 text-[12px]">侧面打听该项目机电安装及总包方，寻找变压器、发电机组二次分包或配合机会。</span></div>
+          </div>
+          <div class="flex gap-3 bg-white rounded-lg p-2.5 border border-gray-100">
+            <span class="w-5 h-5 rounded-full bg-green-600 text-white text-[11px] flex items-center justify-center font-bold flex-shrink-0 mt-0.5">2</span>
+            <div><span class="font-semibold text-gray-800">推进年度入围</span><br><span class="text-gray-500 text-[12px]">不强求一期立刻切入，以「施工单位年度入围供应商名单」为目标，加微信递交公司综合资质和标杆案例。</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-5 py-3 border-t flex gap-2 bg-gray-50">
+      <button onclick="navigator.clipboard.writeText(document.getElementById('modal-nomatch').querySelector('.overflow-y-auto').innerText).then(()=>showToast('话术已复制'))" class="flex-1 bg-gray-700 text-white text-sm font-medium py-2 rounded-lg hover:bg-gray-800">📋 复制话术</button>
+      <button onclick="closeModal('modal-nomatch')" class="px-4 bg-white text-gray-600 text-sm border border-gray-200 py-2 rounded-lg hover:bg-gray-50">关闭</button>
+    </div>
+  </div>
+</div>
 <!-- Layout -->
 <div class="flex h-screen overflow-hidden">
   <!-- Left Nav -->
@@ -470,6 +517,18 @@ kps.forEach(k => {
   <button onclick="openModal('modal-script')" class="w-full text-[12px] bg-blue-600 text-white py-1 rounded hover:bg-blue-700">📞 一键破冰话术</button>`;
   kpEl.appendChild(div);
 });
+
+// 不匹配联系人卡片
+const nomatchDiv = document.createElement('div');
+nomatchDiv.className='border border-gray-200 rounded-lg p-2.5 bg-gray-50';
+nomatchDiv.innerHTML=`<div class="flex items-start justify-between mb-1">
+  <div><span class="font-semibold text-gray-900 text-sm">刘明远</span><span class="text-[12px] text-gray-500 ml-1">电气工程师</span></div>
+  <span class="text-[13px] bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">技术参与</span>
+</div>
+<div class="text-[12px] text-gray-500 mb-1">中国电建集团华东勘测设计研究院</div>
+<div class="text-[12px] text-gray-600 bg-white rounded p-1.5 border border-gray-100 mb-2">负责本项目电气系统设计，参与设备选型技术评审</div>
+<button onclick="openModal('modal-nomatch')" class="w-full text-[12px] bg-blue-600 text-white py-1 rounded hover:bg-blue-700">📞 一键破冰话术</button>`;
+kpEl.appendChild(nomatchDiv);
 
 // Skeleton -> content with streaming
 setTimeout(() => {
